@@ -55,7 +55,7 @@ export default function StoreMap() {
   }, [userLocation, getStoreArray]);
 
   return (
-    <APIProvider apiKey="AIzaSyDtm-odABQ73YNKStkHXzaKnPlZONboI58">
+    <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
       <div className="h-full bg-red-500">
       <Map
           onClick={(e) => handleMapClick(e)}
