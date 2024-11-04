@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import useMapStore from "../../stores/mapStore";
 
 export default function StoreMap() {
+  const apiKey = import.meta.env.VITE_GOOGLE_MAP_API_KEY.split('=')[1]
   const [activeMarker, setActiveMarker] = useState(null)
   const defaultPosition = { lat: 13.758456818564303, lng: 100.53501011708647 };
   const getStoreArray = useMapStore(state => state.getStoreArray);
@@ -54,8 +55,9 @@ export default function StoreMap() {
     }
   }, [userLocation, getStoreArray]);
 
+  console.log(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
   return (
-    <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
+    <APIProvider apiKey={apiKey}>
       <div className="h-full bg-red-500">
       <Map
           onClick={(e) => handleMapClick(e)}
