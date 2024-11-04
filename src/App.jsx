@@ -1,16 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-
+import { useState } from "react";
+import StoreMap from "./components/map/StoreMap";
 
 function App() {
-  
-
   return (
-    <>
-          <div>login</div>
-    </>
-  )
+    <div>
+      
+      {/* <div className="h-[500px] ">
+        <StoreMap />
+      </div> */}
+    </div>
+  );
 }
 
-export default App
+export default App;
