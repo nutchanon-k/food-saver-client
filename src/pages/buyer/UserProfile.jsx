@@ -1,18 +1,28 @@
 import React, { useState } from 'react'
-import { CloudUpload } from 'lucide-react';
+import { CloudUpload, Target } from 'lucide-react';
 
 const UserProfile = () => {
 
 const [isEdit,setIsEdit] = useState (false)
-const [editFname , setEditFname] = useState("john")
-const [editLname , setEditLname] = useState("conner")
+const [fName , setFName] = useState("john")
+const [lName , setLName] = useState("conner")
 
 const hdlSubmit = async (e) =>{
     e.preventDefault()
     setIsEdit(!isEdit)
 }
+
+// const hdlChange = async (e) =>{
+//   console.log(e.target.value)
+//   const body = {
+//     [e.target.value]:e.target.value
+//   }
+//   console.log(body)
+//   setFName
+// }
+
   return <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-  <h1 className="text-xl font-semibold mb-6">My Profile</h1>
+  <h1 className="text-xl font-semibold mb-6">{fName} {lName}</h1>
   
   {/* Upload Area */}
   <div className="mb-8 flex justify-center">
@@ -29,11 +39,19 @@ const hdlSubmit = async (e) =>{
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        {isEdit ? (
         <input 
+          value={fName}
+          onChange={(e)=>setFName(e.target.value)}
           type="text"
           placeholder="Enter Name"
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
         />
+        ):(
+          <p>{fName}</p>
+        )}
+
+
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Last name</label>
