@@ -1,5 +1,10 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import MapPage from "../pages/MapPage";
+import Login from "../pages/Auth/Login";
+import SelectRegister from "../pages/Auth/SelectRegister";
+import UserRegister from "../pages/Auth/UserRegister";
+import MerchantRegister from "../pages/Auth/MerchantRegister";
+
 import AdminLayout from "../layouts/AdminLayout";
 import ManageUser from "../pages/admin/ManageUser";
 import Dashboard from "../pages/admin/Dashboard";
@@ -22,14 +27,31 @@ const router = createBrowserRouter([
     path: "/map",
     element: <MapPage />,
   },
+  {
+    path: "/auth",
+    element: <Outlet />,
+    children: [
+      { index: true, element: <Login /> },
+      { path: "selectRegister", element: <SelectRegister /> },
+      { path: "UserRegister", element: <UserRegister /> },
+      { path: "MerchantRegister", element: <MerchantRegister /> },
+
+    ]
+  }
+
 ]);
+
+
+
+
+
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
-  // { path: "/login", element: <Login /> },
-  // { path: "/register", element: <Register /> },
-  // { path: "/reset-password/:token", element: <ResetPassword /> },
-  // { path: "*", element: <Navigate to="/" /> },
+  { path: "login", element: <Login /> },
+  { path: "selectRegister", element: <SelectRegister /> },
+  { path: "UserRegister", element: <UserRegister /> },
+  { path: "MerchantRegister", element: <MerchantRegister /> },
 
 ]);
 const adminRouter = createBrowserRouter([
@@ -49,8 +71,8 @@ const adminRouter = createBrowserRouter([
 
 const buyerRouter = createBrowserRouter([
   {
-    path: "/", 
-    element: <BuyerLayout /> ,
+    path: "/",
+    element: <BuyerLayout />,
     // children: [
     //     {index: true, element: <Dashboard />},
     //     {path: "manage-user", element: <ManageUser />},
@@ -63,8 +85,8 @@ const buyerRouter = createBrowserRouter([
 
 const sellerRouter = createBrowserRouter([
   {
-    path: "/", 
-    element: <SellerLayout /> ,
+    path: "/",
+    element: <SellerLayout />,
     // children: [
     //     {index: true, element: <Dashboard />},
     //     {path: "manage-user", element: <ManageUser />},
