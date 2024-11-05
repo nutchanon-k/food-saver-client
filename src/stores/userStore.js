@@ -1,26 +1,68 @@
 
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
-import { getMeAPI } from '../API/UserAPI';
+import { getMeAPI, loginAPI, RegisterAPI } from '../API/UserApi';
+
 
 
 
 const useUserStore = create(persist((set, get) => ({
     user: null,
     token: "",
+    // maintenanceMembers: [],
+    // locationData: [],
+    // departmentData: [],
+    // allUser : [],
+    // currentUser : null,
+    // searchText : '',
+  
+    
+  
+    hdlLogin: async (body) => {
+      try{
+        const result = await loginAPI(body)
+        // set({ token: result.data.token, user: result.data.user })
+        console.log(result.data)
+        localStorage.setItem('token', result.data.token);
+      }catch(err){
+        console.log(err)
+      }
+    },
+  
+    hdlLogout: () => {
+      set({ 
+        user: null, 
+        token: "",
+        maintenanceMembers: [],
+        locationData: [],
+        departmentData: [],
+        allUser : [],
+        currentUser : null 
+      })
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("token");
+       
+    },
+  
+    
 
   
-    // hdlLogin: async (body) => {
-    //   try{
-    //     const result = await loginAPI(body)
-    //     set({ token: result.data.token, user: result.data.user })
-    //     localStorage.setItem('token', result.data.token);
+    createUser : async (body) => {
+      try{
+        const result = await RegisterAPI(body)
        
-    //     return result.data
-    //   }catch(error){
-    //     console.log(error)
-       
+        return result.data
+      }catch(error){
+        console.log(error)
         
+      }
+    },
+  
+    
+  
+    
+  
+ 
     //   }
     // },
 
