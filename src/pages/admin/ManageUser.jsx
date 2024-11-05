@@ -47,7 +47,7 @@ const ManageUser = () => {
                 <table className="w-full text-left">
                     <thead>
                         <tr>
-                            <th className="pb-2 border-b">User</th>
+                            <th className="pb-2 border-b">Name</th>
                             <th className="pb-2 border-b">View Profile</th>
                             <th className="pb-2 border-b">Status</th>
                         </tr>
