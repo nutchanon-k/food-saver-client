@@ -16,10 +16,14 @@ import {
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import Avatar from './Avatar';
+import useUserStore from '../../stores/userStore';
 
 
 const AdminSidebar = () => {
     const [isExpanded, setIsExpanded] = useState(true);
+
+
+    const user = useUserStore(state => state.user);
 
     const toggleSidebar = () => {
         setIsExpanded(!isExpanded);
@@ -38,15 +42,15 @@ const AdminSidebar = () => {
                         <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
                             <Avatar
                                 className="w-11 h-11 rounded-full !flex justify-center items-center"
-                                // imgSrc={user?.picture}
+                                imgSrc={user?.profilePicture}
                                 menu={true}
                             />
                         </div>
                     </div>
                     {isExpanded && (
                         <div className="ml-3">
-                            <p className="font-semibold">John Doe</p>
-                            <p className="text-xs text-gray-500">ADMIN</p>
+                            <p className="font-semibold">{user?.firstName + " " + user?.lastName}</p>
+                            <p className="text-xs font-medium text-gray-500">{user?.role}</p>
                         </div>
                     )}
                 </div>

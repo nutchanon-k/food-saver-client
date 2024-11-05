@@ -19,3 +19,8 @@ export const RegisterAPI = async(body) => {
 export const getAllUserAPI = async () => {
     return axiosInstance.get('/users')
 }
+
+
+export const activateUserAPI = async (id) => {
+    return axiosInstance.patch(`/users/isActive/${id}`) 
+}

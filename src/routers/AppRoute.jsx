@@ -54,6 +54,9 @@ const guestRouter = createBrowserRouter([
   { path: "MerchantRegister", element: <MerchantRegister /> },
 
 ]);
+
+
+
 const adminRouter = createBrowserRouter([
   {
     path: "/",
@@ -68,6 +71,7 @@ const adminRouter = createBrowserRouter([
     ]
   },
 ]);
+
 
 const buyerRouter = createBrowserRouter([
   {
