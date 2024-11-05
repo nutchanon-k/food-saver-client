@@ -35,7 +35,7 @@ const hdlSubmit = async (e) =>{
   </div>
 
   {/* Form Fields */}
-  <div className="space-y-6">
+  <form className="space-y-6">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
@@ -82,14 +82,18 @@ const hdlSubmit = async (e) =>{
     </div>
 
     <div className="flex space-x-4">
-      <button className="flex-1 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors">
-        Edit Profile
+      <button className="flex-1 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors"
+      type='submit'
+      onClick={hdlSubmit}
+      >
+      {isEdit ? "Save" : "Edit"  }
+      Profile
       </button>
       <button className="flex-1 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors">
         Delete Profile
       </button>
     </div>
-  </div>
+  </form>
 </div>
 ;
 }
