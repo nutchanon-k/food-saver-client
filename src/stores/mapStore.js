@@ -5,8 +5,15 @@ const useMapStore = create((set, get) => ({
   stores: [], // Correctly initialize the stores array
   userLocation : {},
   mapCenter : {},
+  searchStore : {},
+  activeMarker : null,
+  setActiveMarker : (store) => set((prev) => {
+    return ({ ...prev, activeMarker : store})
+  }),
+  setSearchStore : (store) => set((prev) => {
+    return ({ ...prev, searchStore : store})
+  }),
   setMapCenter : ({lat,lng}) => set((prev) => {
-    console.log(lat,lng)
     return ({ ...prev, mapCenter : {lat:lat,lng:lng}})
   }),
   getStoreArray: async (queryObj) => {
@@ -25,11 +32,13 @@ const useMapStore = create((set, get) => ({
         lat = position.coords.latitude
         lng = position.coords.longitude    
         set(prv => ({...prv,userLocation:{lat,lng},mapcenter:{lat,lng}}))
+        console.log(lat,lng)
       })
     } catch (err) {
       console.log(err)
     }
-  }
+  },
+  
 }));
 
 export default useMapStore;
