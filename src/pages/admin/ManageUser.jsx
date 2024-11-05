@@ -188,7 +188,7 @@
 //                                 value={roleFilter}
 //                                 onChange={(e) => {
 //                                     setRoleFilter(e.target.value);
-                                    
+
 //                                 }}
 //                                 className="p-2 border rounded"
 //                             >
@@ -283,7 +283,7 @@
 //                     </section>
 //                 </div>
 //             </div>
-            
+
 //             <dialog id="user_detail_modal" className="modal" onClose={() => { setIsOpen(false) }}>
 //                 <div className="modal-box">
 
@@ -341,14 +341,16 @@ const ManageUser = () => {
     const [countUser, setCountUser] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [isOpen, setIsOpen] = useState(false);
     const [userData, setUserData] = useState({});
-    const [roleFilter, setRoleFilter] = useState('');
+    const [roleFilter, setRoleFilter] = useState('')
 
     const fetchUser = async (page) => {
         try {
             const result = await axiosInstance.get(`/users?page=${page}&limit=10&search=${searchText}&role=${roleFilter}`);
             setCountUser(result?.data.countUser);
             setTotalPages(result?.data.totalPages);
+            // setCurrentPage(1)
             setUser(result?.data.data);
         } catch (error) {
             console.log(error);
@@ -357,10 +359,115 @@ const ManageUser = () => {
 
     useEffect(() => {
         fetchUser(currentPage);
+
     }, [currentPage, searchText, roleFilter]);
+
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [searchText, roleFilter]);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
+    };
+    const toggleStatus = async (id) => {
+        let index = user.findIndex((user) => user.id === id);
+        if (user[index].isActive === true) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success ml-2",
+                    cancelButton: "btn btn-error mr-2"
+                },
+                buttonsStyling: false
+            });
+            swalWithBootstrapButtons.fire({
+                title: "Are you sure?",
+                text: "Do you want to deactivate this user!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, deactivate it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+
+                        const result = await activateUser(id);
+                        if (result) {
+                            console.log("success")
+                        }
+                        setUser(
+                            user.map(user =>
+                                user.id === id ? { ...user, isActive: !user.isActive } : user
+                            )
+                        );
+                    } catch (error) {
+                        console.log(error)
+                    }
+                    swalWithBootstrapButtons.fire({
+                        title: "Deactivated!",
+                        text: "User has been deactivated.",
+                        icon: "success"
+                    });
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Cancelled",
+                        text: "User is safe :)",
+                        icon: "error"
+                    });
+                }
+            });
+        } else {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success ml-2",
+                    cancelButton: "btn btn-error mr-2"
+                },
+                buttonsStyling: false
+            });
+            swalWithBootstrapButtons.fire({
+                title: "Are you sure?",
+                text: "Do you want to activate this user!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, activate it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+
+                        const result = await activateUser(id);
+                        if (result) {
+                            console.log("success")
+                        }
+                        setUser(
+                            user.map(user =>
+                                user.id === id ? { ...user, isActive: !user.isActive } : user
+                            )
+                        );
+                    } catch (error) {
+                        console.log(error)
+                    }
+                    swalWithBootstrapButtons.fire({
+                        title: "Activated!",
+                        text: "User has been activated.",
+                        icon: "success"
+                    });
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Cancelled",
+                        text: "User still deactivated :)",
+                        icon: "error"
+                    });
+                }
+            });
+        }
     };
 
     return (
@@ -384,65 +491,78 @@ const ManageUser = () => {
                             </select>
                         </div>
                     </div>
+                    <div className='min-h-[880px]'>
 
-                    <table className="w-full text-left">
-                        <thead>
-                            <tr>
-                                <th className="pb-2 border-b">Profile</th>
-                                <th className="pb-2 border-b">Name</th>
-                                <th className="pb-2 border-b">Email</th>
-                                <th className="pb-2 border-b">Role</th>
-                                <th className="pb-2 border-b">View Profile</th>
-                                <th className="pb-2 border-b">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {user?.map(user => (
-                                <tr key={user.id} className="hover:bg-gray-50">
-                                    <td className="py-4 flex items-center space-x-4">
-                                        <div className="w-12 h-12 rounded-full bg-orange-300 flex items-center justify-center">
-                                            <img src={user.profilePicture} alt="User Avatar" className="rounded-full" />
-                                        </div>
-                                        <span>{user.name}</span>
-                                    </td>
-                                    <td className="py-4">
-                                        <p className="py-1">
-                                            {user.firstName + ' ' + user.lastName}
-                                        </p>
-                                    </td>
-                                    <td className="py-4 w-24">
-                                        <p className="py-1">
-                                            {user.email}
-                                        </p>
-                                    </td>
-                                    <td className="py-4">
-                                        <p className="py-1">
-                                            {user.role}
-                                        </p>
-                                    </td>
-                                    <td className="py-4">
-                                        <button className="bg-yellow-200 text-yellow-800 px-4 py-1 rounded-full">View</button>
-                                    </td>
-                                    <td className="py-4 flex items-center space-x-4 w-24">
-                                        <label className="flex cursor-pointer gap-2">
-                                            <input
-                                                type="checkbox"
-                                                checked={user.isActive}
-                                                onChange={() => toggleStatus(user.id)}
-                                                className="toggle theme-controller"
-                                            />
-                                        </label>
-                                        <span className={`text-sm font-medium ${user.isActive ? 'text-green-600' : 'text-red-500'}`}>
-                                            {user.isActive ? 'Active' : 'Deactivate'}
-                                        </span>
-                                    </td>
+                        <table className="w-full  text-left">
+                            <thead>
+                                <tr>
+                                    <th className="pb-2 border-b">Profile</th>
+                                    <th className="pb-2 border-b">Name</th>
+                                    <th className="pb-2 border-b">Email</th>
+                                    <th className="pb-2 border-b">Role</th>
+                                    <th className="pb-2 border-b">View Profile</th>
+                                    <th className="pb-2 border-b">Status</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {user?.map(user => (
+                                    <tr key={user.id} className="hover:bg-gray-50">
+                                        <td className="py-4 flex items-center space-x-4">
+                                            <div className="w-12 h-12 rounded-full bg-orange-300 flex items-center justify-center">
+                                                <img src={user.profilePicture} alt="User Avatar" className="rounded-full" />
+                                            </div>
+                                            <span>{user.name}</span>
+                                        </td>
+                                        <td className="py-4">
+                                            <p className="py-1">
+                                                {user.firstName + ' ' + user.lastName}
+                                            </p>
+                                        </td>
+                                        <td className="py-4 w-24">
+                                            <p className="py-1">
+                                                {user.email}
+                                            </p>
+                                        </td>
+                                        <td className="py-4">
+                                            <p className="py-1">
+                                                {user.role}
+                                            </p>
+                                        </td>
+                                        <td className="py-4">
+                                            <button
+                                                onClick={() => {
+                                                    setUserData(user)
+                                                    setIsOpen(true)
+                                                    document.getElementById('user_detail_modal').showModal()
+                                                }}
+                                                className="bg-yellow-200 text-yellow-800 px-4 py-1 rounded-full">
+                                                View
+                                            </button>
+                                        </td>
+                                        <td className="py-4 flex items-center space-x-4 w-24 ">
+                                            {/* Toggle Switch */}
+                                            <label className="flex cursor-pointer gap-2">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={user.isActive}
+                                                    onChange={() => toggleStatus(user.id)}
+                                                    className="toggle theme-controller"
+                                                />
+                                            </label>
+                                            <span className={`text-sm font-medium ${user.isActive ? 'text-green-600' : 'text-red-500'}`}>
+                                                {user.isActive ? 'Active' : 'Deactivate'}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
 
                     {/* Pagination */}
-                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                    <div className='flex justify-center'>
+                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                    </div>
                 </div>
             </div>
             <dialog id="user_detail_modal" className="modal" onClose={() => { setIsOpen(false) }}>
