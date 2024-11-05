@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MapPage from "../pages/MapPage";
+import UserProfile from "../pages/buyer/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -9,6 +10,10 @@ const router = createBrowserRouter([
   {
     path: "/map", 
     element: <MapPage/>,
+  },
+  {
+    path: "/user", 
+    element: <UserProfile/>,
   },
 ]);
 
