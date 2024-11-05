@@ -1,7 +1,9 @@
 
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
-import { loginAPI, RegisterAPI } from '../API/UserApi';
+import { getMeAPI, loginAPI, RegisterAPI } from '../API/UserApi';
+
+
 
 
 const useUserStore = create(persist((set, get) => ({
@@ -22,12 +24,8 @@ const useUserStore = create(persist((set, get) => ({
         // set({ token: result.data.token, user: result.data.user })
         console.log(result.data)
         localStorage.setItem('token', result.data.token);
-       
-        return result.data
-      }catch(error){
-        console.log(error)
-       
-        
+      }catch(err){
+        console.log(err)
       }
     },
   
@@ -43,8 +41,7 @@ const useUserStore = create(persist((set, get) => ({
       })
         localStorage.removeItem("accessToken");
         localStorage.removeItem("token");
-        
-        
+       
     },
   
     
@@ -66,6 +63,70 @@ const useUserStore = create(persist((set, get) => ({
     
   
  
+    //   }
+    // },
+
+    getMe : async () => {
+      try{
+        const result = await getMeAPI()
+        set({user : result.data})
+        return result
+      }catch(error){
+        console.log(error)
+      }
+    },
+  
+    // hdlLogout: () => {
+    //   set({ 
+    //     user: null, 
+    //     token: "",
+    //     maintenanceMembers: [],
+    //     locationData: [],
+    //     departmentData: [],
+    //     allUser : [],
+    //     currentUser : null 
+    //   })
+    //     localStorage.removeItem("accessToken");
+    //     localStorage.removeItem("token");
+        
+        
+    // },
+
+    // createUser : async (token, body) => {
+    //   try{
+    //     const result = await createUserAPI(token, body)
+       
+    //     return result
+    //   }catch(error){
+    //     console.log(error)
+        
+    //   }
+    // },
+  
+    // getAllUser : async (token) => {
+    //   try{
+    //     const result = await getUserAPI(token)
+    //     set({allUser : result.data.data})
+    //     return result
+    //   }catch(error){
+    //     console.log(error)
+    //   }
+    // },
+  
+    // deleteUser : async (token, userId) => {
+    //   try{
+    //     const result = await deleteUserAPI(token , userId)
+       
+    //     return result
+    //   }catch(error){
+    //     console.log(error)
+       
+    //   }
+    // },
+  
+    // resetCurrentUser : () => {
+    //   set({currentUser : null})
+    // },
   
     // updateUser : async (token, body, userId) => {
     //   try{
@@ -77,15 +138,7 @@ const useUserStore = create(persist((set, get) => ({
     //   }
     // },
 
-    // getMe : async (token) => {
-    //   try{
-    //     const result = await getMeAPI(token)
-    //     set({user : result.data})
-    //     return result
-    //   }catch(error){
-    //     console.log(error)
-    //   }
-    // },
+
   
 //     changePassword : async (token, body, userId) => {
 //       try{

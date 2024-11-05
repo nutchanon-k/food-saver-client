@@ -7,9 +7,10 @@ export const loginAPI = async (body) => {
 }
 
 
-export const getMeAPI = async (token) => {
-    return axiosInstance.get('/auth/me')
+export const getMeAPI = async () => {
+    return axiosInstance.get('/users/me')
 }
+
 
 export const RegisterAPI = async(body) => {
     return axiosInstance.post('/auth/register',body)
