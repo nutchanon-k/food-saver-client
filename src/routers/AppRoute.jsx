@@ -68,6 +68,7 @@ const adminRouter = createBrowserRouter([
     ]
   },
 ]);
+
 const buyerRouter = createBrowserRouter([
   {
     path: "/",
@@ -81,6 +82,7 @@ const buyerRouter = createBrowserRouter([
     // ]
   },
 ]);
+
 const sellerRouter = createBrowserRouter([
   {
     path: "/",
