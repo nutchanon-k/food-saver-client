@@ -33,7 +33,7 @@ const ManageUser = () => {
     console.log(users)
     const toggleStatus = (id) => {
         setUser(
-            users.map(user =>
+            user.map(user =>
                 user.id === id ? { ...user, status: !user.status } : user
             )
         );

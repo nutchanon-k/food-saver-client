@@ -1,8 +1,9 @@
 
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
+import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI } from "../API/UserApi";
 
-import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI } from '../API/userAPI';
+
 
 
 
