@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import useUserStore from '../../stores/userStore';
 
 const ManageUser = () => {
-    const [users, setUsers] = useState([
+    const getAllUser = useUserStore(state => state.getAllUser);
+    const [user, setUser] = useState([
         { id: 1, name: 'User 01', status: true },
         { id: 2, name: 'User 02', status: false },
         { id: 3, name: 'User 03', status: true },
@@ -13,10 +15,25 @@ const ManageUser = () => {
         { id: 9, name: 'User 09', status: true },
         { id: 10, name: 'User 10', status: true },
     ]);
-
+    const [users, setUsers] = useState('');
+    
+    
+    useEffect(() => {
+        const users = async () => {
+            try {
+                const result = await getAllUser();
+                setUsers(result.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        users();
+    }, []);
+    
+    console.log(users)
     const toggleStatus = (id) => {
-        setUsers(
-            users.map(user =>
+        setUser(
+            user.map(user =>
                 user.id === id ? { ...user, status: !user.status } : user
             )
         );
@@ -36,7 +53,7 @@ const ManageUser = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map(user => (
+                        {user.map(user => (
                             <tr key={user.id} className="hover:bg-gray-50">
                                 <td className="py-4 flex items-center space-x-4">
                                     <div className="w-12 h-12 rounded-full bg-orange-300 flex items-center justify-center">

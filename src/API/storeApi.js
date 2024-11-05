@@ -8,18 +8,18 @@ const api = axios.create({
 // Define a function to get the store array
 export const getStoreArray = async (filters = {}) => {
   try {
-    const queryArray = [];
+    // const queryArray = [];
 
-    for (let [key, val] of Object.entries(filters)) {
-      if (val !== undefined && val !== null) { // Ensure we only include defined values
-        queryArray.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`); // URL encode key and value
-      }
-    }
-    const queryString = queryArray.join('&')
-    console.log(queryString)
-    // Make a GET request to the desired endpoint
-    const endpoint = queryString ? `/stores?${queryString}` : `/stores?`
-    const response = await api.get(endpoint); // Adjust the endpoint as needed
+    // for (let [key, val] of Object.entries(filters)) {
+    //   if (val !== undefined && val !== null) { // Ensure we only include defined values
+    //     queryArray.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`); // URL encode key and value
+    //   }
+    // }
+    // const queryString = queryArray.join('&')
+    // console.log(queryString)
+    // // Make a GET request to the desired endpoint
+    // const endpoint = queryString ? `/stores?${queryString}` : `/stores?`
+    const response = await api.get("stores",{params : filters});
     return response.data.data; // Return the data from the response
   } catch (error) {
     // Handle errors appropriately

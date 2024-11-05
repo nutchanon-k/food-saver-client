@@ -15,3 +15,7 @@ export const getMeAPI = async () => {
 export const RegisterAPI = async(body) => {
     return axiosInstance.post('/auth/register',body)
 }
+
+export const getAllUserAPI = async () => {
+    return axiosInstance.get('/users')
+}
