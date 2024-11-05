@@ -23,7 +23,7 @@ const hdlImage = async (e) =>{
     setLoading(true)
     const img = new FormData()
     if (file) {
-      body.append("image",file)
+      img.append("image",file)
     }
   } catch (err) {
     console.log(err)
