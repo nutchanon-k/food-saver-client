@@ -17,6 +17,7 @@ import LandingPage from "../pages/LandingPage";
 import NotFound from "../pages/NotFound";
 import { useEffect, useState } from "react";
 import AdminProfile from "../pages/admin/AdminProfile";
+import ForgetPassword from "../pages/Auth/forgetPassword";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
   { path: "login", element: <Login /> },
+  { path: "forgetPassword", element: <ForgetPassword /> },
   { path: "selectRegister", element: <SelectRegister /> },
   { path: "UserRegister", element: <UserRegister /> },
   { path: "MerchantRegister", element: <MerchantRegister /> },

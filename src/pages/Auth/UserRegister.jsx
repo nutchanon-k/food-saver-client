@@ -267,7 +267,7 @@ const UserRegister = () => {
 
                 <div className="text-center text-sm">
                     Do  have an account?{" "}
-                    <h1 onClick={()=>navigate('/auth')}  className="text-blue-600 hover:underline" >login </h1>
+                    <h1 onClick={()=>navigate('/login')}  className="text-blue-600 hover:underline" >login </h1>
                 </div>
             </div>
         </div>

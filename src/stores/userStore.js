@@ -28,6 +28,15 @@ const useUserStore = create(persist((set, get) => ({
         console.log(err)
       }
     },
+    resetPassword : async (body) => {
+      try{
+        const result = await resetApi(body)
+        console.log(result.data)
+        localStorage.setItem('token', result.data.token);
+      }catch(err){
+        console.log(err)
+      }
+    },
   
     hdlLogout: () => {
       set({ 
