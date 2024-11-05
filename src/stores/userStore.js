@@ -1,7 +1,9 @@
 
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
-import { getMeAPI, loginAPI, RegisterAPI } from '../API/UserApi';
+import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI } from "../API/UserApi";
+
+
 
 
 
@@ -80,6 +82,17 @@ const useUserStore = create(persist((set, get) => ({
         const result = await getMeAPI()
         set({user : result.data})
         return result
+      }catch(error){
+        console.log(error)
+      }
+    },
+
+    getAllUser : async () => {
+      try{
+        console.log("testttttt")
+        const result = await getAllUserAPI()
+        // set({user : result.data})
+        return result.data
       }catch(error){
         console.log(error)
       }
