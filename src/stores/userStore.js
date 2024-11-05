@@ -1,13 +1,14 @@
 
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
-import { getMeAPI } from '../API/UserAPI';
+import { getAllUserAPI, getMeAPI } from '../API/UserAPI';
 
 
 
 const useUserStore = create(persist((set, get) => ({
     user: null,
     token: "",
+    
 
   
     // hdlLogin: async (body) => {
@@ -29,6 +30,17 @@ const useUserStore = create(persist((set, get) => ({
         const result = await getMeAPI()
         set({user : result.data})
         return result
+      }catch(error){
+        console.log(error)
+      }
+    },
+
+    getAllUser : async () => {
+      try{
+        console.log("testttttt")
+        const result = await getAllUserAPI()
+        // set({user : result.data})
+        return result.data
       }catch(error){
         console.log(error)
       }
