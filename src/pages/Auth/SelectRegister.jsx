@@ -8,7 +8,7 @@ const SelectRegister = () => {
          <div className="space-y-4">
           {/* User Option */}
           <button 
-            onClick={() => navigate('/auth/UserRegister')}
+            onClick={() => navigate('/UserRegister')}
             className="w-full p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="flex items-center space-x-4">
@@ -29,7 +29,7 @@ const SelectRegister = () => {
 
           {/* Store Option */}
           <button 
-            onClick={() => navigate('/auth/MerchantRegister', { state: { type: 'store' }})}
+            onClick={() => navigate('/MerchantRegister', { state: { type: 'store' }})}
             className="w-full p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="flex items-center space-x-4">
