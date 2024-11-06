@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Search, Bell } from 'lucide-react';
 import Avatar from './Avatar';
-import useUserStore from '../../stores/userStore';
 import useSearchStore from '../../stores/SearchStore';
 
 
