@@ -13,7 +13,7 @@ export default function StoreCard({ store }) {
   const placeholderImageUrl =
     "https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141353.jpg";
   return (
-    <div onClick={handleClick} className={`transition-all hover:scale-105 ${isActive ? "scale-105 border-2 border-primary" : ""} border card card-compact rounded-lg bg-white w-full shadow-lg`}>
+    <div onClick={handleClick} className={`transition-all hover:scale-105 ${isActive ? "scale-105 border-2 border-primary shadow-lg  shadow-primary" : ""} border card card-compact rounded-lg bg-white w-full shadow-lg`}>
       <figure>
         <div className="aspect-[2/1] w-full overflow-hidden">
           <img
@@ -24,10 +24,9 @@ export default function StoreCard({ store }) {
         </div>
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{store.storeName}</h2>
+        <h2 className="card-title hover:scale-105 hover:text-primary cursor-pointer transition-all">{store.storeName}</h2>
         <div className="flex">
-          <h1>{store.distance.toFixed(2)} km | </h1>
-          <h1>{store.products.length} Avaliable</h1>
+        <h1>{store.distance.toFixed(2)} km | {store.products.reduce((total, product) => total + product.quantity, 0)} Avaliable</h1>
         </div>
         <div className="card-actions justify-end">
           {/* <button className="btn btn-primary">Buy Now</button> */}

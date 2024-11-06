@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import useUserStore from "../../stores/userStore";
+import React, { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
+import useUserStore from '../../stores/userStore'
+
 
 const Login = () => {
   const hdlLogin = useUserStore((state) => state.hdlLogin);
@@ -20,24 +21,34 @@ const Login = () => {
     // console.log(formLogin);
   };
 
-  const hdlSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      //validation
-      if (!formLogin.email.trim() || !formLogin.password.trim()) {
-        alert("please fill email or password ");
-        return;
-      }
 
-      const body = formLogin;
-      console.log("sayhi", body);
-      const data = await hdlLogin(body);
+   
 
-      alert("loginSuccess");
-      e.preventDefault();
-    } catch (error) {
-      alert(error);
-    }
+   const hdlSubmit =async (e) => {
+    try{
+        if (!formLogin.email.trim() || !formLogin.password.trim()){
+            alert('please fill email or password ')
+            return
+        }
+        
+
+        const body = formLogin
+        
+        const data = await hdlLogin(body)
+        console.log(data)
+        if(data){
+            console.log("testtttttttttttttttttttttttttttttttttttttttttt")
+            navigate('/')
+        }
+        alert("loginSuccess");
+        
+        
+        
+    }catch(error){
+        alert(error)
+      
+      
+    } 
   };
 
   return (

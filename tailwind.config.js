@@ -14,11 +14,10 @@ export default {
   daisyui: {
     themes: [{
       mytheme : {
-        "primary" : "#5abd4f",
-        "secondary" : "42b72a",
-        "accent" : "#37cdbe",
-        "neutral" : "#F6F5FA",
-        "base-100" : "#ffffff"
+        "primary" : "#5abd4f", // green
+        "secondary" : "#ff5722",//orange
+        "neutral" : "#000000",  //black(text color)
+        "base-100" : "#ffffff"  //white bg color
       }
     }],
   },

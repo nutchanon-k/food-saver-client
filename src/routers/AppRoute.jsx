@@ -19,37 +19,29 @@ import NotFound from "../pages/NotFound";
 import { useEffect, useState } from "react";
 import AdminProfile from "../pages/admin/AdminProfile";
 import ForgetPassword from "../pages/Auth/forgetPassword";
+import Cart from "../pages/Cart";
+import Order from "../pages/Order";
+import { use } from "framer-motion/client";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: "Hello World",
-  },
-  {
-    path: "/map",
-    element: <MapPage />,
-  },
-  {
-    path: "/auth",
-    element: <Outlet />,
-    children: [
-      { index: true, element: <Login /> },
-      { path: "selectRegister", element: <SelectRegister /> },
-      { path: "UserRegister", element: <UserRegister /> },
-      { path: "MerchantRegister", element: <MerchantRegister /> },
-    ],
-  },
-]);
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
   { path: "login", element: <Login /> },
-  { path: "forgetPassword", element: <ForgetPassword /> },
   { path: "selectRegister", element: <SelectRegister /> },
   { path: "UserRegister", element: <UserRegister /> },
   { path: "MerchantRegister", element: <MerchantRegister /> },
- 
+  { path: "forgetPassword", element: <ForgetPassword /> },
+  { path: "selectRegister", element: <SelectRegister /> },
+  { path: "UserRegister", element: <UserRegister /> },
+  { path: "*", element: <LandingPage /> },
 ]);
+
+
+
+
+
+
+
 const adminRouter = createBrowserRouter([
   {
     path: "/",
@@ -60,22 +52,24 @@ const adminRouter = createBrowserRouter([
       { path: "manage-user", element: <ManageUser /> },
       { path: "manage-charity", element: <ManageCharity /> },
       { path: "manage-store", element: <ManageStore /> },
-      { path: "*", element: <NotFound /> },
-    ],
+      { path: "*", element: <Dashboard />},
+    ]
   },
 ]);
+
 
 const buyerRouter = createBrowserRouter([
   {
     path: "/",
     element: <BuyerLayout />,
-    // children: [
-    //     {index: true, element: <Dashboard />},
-    //     {path: "manage-user", element: <ManageUser />},
-    //     {path: "manage-charity", element: <ManageCharity />},
-    //     {path: "manage-store", element: <ManageStore/>},
-    //     {path: "*", element: <NotFound  />},
-    // ]
+    children: [
+      { index: true, element: <MapPage /> },
+      { path: "/map", element: <MapPage /> },
+      { path: "cart", element: <Cart /> },
+      { path: "order", element: <Order /> }
+
+    ]
+
   },
   {
     path: "/user",
@@ -101,39 +95,43 @@ const sellerRouter = createBrowserRouter([
   },
 ]);
 
+
+
+const finalRouter = (role) => {
+  if (role === "ADMIN") {
+    return adminRouter;
+  } else if (role === "BUYER") {
+    return buyerRouter;
+  } else if (role === "SELLER") {
+    return sellerRouter;
+  } else {
+    return guestRouter;
+  }
+
+}
+
+
 export default function AppRoute() {
-  const getMe = useUserStore((state) => state.getMe);
-  const [router, setRouter] = useState(null);
+  const getMe = useUserStore(state => state.getMe)
+  const user = useUserStore(state => state.user)
 
   useEffect(() => {
     const loadUser = async () => {
-      try {
-        console.log("tst");
-        const result = await getMe();
-        console.log(result.data.role);
-        if (result?.data?.role === "ADMIN") {
-          setRouter(adminRouter);
-        } else if (result?.data?.role === "BUYER") {
-          setRouter(buyerRouter);
-        } else if (result?.data?.role === "SELLER") {
-          setRouter(sellerRouter);
-        } else {
-          setRouter(guestRouter);
-        }
-      } catch (error) {
-        setRouter(guestRouter);
-      }
-    };
-    loadUser();
-  }, [getMe]);
+      await getMe()
+    }
+    loadUser()
+  }, [getMe])
 
-  if (!router) {
-    return <div> Loading.....</div>;
-  }
+  console.log('test router', user?.role)
 
   return (
     <div>
-      <RouterProvider router={router} />
+      <RouterProvider router={finalRouter(user?.role)} />
     </div>
   );
 }
+  
+
+
+
+

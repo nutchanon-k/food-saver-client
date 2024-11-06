@@ -1,7 +1,9 @@
 
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
-import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI } from "../API/UserApi";
+import { getCartDataAPI } from '../API/cartItemAPI';
+import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI } from "../API/UserApi";
+import { all } from 'axios';
 
 
 
@@ -11,6 +13,7 @@ import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI } from "../API/UserApi";
 const useUserStore = create(persist((set, get) => ({
     user: null,
     token: "",
+    allUser: [],
     // maintenanceMembers: [],
     // locationData: [],
     // departmentData: [],
@@ -23,9 +26,9 @@ const useUserStore = create(persist((set, get) => ({
     hdlLogin: async (body) => {
       try{
         const result = await loginAPI(body)
-        // set({ token: result.data.token, user: result.data.user })
-        console.log(result.data)
+        set({ user: result.data.user ,token: result.data.token })
         localStorage.setItem('token', result.data.token);
+        return result.data
       }catch(err){
         console.log(err)
       }
@@ -44,13 +47,10 @@ const useUserStore = create(persist((set, get) => ({
       set({ 
         user: null, 
         token: "",
-        maintenanceMembers: [],
-        locationData: [],
-        departmentData: [],
         allUser : [],
-        currentUser : null 
+        
       })
-        localStorage.removeItem("accessToken");
+        localStorage.removeItem("userStore");
         localStorage.removeItem("token");
        
     },
@@ -67,14 +67,14 @@ const useUserStore = create(persist((set, get) => ({
         
       }
     },
+
+    
   
     
   
     
   
  
-    //   }
-    // },
 
     getMe : async () => {
       try{
@@ -90,12 +90,21 @@ const useUserStore = create(persist((set, get) => ({
       try{
         console.log("testttttt")
         const result = await getAllUserAPI()
-        // set({user : result.data})
+        set({allUser : result.data.data})
         return result.data
       }catch(error){
         console.log(error)
       }
     },
+
+    activateUser : async (id) => {
+      try{
+        const result = await activateUserAPI(id)
+        return result.data
+      }catch(error){
+        console.log(error)
+      }
+    }
   
     // hdlLogout: () => {
     //   set({ 
