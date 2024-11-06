@@ -24,8 +24,8 @@ export default function StoreList() {
 
   return (
     <>
-      <div className="h-[calc(100vh-64px)] flex">
-        <div className="w-full flex flex-col">
+      <div className="h-[calc(100vh-64px)] flex flex-col md:flex-row">
+        <div className="w-full md:w-3/4 lg:w-full flex flex-col">
           {/* Fixed header section */}
           <div className="p-4 bg-white">
             <h1 className="text-2xl font-bold">Browse store</h1>
@@ -59,7 +59,7 @@ export default function StoreList() {
 
       {/* Floating Product List */}
       {activeMarker && (
-        <div className="fixed top-[64px] right-0 w-1/4 h-[calc(100vh-64px)] my-2 max-w-[800px] p-4 overflow-scroll shadow-lg z-50">
+        <div className="fixed top-[64px] right-0 md:w-1/4 w-full h-[calc(100vh-64px)] my-2 max-w-[800px] p-4 overflow-scroll shadow-lg z-50">
           {activeMarker.products.map((product) => (
             <div key={product.id} className="mb-2">
               <ProductCard product={product} />
