@@ -7,6 +7,7 @@ import AppRoute from "./routers/AppRoute.jsx";
 
 createRoot(document.getElementById("root")).render(
   <>
-    <AppRoute />
+    {/* <AppRoute /> */}
+    <App />
   </>
 );

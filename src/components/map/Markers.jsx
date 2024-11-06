@@ -18,9 +18,19 @@ export default function Markers({ points }) {
         key={store.id}
         position={{ lat: store.latitude, lng: store.longitude }}
         icon={{
-          url: "https://www.svgrepo.com/show/310867/food.svg",
-          scaledSize: { width: markerSize, height: markerSize },
-          anchor: { x: markerSize/2, y: markerSize/2 },
+          path: google.maps.SymbolPath.CIRCLE,
+          fillColor: isActive ? '#FF0000' : '#4CAF50',
+          fillOpacity: 1,
+          strokeWeight: 2,
+          strokeColor: '#FFFFFF',
+          scale: isActive ? 12 : 8,
+          shadow: {
+            url: google.maps.SymbolPath.CIRCLE,
+            scale: isActive ? 14 : 10,
+            fillColor: '#000000',
+            fillOpacity: 0.3,
+            strokeWeight: 0
+          }
         }}
       />
     );
