@@ -24,12 +24,12 @@ export default function StoreList() {
 
   return (
     <>
-      <div className="h-[calc(100vh-64px)] flex flex-col md:flex-row">
-        <div className="w-full md:w-3/4 lg:w-full flex flex-col">
-          {/* Fixed header section */}
-          <div className="p-4 bg-white">
-            <h1 className="text-2xl font-bold">Browse store</h1>
-            <div className="items-center justify-between flex">
+      <div className="h-full">
+        <div className="w-full">
+          {/* Header section */}
+          <div className="p-2 px-4 md:p-4 bg-white justify-end md:justify-between gap-2 flex md:flex-col">
+            <h1 className="text-lg md:text-2xl font-bold">Browse store</h1>
+            <div className="items-center gap-2 w-fit flex">
               <h1 className="text-sm">{stores.length} stores available</h1>
               <button
                 onClick={initialPosition}
@@ -38,17 +38,14 @@ export default function StoreList() {
                 <LocateFixed size={19} />
               </button>
             </div>
-            <div className="my-3">
-              <SearchBar />
-            </div>
-            <hr />
+            <hr className="invisible md:visible" />
           </div>
 
-          {/* Scrollable store list */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="p-4">
+          {/* Store list container */}
+          <div className="overflow-x-auto md:overflow-y-auto p-4">
+            <div className="inline-flex md:flex-col gap-4">
               {stores.map((store) => (
-                <div key={store.id} className="mb-6">
+                <div key={store.id} className="w-[280px] md:w-full">
                   <StoreCard store={store} />
                 </div>
               ))}
@@ -57,11 +54,10 @@ export default function StoreList() {
         </div>
       </div>
 
-      {/* Floating Product List */}
       {activeMarker && (
-        <div className="fixed top-[64px] right-0 md:w-1/4 w-full h-[calc(100vh-64px)] my-2 max-w-[800px] p-4 overflow-scroll shadow-lg z-50">
+        <div className="fixed h-fit top-[64px] flex gap-4 md:gap-0 md:flex-col right-0 md:w-1/4 w-full md:h-[calc(100vh-64px)] my-2 max-w-[800px] p-4 overflow-y-auto shadow-lg z-50">
           {activeMarker.products.map((product) => (
-            <div key={product.id} className="mb-2">
+            <div key={product.id} className="mb-2 h-fit">
               <ProductCard product={product} />
             </div>
           ))}
