@@ -324,12 +324,12 @@
 
 
 import React, { useEffect, useState } from 'react';
-
 import useUserStore from '../../stores/userStore';
 import Swal from 'sweetalert2';
 import axiosInstance from '../../API/Interceptor';
 import useSearchStore from '../../stores/SearchStore';
 import Pagination from '../../components/Pagination';
+import { getUserByQueryAPI } from '../../API/UserApi';
 
 const ManageUser = () => {
     const getAllUser = useUserStore(state => state.getAllUser);
@@ -338,7 +338,7 @@ const ManageUser = () => {
     const searchText = useSearchStore(state => state.searchText);
 
     const [user, setUser] = useState(null);
-    const [countUser, setCountUser] = useState('');
+    // const [countUser, setCountUser] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isOpen, setIsOpen] = useState(false);
@@ -347,10 +347,9 @@ const ManageUser = () => {
 
     const fetchUser = async (page) => {
         try {
-            const result = await axiosInstance.get(`/users?page=${page}&limit=10&search=${searchText}&role=${roleFilter}`);
-            setCountUser(result?.data.countUser);
+            const result = await getUserByQueryAPI(page, searchText, roleFilter);
+            // setCountUser(result?.data.countUser);
             setTotalPages(result?.data.totalPages);
-            // setCurrentPage(1)
             setUser(result?.data.data);
         } catch (error) {
             console.log(error);
@@ -475,7 +474,7 @@ const ManageUser = () => {
             <div className="p-6 min-h-screen flex justify-center items-center">
                 <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-6xl min-h-[500px]">
                     <div className='flex justify-between'>
-                        <h2 className="text-2xl font-semibold mb-6">Manage User</h2>
+                        <h2 className="text-3xl font-semibold">Manage User</h2>
                         <div className="mb-4">
                             <label htmlFor="roleFilter" className="mr-2">Filter by Role:</label>
                             <select
@@ -491,44 +490,45 @@ const ManageUser = () => {
                             </select>
                         </div>
                     </div>
+                    <hr className='my-4' />
                     <div className='min-h-[880px]'>
 
                         <table className="w-full  text-left">
                             <thead>
                                 <tr>
-                                    <th className="pb-2 border-b">Profile</th>
-                                    <th className="pb-2 border-b">Name</th>
-                                    <th className="pb-2 border-b">Email</th>
-                                    <th className="pb-2 border-b">Role</th>
-                                    <th className="pb-2 border-b">View Profile</th>
-                                    <th className="pb-2 border-b">Status</th>
+                                    <th className="pb-2 border-b text-center">Profile</th>
+                                    <th className="pb-2 border-b text-center">Name</th>
+                                    <th className="pb-2 border-b text-center">Email</th>
+                                    <th className="pb-2 border-b text-center">Role</th>
+                                    <th className="pb-2 border-b text-center">View Profile</th>
+                                    <th className="pb-2 border-b text-center">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {user?.map(user => (
                                     <tr key={user.id} className="hover:bg-gray-50">
-                                        <td className="py-4 flex items-center space-x-4">
-                                            <div className="w-12 h-12 rounded-full bg-orange-300 flex items-center justify-center">
+                                        <td className="py-4 flex items-center justify-center space-x-4">
+                                            <div className="w-24 h-24 rounded-full flex items-center justify-center">
                                                 <img src={user.profilePicture} alt="User Avatar" className="rounded-full" />
                                             </div>
-                                            <span>{user.name}</span>
+                                            {/* <span>{user.name}</span> */}
                                         </td>
-                                        <td className="py-4">
+                                        <td className="py-4 text-center">
                                             <p className="py-1">
                                                 {user.firstName + ' ' + user.lastName}
                                             </p>
                                         </td>
-                                        <td className="py-4 w-24">
+                                        <td className="py-4 text-center w-24">
                                             <p className="py-1">
                                                 {user.email}
                                             </p>
                                         </td>
-                                        <td className="py-4">
+                                        <td className="py-4 text-center">
                                             <p className="py-1">
                                                 {user.role}
                                             </p>
                                         </td>
-                                        <td className="py-4">
+                                        <td className="py-4 text-center">
                                             <button
                                                 onClick={() => {
                                                     setUserData(user)
@@ -539,19 +539,25 @@ const ManageUser = () => {
                                                 View
                                             </button>
                                         </td>
-                                        <td className="py-4 flex items-center space-x-4 w-24 ">
-                                            {/* Toggle Switch */}
-                                            <label className="flex cursor-pointer gap-2">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={user.isActive}
-                                                    onChange={() => toggleStatus(user.id)}
-                                                    className="toggle theme-controller"
-                                                />
-                                            </label>
-                                            <span className={`text-sm font-medium ${user.isActive ? 'text-green-600' : 'text-red-500'}`}>
-                                                {user.isActive ? 'Active' : 'Deactivate'}
-                                            </span>
+                                        <td className="py-4 space-x-4 w-36 ">
+                                            <div className="flex items-center justify-center space-x-2 gap-2">
+                                                {/* Toggle Switch */}
+                                                {user.role === 'ADMIN' ? null : (
+                                                    <>
+                                                        <label className="flex cursor-pointer gap-2">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={user.isActive}
+                                                                onChange={() => toggleStatus(user.id)}
+                                                                className="toggle theme-controller"
+                                                            />
+                                                        </label>
+                                                        <span className={`text-sm font-medium ${user.isActive ? 'text-green-600' : 'text-red-500'}`}>
+                                                            {user.isActive ? 'Active' : 'Deactivate'}
+                                                        </span>
+                                                    </>
+                                                )}
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}

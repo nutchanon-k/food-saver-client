@@ -74,49 +74,49 @@ const AdminSidebar = () => {
 
             <ul className="menu flex-grow space-y-2">
                 <li>
-                    <NavLink to="/" end className={({ isActive })  => `flex items-center w-full ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600' : ''}`}>
+                    <NavLink to="/" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <Grid className="mr-2" />
                         {isExpanded && <span>Dashboard</span>}
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/admin-profile" end className={({ isActive }) => `flex items-center w-full ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600' : ''}`}>
+                    <NavLink to="/admin-profile" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <User className="mr-2" />
                         {isExpanded && <span>Profile</span>}
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/manage-user" end className={({ isActive }) => `flex items-center w-full ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600' : ''}`}>
+                    <NavLink to="/manage-user" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <Users className="mr-2" />
                         {isExpanded && <span>Manage User</span>}
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/manage-store" end className={({ isActive }) => `flex items-center w-full ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600' : ''}`}>
+                    <NavLink to="/manage-store" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <Store className="mr-2" />
                         {isExpanded && <span>Manage Store</span>}
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/manage-charity" end  className={({ isActive }) => `flex items-center w-full ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600' : ''}`}>
+                    <NavLink to="/manage-charity" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <Gift className="mr-2" />
                         {isExpanded && <span>Manage Charity</span>}
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/inbox" end className={({ isActive }) => `flex items-center w-full ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600' : ''}`}>
+                    <NavLink to="/inbox" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <MessageCircle className="mr-2" />
                         {isExpanded && <span>Inbox</span>}
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/notifications" end className={({ isActive }) => `flex items-center w-full ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600' : ''}`}>
+                    <NavLink to="/notifications" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <Bell className="mr-2" />
                         {isExpanded && <span>Notifications</span>}
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/settings" end className={({ isActive }) => `flex items-center w-full ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600' : ''}`}>
+                    <NavLink to="/settings" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <Settings className="mr-2" />
                         {isExpanded && <span>Settings</span>}
                     </NavLink>
@@ -125,7 +125,7 @@ const AdminSidebar = () => {
 
             <ul className="menu space-y-2">
                 <li>
-                    <NavLink to="/help" className={({ isActive }) => `flex items-center w-full ${isExpanded ? 'justify-start' : 'justify-center'} text-gray-600 ${isActive ? 'text-green-600' : ''}`}>
+                    <NavLink to="/help" className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <HelpCircle className="mr-2" />
                         {isExpanded && <span>Help</span>}
                     </NavLink>

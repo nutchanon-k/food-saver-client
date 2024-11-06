@@ -1,10 +1,6 @@
 
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
-import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI } from "../API/UserApi";
-import { all } from 'axios';
-
-
 
 
 
@@ -24,8 +20,6 @@ const useSearchStore = create(persist((set, get) => ({
     name: "searchStore",
     storage: createJSONStorage(() => localStorage),
   }));
-  
-  
   
   
   
