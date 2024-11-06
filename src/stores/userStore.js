@@ -2,6 +2,7 @@
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
 import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI } from "../API/UserApi";
+import { getCartDataAPI } from '../API/cartItemAPI';
 
 
 
@@ -68,14 +69,14 @@ const useUserStore = create(persist((set, get) => ({
         
       }
     },
+
+    
   
     
   
     
   
  
-    //   }
-    // },
 
     getMe : async () => {
       try{

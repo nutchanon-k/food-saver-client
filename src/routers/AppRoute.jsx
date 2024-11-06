@@ -18,6 +18,8 @@ import NotFound from "../pages/NotFound";
 import { useEffect, useState } from "react";
 import AdminProfile from "../pages/admin/AdminProfile";
 import ForgetPassword from "../pages/Auth/forgetPassword";
+import Cart from "../pages/Cart";
+import Order from "../pages/Order";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +57,7 @@ const guestRouter = createBrowserRouter([
   { path: "UserRegister", element: <UserRegister /> },
   { path: "MerchantRegister", element: <MerchantRegister /> },
 
+
 ]);
 const adminRouter = createBrowserRouter([
   {
@@ -75,13 +78,15 @@ const buyerRouter = createBrowserRouter([
   {
     path: "/",
     element: <BuyerLayout />,
-    // children: [
-    //     {index: true, element: <Dashboard />},
-    //     {path: "manage-user", element: <ManageUser />},
-    //     {path: "manage-charity", element: <ManageCharity />},
-    //     {path: "manage-store", element: <ManageStore/>},
-    //     {path: "*", element: <NotFound  />}, 
-    // ]
+    children: [
+        {path:"cart",element:<Cart />},
+        {path:"order",element:<Order/>}
+        // {index: true, element: <Dashboard />},
+        // {path: "manage-user", element: <ManageUser />},
+        // {path: "manage-charity", element: <ManageCharity />},
+        // {path: "manage-store", element: <ManageStore/>},
+        // {path: "*", element: <NotFound  />}, 
+    ]
   },
 ]);
 
