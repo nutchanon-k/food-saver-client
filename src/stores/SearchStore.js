@@ -5,7 +5,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 
 
-const useStore = create(persist((set, get) => ({
+const useSearchStore = create(persist((set, get) => ({
     
     searchText  : '',
 
@@ -17,10 +17,10 @@ const useStore = create(persist((set, get) => ({
   
     
   }),{
-    name: "Store",
+    name: "searchStore",
     storage: createJSONStorage(() => localStorage),
   }));
   
   
   
-  export default useStore
+  export default useSearchStore

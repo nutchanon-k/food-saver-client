@@ -21,11 +21,13 @@ import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
 
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: "Hello World",
   },
+
   {
     path: "/map",
     element: <MapPage />,
@@ -52,13 +54,20 @@ const router = createBrowserRouter([
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
   { path: "login", element: <Login /> },
-  { path: "forgetPassword", element: <ForgetPassword /> },
   { path: "selectRegister", element: <SelectRegister /> },
   { path: "UserRegister", element: <UserRegister /> },
   { path: "MerchantRegister", element: <MerchantRegister /> },
-
-
+  { path: "forgetPassword", element: <ForgetPassword /> },
+  { path: "selectRegister", element: <SelectRegister /> },
+  { path: "UserRegister", element: <UserRegister /> },,
 ]);
+
+
+
+
+
+
+
 const adminRouter = createBrowserRouter([
   {
     path: "/",
@@ -74,11 +83,14 @@ const adminRouter = createBrowserRouter([
   },
 ]);
 
+
 const buyerRouter = createBrowserRouter([
   {
     path: "/",
     element: <BuyerLayout />,
     children: [
+        {index: true, element: <MapPage />},
+        {path: "/map",element: <MapPage />},
         {path:"cart",element:<Cart />},
         {path:"order",element:<Order/>}
         // {index: true, element: <Dashboard />},
@@ -87,6 +99,7 @@ const buyerRouter = createBrowserRouter([
         // {path: "manage-store", element: <ManageStore/>},
         // {path: "*", element: <NotFound  />}, 
     ]
+
   },
 ]);
 
