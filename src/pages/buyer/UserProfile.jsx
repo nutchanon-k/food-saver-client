@@ -26,10 +26,10 @@ const UserProfile = () => {
 
   useEffect(() => {
     setFormUpdate({
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      phoneNumber: user?.phoneNumber,
-      address: user?.address,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber: user.phoneNumber,
+      address: user.address,
     });
   }, []);
 
@@ -37,30 +37,32 @@ const UserProfile = () => {
 
   // image
   const [file, setFile] = useState(null);
-  const [oldImage, setOldImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
-
+    console.log(formUpdate)
     if (!formUpdate.firstName.trim()) {
       newErrors.firstName = "กรุณากรอกชื่อ";
     }
-
+    console.log(1)
     if (!formUpdate.lastName.trim()) {
       newErrors.lastName = "กรุณากรอกนามสกุล";
     }
+    console.log(2)
     if (!formUpdate.phoneNumber) {
       newErrors.phoneNumber = "กรุณากรอกเบอร์โทรศัพท์";
     } else if (!isValidPhoneNumber(formUpdate.phoneNumber)) {
       newErrors.phoneNumber = "กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง (0xxxxxxxxx)";
     }
+    console.log(3)
     if (!formUpdate.address.trim()) {
       newErrors.address = "กรุณากรอกที่อยู่";
-    }
+    }console.log(4)
 
     setErrors(newErrors);
     const isValid = Object.keys(newErrors).length === 0; //เช็คว่าในobjectของnewError มีerrorหรือไม่ถ้าใlenght = 0 คือไม่มีerror
+    console.log(newErrors)
     setIsValid(isValid);
     return isValid;
   };
@@ -81,14 +83,16 @@ const UserProfile = () => {
   };
 
   const hdlSubmit = async (e) => {
+    console.log("start")
     try {
       e.preventDefault();
+      console.log(validateForm())
       if (!validateForm()) {
         return;
       }
 
       setIsEdit(!isEdit);
-
+      console.log(isEdit)
       const body = formUpdate;
 
       if (isEdit) {
@@ -261,15 +265,19 @@ const UserProfile = () => {
           )}
         </div>
 
-        <div className="flex space-x-4">
+        <div className="flex flex-col items-center gap-8 md:flex-row">
           <button
-            className="flex-1 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors"
+            className=" w-[50%] md:w-full bg-green-500 text-white py-3 px-4 rounded-[24px] hover:bg-green-600 transition-colors"
             type="submit"
-            onClick={hdlSubmit}
+            onClick={(e) => {
+              e.preventDefault()
+              console.log(145)
+              return hdlSubmit(e)
+            }}
           >
             {isEdit ? "Save" : "Edit"}
           </button>
-          <button className="flex-1 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors">
+          <button className="w-[50%] md:w-full bg-red-500 text-white py-3 px-4 rounded-[24px] hover:bg-red-600 transition-colors">
             Delete Profile
           </button>
         </div>

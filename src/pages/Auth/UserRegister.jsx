@@ -119,7 +119,7 @@ const UserRegister = () => {
                                 value={formRegister.firstName}
                                 onChange={hdlOnChange}
                                 placeholder="Enter Name"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                             {!isValid && errors.firstName && (
                                 <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
@@ -133,7 +133,7 @@ const UserRegister = () => {
                                 value={formRegister.lastName}
                                 onChange={hdlOnChange}
                                 placeholder="Enter Last Name"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                             {!isValid && errors.lastName && (
                                 <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
@@ -151,7 +151,7 @@ const UserRegister = () => {
                                 value={formRegister.email}
                                 onChange={hdlOnChange}
                                 placeholder="Enter email"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                             {!isValid && errors.email && (
                                 <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -165,7 +165,7 @@ const UserRegister = () => {
                                 value={formRegister.phoneNumber}
                                 onChange={hdlOnChange}
                                 placeholder="Enter your Number"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                             {!isValid && errors.phoneNumber && (
                                 <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
@@ -184,7 +184,7 @@ const UserRegister = () => {
                                     value={formRegister.password}
                                     onChange={hdlOnChange}
                                     placeholder="Enter password"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 pr-10"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 pr-10"
                                 />
                                 <button
                                     type="button"
@@ -207,7 +207,7 @@ const UserRegister = () => {
                                     value={formRegister.confirmPassword}
                                     onChange={hdlOnChange}
                                     placeholder="Confirm Password"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 pr-10"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 pr-10"
                                 />
                                 <button
                                     type="button"
