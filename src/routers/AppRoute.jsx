@@ -20,7 +20,7 @@ import AdminProfile from "../pages/admin/AdminProfile";
 import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
-import { use } from "framer-motion/client";
+
 
 
 
@@ -125,42 +125,3 @@ export default function AppRoute() {
 
 
 
-// export default function AppRoute() {
-//   const getMe = useUserStore(state => state.getMe)
-//   const [router, setRouter] = useState(null);
-//   const token = localStorage.getItem("token");
-
-
-//   useEffect(() => {
-//     const loadUser = async () => {
-//       try {
-//         console.log("tsttttt from app route")
-//         const result = await getMe();
-//         console.log(result.data.role)
-//         if (result?.data?.role === "ADMIN") {
-//           setRouter(adminRouter);
-//         } else if (result?.data?.role === "BUYER") {
-//           setRouter(buyerRouter);
-//         } else if (result?.data?.role === "SELLER") {
-//           setRouter(sellerRouter);
-//         } else {
-//           setRouter(guestRouter);
-//         }
-//       } catch (error) {
-//         setRouter(guestRouter);
-//       }
-//     };
-//     loadUser();
-//   }, [getMe, token]);
-
-//   if (!router) {
-//     return <div> Loading.....</div>;
-//   }
-
-
-//   return (
-//     <div>
-//       <RouterProvider router={router} />
-//     </div>
-//   )
-// }
