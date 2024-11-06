@@ -22,3 +22,7 @@ export const RegisterAPI = async(body) => {
 export const getAllUserAPI = async () => {
     return axiosInstance.get('/users')
 }
+
+export const updateUserAPI = async (body) => {
+    return axiosInstance.patch("/users/me",body)
+}

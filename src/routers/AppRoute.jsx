@@ -48,10 +48,7 @@ const guestRouter = createBrowserRouter([
   { path: "selectRegister", element: <SelectRegister /> },
   { path: "UserRegister", element: <UserRegister /> },
   { path: "MerchantRegister", element: <MerchantRegister /> },
-  {
-    path: "/user",
-    element: <UserProfile />,
-  },
+ 
 ]);
 const adminRouter = createBrowserRouter([
   {
@@ -79,6 +76,10 @@ const buyerRouter = createBrowserRouter([
     //     {path: "manage-store", element: <ManageStore/>},
     //     {path: "*", element: <NotFound  />},
     // ]
+  },
+  {
+    path: "/user",
+    element: <UserProfile />,
   },
 ]);
 

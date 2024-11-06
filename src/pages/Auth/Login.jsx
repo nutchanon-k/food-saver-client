@@ -17,11 +17,13 @@ const Login = () => {
             ...formLogin,
             [e.target.name]: e.target.value
         });
-        console.log(formLogin);
+        // console.log(formLogin);
     };
 
-    const hdlSubmit = (e) => {
+    const hdlSubmit = async (e) => {
         try {
+            e.preventDefault()
+            //validation
             if (!formLogin.email.trim() || !formLogin.password.trim()) {
                 alert('please fill email or password ');
                 return;
@@ -29,7 +31,8 @@ const Login = () => {
 
             const body = formLogin;
             console.log('sayhi', body);
-            const data = hdlLogin(body);
+            const data = await hdlLogin(body);
+            console.log(data)
             alert('loginSuccess');
             e.preventDefault();
         } catch (error) {

@@ -6,7 +6,7 @@ import { Eye, EyeOff, Upload } from 'lucide-react';
 const UserRegister = () => {
     const navigate = useNavigate();
     const createUser = useUserStore((state) => state.createUser);
-
+    
     const [formRegister, setFormRegister] = useState({
         firstName: "",
         lastName: "",
@@ -104,22 +104,15 @@ const UserRegister = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-sm w-full max-w-md p-8 ">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+            <div className="max-w-xl w-full bg-white p-8 rounded-lg shadow-lg ">
                 <h1 className="text-2xl font-semibold text-center mb-6">User Register</h1>
-                
-                {/* File Upload Area */}
-                <div className="mb-6">
-                    <div className="border-2 border-dashed border-gray-200 rounded-full w-[230px] h-[230px] mx-auto flex items-center justify-center cursor-pointer hover:border-gray-300 transition-colors">
-                        <Upload className="w-8[ h-8 text-green-500 ring-green-300 " />
-                    </div>
-                </div>
-
-                <form className="space-y-4">
+                <hr className='border-black mb-6'/>
+                <form onSubmit={hdlSubmit} className="space-y-4">
                     {/* Name Fields */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            <label className="block text-sm font-medium mb-1">Name</label>
                             <input
                                 type="text"
                                 name="firstName"
@@ -133,7 +126,7 @@ const UserRegister = () => {
                             )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                            <label className="block text-sm font-medium mb-1">Last Name</label>
                             <input
                                 type="text"
                                 name="lastName"
@@ -149,9 +142,9 @@ const UserRegister = () => {
                     </div>
 
                     {/* Email & Phone */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <label className="block text-sm font-medium mb-1">Email</label>
                             <input
                                 type="email"
                                 name="email"
@@ -165,7 +158,7 @@ const UserRegister = () => {
                             )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <label className="block text-sm font-medium mb-1">Phone Number</label>
                             <input
                                 type="tel"
                                 name="phoneNumber"
@@ -181,7 +174,7 @@ const UserRegister = () => {
                     </div>
 
                     {/* Password Fields */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
                             <div className="relative">
@@ -247,16 +240,16 @@ const UserRegister = () => {
                     </div>
 
                     {/* Terms and Register Button */}
-                    <div className="space-y-4">
+                    
                         <p className="text-sm text-center text-gray-500">
                             By clicking Create account, you agree to the system's{' '}
-                            <a href="#" className="text-blue-500 hover:underline">Terms and policies</a>
+                            <a href="#" className="text-orange-400 hover:underline">Terms and policies</a>
                         </p>
                         
                         <button
                             type="button"
                             onClick={hdlSubmit}
-                            className="w-full bg-gray-100 text-gray-800 py-2 rounded-md hover:bg-gray-200 transition-colors"
+                            className="w-full bg-gray-400 text-white py-2 rounded-md hover:bg-gray-200 transition-colors"
                         >
                             Register
                         </button>
@@ -277,12 +270,12 @@ const UserRegister = () => {
                             <span className="text-gray-500">Do have an account? </span>
                             <button 
                                 onClick={() => navigate('/login')} 
-                                className="text-blue-500 hover:underline"
+                                className="text-orange-400 hover:underline"
                             >
                                 Login
                             </button>
                         </div>
-                    </div>
+                    
                 </form>
             </div>
         </div>
