@@ -24,6 +24,11 @@ export const getAllUserAPI = async () => {
 }
 
 
+export const updateUserAPI = async (body) => {
+    return axiosInstance.patch("/users/me",body)
+}
+
+
 export const activateUserAPI = async (id) => {
     return axiosInstance.patch(`/users/isActive/${id}`) 
 }
@@ -32,3 +37,4 @@ export const activateUserAPI = async (id) => {
 export const getUserByQueryAPI = async (page, searchText, roleFilter) => {
     return await axiosInstance.get(`/users?page=${page}&limit=10&search=${searchText}&role=${roleFilter}`);
 }
+

@@ -1,5 +1,6 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import MapPage from "../pages/MapPage";
+import UserProfile from "../pages/buyer/UserProfile";
 import Login from "../pages/Auth/Login";
 import SelectRegister from "../pages/Auth/SelectRegister";
 import UserRegister from "../pages/Auth/UserRegister";
@@ -20,12 +21,6 @@ import AdminProfile from "../pages/admin/AdminProfile";
 import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
-
-
-
-
-
-
 
 
 
@@ -76,15 +71,30 @@ const buyerRouter = createBrowserRouter([
     ]
 
   },
+  {
+    path: "/user",
+    element: <UserProfile />,
+  },
 ]);
 
 const sellerRouter = createBrowserRouter([
   {
     path: "/",
     element: <SellerLayout />,
-
+    // children: [
+    //     {index: true, element: <Dashboard />},
+    //     {path: "manage-user", element: <ManageUser />},
+    //     {path: "manage-charity", element: <ManageCharity />},
+    //     {path: "manage-store", element: <ManageStore/>},
+    //     {path: "*", element: <NotFound  />},
+    // ]
+  },
+  {
+    path: "/user",
+    element: <UserProfile />,
   },
 ]);
+
 
 
 const finalRouter = (role) => {
@@ -105,7 +115,6 @@ export default function AppRoute() {
   const getMe = useUserStore(state => state.getMe)
   const user = useUserStore(state => state.user)
 
-
   useEffect(() => {
     const loadUser = async () => {
       await getMe()
@@ -119,8 +128,9 @@ export default function AppRoute() {
     <div>
       <RouterProvider router={finalRouter(user?.role)} />
     </div>
-  )
+  );
 }
+  
 
 
 
