@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+import React from 'react'
+
+const ManageCharity = () => {
+  return (
+    <div>ManageCharity</div>
+=======
 import React, { useEffect, useState } from 'react';
 import useUserStore from '../../stores/userStore';
 import Swal from 'sweetalert2';
@@ -257,6 +264,7 @@ const ManageCharity = () => {
         </div>
       </dialog>
     </>
+>>>>>>> dev
   )
 }
 

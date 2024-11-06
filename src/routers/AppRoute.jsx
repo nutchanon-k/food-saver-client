@@ -17,18 +17,25 @@ import LandingPage from "../pages/LandingPage";
 import NotFound from "../pages/NotFound";
 import { useEffect, useState } from "react";
 import AdminProfile from "../pages/admin/AdminProfile";
+<<<<<<< HEAD
+=======
 import ForgetPassword from "../pages/Auth/forgetPassword";
+>>>>>>> dev
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: "Hello World",
   },
+
   {
+<<<<<<< HEAD
+=======
     path: "/map",
     element: <MapPage />,
   },
   {
+>>>>>>> dev
     path: "/auth",
     element: <Outlet />,
     children: [
@@ -50,6 +57,12 @@ const router = createBrowserRouter([
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
   { path: "login", element: <Login /> },
+<<<<<<< HEAD
+  { path: "selectRegister", element: <SelectRegister /> },
+  { path: "UserRegister", element: <UserRegister /> },
+  { path: "MerchantRegister", element: <MerchantRegister /> },
+]);
+=======
   { path: "forgetPassword", element: <ForgetPassword /> },
   { path: "selectRegister", element: <SelectRegister /> },
   { path: "UserRegister", element: <UserRegister /> },
@@ -59,6 +72,7 @@ const guestRouter = createBrowserRouter([
 
 
 
+>>>>>>> dev
 const adminRouter = createBrowserRouter([
   {
     path: "/",
@@ -74,11 +88,25 @@ const adminRouter = createBrowserRouter([
   },
 ]);
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> dev
 const buyerRouter = createBrowserRouter([
   {
     path: "/",
     element: <BuyerLayout />,
+<<<<<<< HEAD
+    children: [
+        {index: true, element: <MapPage />},
+        {path: "/map",element: <MapPage />}
+        // {index: true, element: <Dashboard />},
+        // {path: "manage-user", element: <ManageUser />},
+        // {path: "manage-charity", element: <ManageCharity />},
+        // {path: "manage-store", element: <ManageStore/>},
+        // {path: "*", element: <NotFound  />}, 
+    ]
+=======
     // children: [
     //     {index: true, element: <Dashboard />},
     //     {path: "manage-user", element: <ManageUser />},
@@ -86,6 +114,7 @@ const buyerRouter = createBrowserRouter([
     //     {path: "manage-store", element: <ManageStore/>},
     //     {path: "*", element: <NotFound  />}, 
     // ]
+>>>>>>> dev
   },
 ]);
 
