@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import { Outlet } from "react-router-dom";
 
@@ -16,3 +17,14 @@ const BuyerLayout = () => {
 };
 
 export default BuyerLayout;
+=======
+import React from 'react'
+
+const BuyerLayout = () => {
+  return (
+    <div>BuyerLayout</div>
+  )
+}
+
+export default BuyerLayout
+>>>>>>> dev
