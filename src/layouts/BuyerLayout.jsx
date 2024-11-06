@@ -19,10 +19,13 @@ const BuyerLayout = () => {
 export default BuyerLayout;
 =======
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 
 const BuyerLayout = () => {
   return (
-    <div>BuyerLayout</div>
+    <div>
+      <Outlet />
+    </div>
   )
 }
 

@@ -17,10 +17,10 @@ import LandingPage from "../pages/LandingPage";
 import NotFound from "../pages/NotFound";
 import { useEffect, useState } from "react";
 import AdminProfile from "../pages/admin/AdminProfile";
-<<<<<<< HEAD
-=======
 import ForgetPassword from "../pages/Auth/forgetPassword";
->>>>>>> dev
+import Cart from "../pages/Cart";
+import Order from "../pages/Order";
+
 
 const router = createBrowserRouter([
   {
@@ -29,13 +29,10 @@ const router = createBrowserRouter([
   },
 
   {
-<<<<<<< HEAD
-=======
     path: "/map",
     element: <MapPage />,
   },
   {
->>>>>>> dev
     path: "/auth",
     element: <Outlet />,
     children: [
@@ -57,22 +54,20 @@ const router = createBrowserRouter([
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
   { path: "login", element: <Login /> },
-<<<<<<< HEAD
   { path: "selectRegister", element: <SelectRegister /> },
   { path: "UserRegister", element: <UserRegister /> },
   { path: "MerchantRegister", element: <MerchantRegister /> },
-]);
-=======
   { path: "forgetPassword", element: <ForgetPassword /> },
   { path: "selectRegister", element: <SelectRegister /> },
-  { path: "UserRegister", element: <UserRegister /> },
-  { path: "MerchantRegister", element: <MerchantRegister /> },
-
+  { path: "UserRegister", element: <UserRegister /> },,
 ]);
 
 
 
->>>>>>> dev
+
+
+
+
 const adminRouter = createBrowserRouter([
   {
     path: "/",
@@ -88,33 +83,23 @@ const adminRouter = createBrowserRouter([
   },
 ]);
 
-<<<<<<< HEAD
-=======
 
->>>>>>> dev
 const buyerRouter = createBrowserRouter([
   {
     path: "/",
     element: <BuyerLayout />,
-<<<<<<< HEAD
     children: [
         {index: true, element: <MapPage />},
-        {path: "/map",element: <MapPage />}
+        {path: "/map",element: <MapPage />},
+        {path:"cart",element:<Cart />},
+        {path:"order",element:<Order/>}
         // {index: true, element: <Dashboard />},
         // {path: "manage-user", element: <ManageUser />},
         // {path: "manage-charity", element: <ManageCharity />},
         // {path: "manage-store", element: <ManageStore/>},
         // {path: "*", element: <NotFound  />}, 
     ]
-=======
-    // children: [
-    //     {index: true, element: <Dashboard />},
-    //     {path: "manage-user", element: <ManageUser />},
-    //     {path: "manage-charity", element: <ManageCharity />},
-    //     {path: "manage-store", element: <ManageStore/>},
-    //     {path: "*", element: <NotFound  />}, 
-    // ]
->>>>>>> dev
+
   },
 ]);
 
