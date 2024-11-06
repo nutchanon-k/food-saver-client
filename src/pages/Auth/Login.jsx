@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import useUserStore from '../../stores/userStore'
 
+
 const Login = () => {
 
     
@@ -27,7 +28,7 @@ const Login = () => {
    }
    
 
-   const hdlSubmit = (e) => {
+   const hdlSubmit =async (e) => {
     try{
         if (!formLogin.email.trim() || !formLogin.password.trim()){
             alert('please fill email or password ')
@@ -36,10 +37,15 @@ const Login = () => {
         
 
         const body = formLogin
-        console.log('sayhi',body)
-        const data = hdlLogin(body)
-        alert('loginSuccess' )
-        e.preventDefault()
+        // console.log('sayhi',body)
+        const data = await hdlLogin(body)
+        console.log(data)
+        if(data){
+            console.log("testtttttttttttttttttttttttttttttttttttttttttt")
+            navigate('/')
+        }
+        
+        
         
     }catch(error){
         alert(error)

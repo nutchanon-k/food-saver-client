@@ -6,6 +6,7 @@ import testimonial from '../assets/pictures/UserTestimonial.png';
 import foundation from '../assets/pictures/Foundation.png';
 
 const LandingPage = () => {
+  console.log('landing page');
   return (
     <div className="App bg-background">
       {/* Header */}

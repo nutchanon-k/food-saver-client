@@ -26,9 +26,9 @@ const useUserStore = create(persist((set, get) => ({
     hdlLogin: async (body) => {
       try{
         const result = await loginAPI(body)
-        // set({ token: result.data.token, user: result.data.user })
-        console.log(result.data)
+        set({ user: result.data.user ,token: result.data.token })
         localStorage.setItem('token', result.data.token);
+        return result.data
       }catch(err){
         console.log(err)
       }
@@ -47,13 +47,10 @@ const useUserStore = create(persist((set, get) => ({
       set({ 
         user: null, 
         token: "",
-        maintenanceMembers: [],
-        locationData: [],
-        departmentData: [],
         allUser : [],
-        currentUser : null 
+        
       })
-        localStorage.removeItem("accessToken");
+        localStorage.removeItem("userStore");
         localStorage.removeItem("token");
        
     },
