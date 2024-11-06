@@ -2,6 +2,9 @@
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
 import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI } from "../API/UserApi";
+import { getCartDataAPI } from '../API/cartItemAPI';
+import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI } from "../API/UserApi";
+import { all } from 'axios';
 
 
 
@@ -11,6 +14,7 @@ import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI } from "../API/UserApi";
 const useUserStore = create(persist((set, get) => ({
     user: null,
     token: "",
+    allUser: [],
     // maintenanceMembers: [],
     // locationData: [],
     // departmentData: [],
@@ -68,14 +72,14 @@ const useUserStore = create(persist((set, get) => ({
         
       }
     },
+
+    
   
     
   
     
   
  
-    //   }
-    // },
 
     getMe : async () => {
       try{
@@ -91,12 +95,21 @@ const useUserStore = create(persist((set, get) => ({
       try{
         console.log("testttttt")
         const result = await getAllUserAPI()
-        // set({user : result.data})
+        set({allUser : result.data.data})
         return result.data
       }catch(error){
         console.log(error)
       }
     },
+
+    activateUser : async (id) => {
+      try{
+        const result = await activateUserAPI(id)
+        return result.data
+      }catch(error){
+        console.log(error)
+      }
+    }
   
     // hdlLogout: () => {
     //   set({ 
