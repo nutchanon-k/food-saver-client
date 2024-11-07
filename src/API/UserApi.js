@@ -38,3 +38,6 @@ export const getUserByQueryAPI = async (page, searchText, roleFilter) => {
     return await axiosInstance.get(`/users?page=${page}&limit=10&search=${searchText}&role=${roleFilter}`);
 }
 
+export const patchSellerAPI = async (body,storeId) =>{
+    return await axiosInstance.patch(`http://localhost:8000/stores/${storeId}`,body)
+}

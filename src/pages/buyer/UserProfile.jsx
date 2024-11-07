@@ -119,6 +119,9 @@ const UserProfile = () => {
     }
   };
 
+
+  
+
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-xl font-semibold mb-6">My Profile</h1>

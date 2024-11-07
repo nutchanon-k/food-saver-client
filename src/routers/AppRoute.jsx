@@ -22,6 +22,7 @@ import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
 import { use } from "framer-motion/client";
+import MerchantProfile from '../pages/seller/MerchantProfile'
 
 
 const guestRouter = createBrowserRouter([
@@ -81,18 +82,19 @@ const sellerRouter = createBrowserRouter([
   {
     path: "/",
     element: <SellerLayout />,
-    // children: [
-    //     {index: true, element: <Dashboard />},
+    children: [
+        {index: true, element: <Dashboard />},
+        {path: "user",element: <UserProfile/>},
+        {path: "merchantProfile",element: <MerchantProfile />}
     //     {path: "manage-user", element: <ManageUser />},
     //     {path: "manage-charity", element: <ManageCharity />},
     //     {path: "manage-store", element: <ManageStore/>},
     //     {path: "*", element: <NotFound  />},
-    // ]
+    ]
   },
-  {
-    path: "/user",
-    element: <UserProfile />,
-  },
+
+,
+
 ]);
 
 

@@ -1,8 +1,11 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 
 const SellerLayout = () => {
   return (
-    <div>SellerLayout</div>
+    <div>
+      <Outlet/>
+    </div>
   )
 }
 
