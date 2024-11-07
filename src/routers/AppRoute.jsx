@@ -20,6 +20,7 @@ import AdminProfile from "../pages/admin/AdminProfile";
 import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
+import Store from "../pages/Store";
 
 
 
@@ -59,12 +60,16 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
-      { index: true, element: <MapPage /> },
-      // { path: "/map", element: <MapPage /> },
-      { path: "cart", element: <Cart /> },
-      { path: "order", element: <Order /> },
-      { path: "*", element: <MapPage />},
-
+        {index: true, element: <MapPage />},
+        {path: "/map",element: <MapPage />},
+        {path:"store/:storeId",element:<Store />},
+        {path:"cart",element:<Cart />},
+        {path:"order",element:<Order/>},
+        // {index: true, element: <Dashboard />},
+        // {path: "manage-user", element: <ManageUser />},
+        // {path: "manage-charity", element: <ManageCharity />},
+        // {path: "manage-store", element: <ManageStore/>},
+        // {path: "*", element: <NotFound  />}, 
     ]
 
   },

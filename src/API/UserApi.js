@@ -37,4 +37,3 @@ export const activateUserAPI = async (id) => {
 export const getUserByQueryAPI = async (page, searchText, roleFilter) => {
     return await axiosInstance.get(`/users?page=${page}&limit=10&search=${searchText}&role=${roleFilter}`);
 }
-

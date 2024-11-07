@@ -1,6 +1,6 @@
 
 import {create} from 'zustand'
-import { DeleteCartItemAPI, getCartDataAPI, PatchCartItemAPI } from '../API/cartItemAPI';
+import { addCartItem, DeleteCartItemAPI, getCartDataAPI, PatchCartItemAPI } from '../API/cartItemAPI';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 
@@ -20,6 +20,18 @@ const useCartStore = create(persist((set, get) => ({
       }catch(err){
 
       }
+    },
+    addCartData: async(productId,quantity) => {
+      const body = {productId:productId , quantity:quantity}
+      console.log(body)
+      try{
+        const result = await addCartItem(body)
+      //   console.log('hi store')
+        return result.data
+  
+        }catch(err){
+  
+        }
     },
     ChangeQuantityItem: async(itemId,quantity) =>{
         try{
