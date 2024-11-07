@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Search, Bell } from 'lucide-react';
 import Avatar from './Avatar';
-import useUserStore from '../../stores/userStore';
 import useSearchStore from '../../stores/SearchStore';
+import useUserStore from '../../stores/userStore';
+import { useNavigate } from 'react-router-dom';
+
 
 
 
 const AdminHeader = () => {
+    const navigate = useNavigate()
     const user = useUserStore(state => state.user);
     const searchText = useSearchStore(state => state.searchText)
     const setSearchText = useSearchStore(state => state.setSearchText)
+    const hdlLogout = useUserStore(state => state.hdlLogout)
 
     const [text, setText] = useState(searchText)
 
@@ -21,10 +25,9 @@ const AdminHeader = () => {
         return () => clearTimeout(delay)
       }, [text])
 
-    const handleLogout = () => {
-
-        console.log("User logged out");
-    
+    const handleLogout = async() => {
+        await hdlLogout()
+        
     };
 
 

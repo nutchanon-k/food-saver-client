@@ -8,7 +8,6 @@ const SelectRegister = () => {
          <div className="space-y-4">
           {/* User Option */}
           <button 
-           
             onClick={() => navigate('/UserRegister')}
             className="w-full p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
           >

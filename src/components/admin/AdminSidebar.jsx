@@ -35,7 +35,7 @@ const AdminSidebar = () => {
 
     };
     return (
-        <div className={`h-full bg-white border-r shadow-lg flex flex-col ${isExpanded ? 'w-64' : 'w-24'} px-2 py-4 transition-all duration-300`}>
+        <div className={`h-full bg-white border-r shadow-lg flex flex-col ${isExpanded ? 'w-72' : 'w-24'} px-2 py-4 transition-all duration-300`}>
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                     <div className="avatar flex items-center justify-center">
