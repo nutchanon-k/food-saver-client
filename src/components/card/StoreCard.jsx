@@ -10,6 +10,7 @@ export default function StoreCard({ store }) {
     setActiveMarker(store);
   };
 
+
   const placeholderImageUrl =
     "https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141353.jpg";
 
@@ -33,11 +34,11 @@ export default function StoreCard({ store }) {
         </h2>
         <div className="flex justify-between mt-auto">
           <p className="text-xs md:text-sm text-gray-600">
-            {store.distance.toFixed(2)} km
+            {store.distance.toFixed(2)} km | {store.products.reduce((total, product) => total + product.quantity, 0)} Available
           </p>
-          <p className="text-xs md:text-sm text-gray-600">
-            {store.products.reduce((total, product) => total + product.quantity, 0)} Available
-          </p>
+          {/* <p className="text-xs md:text-sm text-gray-600">
+            
+          </p> */}
         </div>
       </div>
     </div>

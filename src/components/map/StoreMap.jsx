@@ -34,6 +34,7 @@ export default function StoreMap() {
       radius: 2,
       latitude: lat,
       longitude: lng,
+      products: true,
     });
   };
 
@@ -47,11 +48,12 @@ export default function StoreMap() {
         radius: 2,
         latitude: userLocation.lat,
         longitude: userLocation.lng,
+        products: true,
       });
       setMapCenter({ lat: userLocation.lat, lng: userLocation.lng });
       initialPosition();
     }
-  }, [userLocation, getStoreArray]);
+  }, [userLocation, initialPosition,getStoreArray,setMapCenter]);  
 
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}>

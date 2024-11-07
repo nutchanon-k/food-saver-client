@@ -74,6 +74,7 @@ const useMapStore = create((set, get) => ({
       radius: 2,
       latitude: userLocation.lat,
       longitude: userLocation.lng,
+      products: true,
     })
   },
 }));

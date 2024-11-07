@@ -5,6 +5,7 @@ import SearchBar from "./SearchBar";
 import ProductCard from "../card/ProductCard";
 import { LocateFixed } from "lucide-react";
 import useCartStore from "../../stores/cartItemStore";
+import FilterComponent from "../buyer/FilterComponent";
 
 export default function StoreList() {
   const stores = useMapStore((state) => state.stores);
@@ -20,6 +21,7 @@ export default function StoreList() {
   useEffect(() => {
     getCart();
     console.log(cart);
+    console.log(activeMarker);
   }, [activeMarker]);
 
   return (
@@ -37,6 +39,7 @@ export default function StoreList() {
               >
                 <LocateFixed size={19} />
               </button>
+              <FilterComponent/>
             </div>
             <hr className="invisible md:visible" />
           </div>
