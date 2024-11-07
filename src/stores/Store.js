@@ -12,9 +12,9 @@ const useStore = create(persist((set, get) => ({
 
     setSearchText : (text) => {
         set({searchText : text})
-    }
-    
-  
+    },
+
+   
     
   }),{
     name: "Store",
