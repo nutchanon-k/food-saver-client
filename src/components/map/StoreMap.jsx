@@ -11,7 +11,6 @@ import Markers from "./Markers";
 import { Circle } from "lucide-react";
 
 export default function StoreMap() {
-  // const apiKey = import.meta.env.VITE_GOOGLE_MAP_API_KEY.split("=")[1];
   const activeMarker = useMapStore((state) => state.activeMarker);
   const setActiveMarker = useMapStore((state) => state.setActiveMarker);
   const defaultPosition = useMapStore((state) => state.defaultPosition);
@@ -26,8 +25,6 @@ export default function StoreMap() {
   const setZoom = useMapStore((state) => state.setZoom);
   const center = useMapStore((state) => state.center);
   const setCenter = useMapStore((state) => state.setCenter);
-  // const [zoom, setZoom] = useState(10);
-  // const [center, setCenter] = useState(defaultPosition);
 
   const handleMapClick = (event) => {
     const lat = event.detail.latLng.lat;
@@ -35,32 +32,29 @@ export default function StoreMap() {
     setMapCenter({ lat, lng });
     getStoreArray({
       radius: 2,
-      latitude: lat, // Use lat directly instead of mapCenter.lat
-      longitude: lng, // Use lng directly instead of mapCenter.lng
+      latitude: lat,
+      longitude: lng,
+      products: true,
     });
   };
 
-  // Fetch user location and store array on initial load
   useEffect(() => {
     getUserLocation();
   }, []);
 
-  // Fetch nearby stores whenever userLocation updates
-
-  // Fetch nearby stores whenever userLocation updates
   useEffect(() => {
     if (userLocation.lat && userLocation.lng) {
       getStoreArray({
         radius: 2,
         latitude: userLocation.lat,
         longitude: userLocation.lng,
+        products: true,
       });
       setMapCenter({ lat: userLocation.lat, lng: userLocation.lng });
       initialPosition();
     }
-  }, [userLocation, getStoreArray]);
+  }, [userLocation, initialPosition,getStoreArray,setMapCenter]);  
 
-  console.log(import.meta.env.VITE_GOOGLE_MAP_API_KEY);
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}>
       <div className="h-full w-full bg-red-500">
@@ -123,9 +117,9 @@ export default function StoreMap() {
                 lng: activeMarker.longitude,
               }}
               maxWidth={300}
-              onCloseClick={() => setActiveMarker(null)} // Close InfoWindow
+              onCloseClick={() => setActiveMarker(null)}
             >
-              <div className=" flex flex-col">
+              <div className="flex flex-col">
                 <h2 className="text-lg font-bold">{activeMarker.storeName}</h2>
                 <div className="flex gap-2 items-center">
                   <img className="h-[50px]" src={activeMarker.profilePicture} />
