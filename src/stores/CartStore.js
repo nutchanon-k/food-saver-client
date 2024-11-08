@@ -50,7 +50,7 @@ const useCartStore = create(persist((set, get) => ({
         // console.log('hi patch Store' )
         return result.data
         }catch(err){
-
+          console.log(err)
         }
     },
     
