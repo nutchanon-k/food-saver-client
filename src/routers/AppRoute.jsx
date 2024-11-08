@@ -20,6 +20,12 @@ import AdminProfile from "../pages/admin/AdminProfile";
 import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
+import Store from "../pages/Store";
+import HomePage from "../pages/HomePage";
+import VerifyPayment from "../pages/VerifyPayment";
+import OrderSuccess from "../pages/OrderSuccess";
+import OrderFailed from "../pages/OrderFailed";
+
 import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
 
@@ -60,11 +66,15 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
-        {index: true, element: <MapPage />},
+      {index: true, element: <MapPage />},
+      { path: "/Home", element: <HomePage /> },
         {path: "/map",element: <MapPage />},
         {path:"store/:storeId",element:<Store />},
         {path:"cart",element:<Cart />},
         {path:"order",element:<Order/>},
+        { path: "verify", element: <VerifyPayment /> },      
+      { path: "order-success", element: <OrderSuccess /> },
+      { path: "order-failed", element: <OrderFailed /> },
         // {index: true, element: <Dashboard />},
         // {path: "manage-user", element: <ManageUser />},
         // {path: "manage-charity", element: <ManageCharity />},
