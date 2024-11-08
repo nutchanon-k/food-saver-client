@@ -7,7 +7,7 @@ const BuyerLayout = () => {
       {/* Navbar section */}
       <div className="h-16 bg-white shadow-md flex items-center px-4">
         {/* Replace with your actual navbar content */}
-        <div className="text-lg font-semibold">Navbar</div>
+        <div className="text-lg font-semibold">asdasdasdasdasdasssssssss</div>
       </div>
 
       {/* Main content area */}

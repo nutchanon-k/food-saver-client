@@ -6,10 +6,13 @@ export default function StoreCard({ store }) {
   const setActiveMarker = useMapStore((state) => state.setActiveMarker); 
   const isActive = activeMarker && activeMarker.id === store.id;
 
+  if (!store || store.latitude === undefined || store.longitude === undefined) {
+    return null; // or a loading placeholder
+  }
+
   const handleClick = () => {
     setActiveMarker(store);
   };
-
 
   const placeholderImageUrl =
     "https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141353.jpg";

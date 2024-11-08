@@ -2,10 +2,25 @@ import { create } from "zustand";
 import { getStoreArray } from "../API/storeApi";
 
 const useMapStore = create((set, get) => ({
-  stores: [], // Correctly initialize the stores array
-  userLocation: {},
   mapCenter: {},
   searchStore: {},
+  stores: [],
+  userLocation: { lat: null, lng: null }, // Initialize lat and lng with null
+  filter: {
+    latitude: 0, // Initializing with a value or null if appropriate
+    longitude: 0,
+    radius: 2,
+    category: "",
+    allergen: "",
+  },
+  setFilter: (newFilter) =>
+    set((prev) => ({
+      ...prev,
+      filter: {
+        ...prev.filter, // Spread existing filter properties
+        ...newFilter,   // Overwrite with new properties from newFilter
+      },
+    })),
   zoom: 10,
   setZoom: (zoom) =>
     set((prev) => ({
@@ -37,7 +52,8 @@ const useMapStore = create((set, get) => ({
     })),
   getStoreArray: async (queryObj) => {
     try {
-      const allStores = await getStoreArray(queryObj); // Await the async function
+      const {category,allergen,...remainQuery} = queryObj
+      const allStores = await getStoreArray(remainQuery); // Await the async function
       console.log(allStores);
       set({ stores: allStores }); // Update the state with the fetched stores
     } catch (error) {
@@ -61,7 +77,8 @@ const useMapStore = create((set, get) => ({
     }
   },
   initialPosition: () => {
-    const { userLocation, setZoom, setCenter, setMapCenter ,getStoreArray } = get();
+    const { userLocation, setZoom, setCenter, setMapCenter, getStoreArray } =
+      get();
     setZoom(15);
     setCenter(userLocation);
     setMapCenter(userLocation); // Add this line to update marker position
@@ -75,7 +92,7 @@ const useMapStore = create((set, get) => ({
       latitude: userLocation.lat,
       longitude: userLocation.lng,
       products: true,
-    })
+    });
   },
 }));
 
