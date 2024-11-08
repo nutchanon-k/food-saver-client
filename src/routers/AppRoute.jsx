@@ -28,7 +28,11 @@ import OrderFailed from "../pages/OrderFailed";
 
 import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
-
+import SellerDashboard from "../pages/seller/SellerDashboard";
+import SellerProfile from "../pages/seller/SellerProfile";
+import ManageProduct from "../pages/seller/ManageProduct";
+import ManageOrder from "../pages/seller/ManageOrder";
+import { Inbox } from "lucide-react";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -39,11 +43,6 @@ const guestRouter = createBrowserRouter([
   { path: "forgetPassword", element: <ForgetPassword /> },
   { path: "*", element: <LandingPage /> },
 ]);
-
-
-
-
-
 
 const adminRouter = createBrowserRouter([
   {
@@ -56,8 +55,8 @@ const adminRouter = createBrowserRouter([
       { path: "manage-user", element: <ManageUser /> },
       { path: "manage-charity", element: <ManageCharity /> },
       { path: "manage-store", element: <ManageStore /> },
-      { path: "*", element: <Dashboard />},
-    ]
+      { path: "*", element: <Dashboard /> },
+    ],
   },
 ]);
 
@@ -94,12 +93,12 @@ const sellerRouter = createBrowserRouter([
     path: "/",
     element: <SellerLayout />,
     children: [
-        // {index: true, element: <Dashboard />},
-    //     {path: "manage-user", element: <ManageUser />},
-    //     {path: "manage-charity", element: <ManageCharity />},
-    //     {path: "manage-store", element: <ManageStore/>},
-        {path: "*", element: <NotFound  />},
-    ]
+      { index: true, element: <SellerDashboard /> },
+      { path: "seller-profile", element: <SellerProfile /> },
+      { path: "manage-product", element: <ManageProduct /> },
+      { path: "manage-order", element: <ManageOrder /> },
+      { path: "*", element: <NotFound /> },
+    ],
   },
   {
     path: "/user",
@@ -121,14 +120,12 @@ const finalRouter = (role,isAuthenticate) => {
   } else {
     return guestRouter;
   }
-
-}
-
+};
 
 export default function AppRoute() {
-  const getMe = useUserStore(state => state.getMe)
-  const user = useUserStore(state => state.user)
-  const isAuthenticated = useUserStore(state => state.isAuthenticated)
+  const getMe = useUserStore((state) => state.getMe);
+  const user = useUserStore((state) => state.user);
+  const isAuthenticated = useUserStore((state) => state.isAuthenticated);
 
   useEffect(() => {
     const loadUser = async () => {
