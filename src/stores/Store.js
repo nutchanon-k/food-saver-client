@@ -14,6 +14,7 @@ const useStore = create(persist((set, get) => ({
         set({searchText : text})
     }
     
+    
   
     
   }),{

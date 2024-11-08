@@ -214,6 +214,7 @@ const useUserStore = create(persist((set, get) => ({
   patchSellerProfile : async (body,storeId) => {
     try {
       const data = await patchSellerAPI(body,storeId)
+      console.log(data)
       return data
     } catch (error) {
       console.log(error)

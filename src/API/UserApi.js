@@ -38,6 +38,12 @@ export const getUserByQueryAPI = async (page, searchText, roleFilter) => {
     return await axiosInstance.get(`/users?page=${page}&limit=10&search=${searchText}&role=${roleFilter}`);
 }
 
-export const patchSellerAPI = async (body,storeId) =>{
+export const patchSellerAPI = async (storeId,body) =>{
+    console.log("update",body,storeId)
     return await axiosInstance.patch(`http://localhost:8000/stores/${storeId}`,body)
+}
+
+
+export const deleteStoreAPI = async (storeId) =>{
+    return await axiosInstance.delete(`/stores/${storeId}`)
 }
