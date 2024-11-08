@@ -20,6 +20,7 @@ import AdminProfile from "../pages/admin/AdminProfile";
 import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
+
 import { use } from "framer-motion/client";
 import SellerProfile from "../pages/seller/SellerProfile";
 import SellerEdit from "../pages/seller/SellerEdit";
@@ -30,6 +31,7 @@ import OrderSuccess from "../pages/OrderSuccess";
 import OrderFailed from "../pages/OrderFailed";
 
 import AdminEditProfile from "../pages/admin/AdminEditProfile";
+
 
 import SellerDashboard from "../pages/seller/SellerDashboard";
 import SellerProfile from "../pages/seller/SellerProfile";
@@ -68,6 +70,9 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
+
+
+
       { index: true, element: <MapPage /> },
       { path: "/Home", element: <HomePage /> },
       { path: "/map", element: <MapPage /> },
@@ -83,6 +88,7 @@ const buyerRouter = createBrowserRouter([
       // {path: "manage-store", element: <ManageStore/>},
       // {path: "*", element: <NotFound  />},
     ],
+
   },
   {
     path: "/user",

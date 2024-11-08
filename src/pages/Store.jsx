@@ -14,6 +14,7 @@ const Store = () => {
     const addCartData = useCartStore((state) => state.addCartData)
     const ChangeQuantityItem = useCartStore((state) => state.ChangeQuantityItem)
     const getCartData = useCartStore((state) => state.getCartData)
+    const DeleteCartItem = useCartStore((state)=>state.DeleteCartItem)
 
     useEffect(() => {
         StoreData()
@@ -95,11 +96,20 @@ const Store = () => {
             if (Array.isArray(cartData)) {
                 const cartItem = cartData.find(cart => cart.productId === productId);
 
+
                 if (cartItem && cartItem.quantity >= 0) {
+
                     // อัพเดทจำนวนสินค้าในตะกร้า
                     const response = await ChangeQuantityItem(cartItem.id, cartItem.quantity - 1);
                     console.log('Cart updated');
                     CartData(); // รีเฟรชข้อมูลตะกร้า
+                }
+                if(cartItem && cartItem.quantity == 1){
+                    setCartData(prevCart => prevCart.filter(item => item.id !== cartItem.id));
+                    const response = await DeleteCartItem(cartItem.id);
+                    console.log('Cart updated');
+                    CartData(); 
+                    
                 }
             }
         } catch (err) {
@@ -109,7 +119,8 @@ const Store = () => {
 
     const mapStoreData = storeData.products?.map((item, index) => {
         const cartItem = Array.isArray(cartData) ?
-            cartData.find(cart => cart.productId === item.id) : null;
+        cartData.find(cart => cart.productId === item.id) : null;
+            
 
         return <div key={item.id} className="hover:bg-gray-50 transition-colors">
             <div className="flex p-4 border-b">
@@ -157,7 +168,8 @@ const Store = () => {
 
 
     return (
-        <div className="max-w-lg mx-auto bg-white min-h-screen pb-20"> {/* เพิ่ม pb-20 เพื่อให้เนื้อหาไม่ถูกปุ่มตะกร้าบัง */}
+       <div className="relative h-screen flex flex-col max-w-lg mx-auto bg-white">
+        <div className="flex-1 overflow-y-auto">
             {/* Restaurant Header */}
             <div className="relative h-48">
                 <img
@@ -206,35 +218,33 @@ const Store = () => {
             </div>
 
             {/* Menu Items */}
-            <div>
-
-
+            <div className="pb-24">
                 {mapStoreData}
             </div>
+        </div>
 
-            {/* Fixed Cart Button */}
-            {/* Fixed Cart Button */}
-            <div className="fixed bottom-0 left-0 right-0 max-w-lg mx-auto bg-white border-t shadow-lg">
-                <div className="flex items-center justify-between p-4">
-                    <div className="flex items-center space-x-3">
-                        <ShoppingCart className="w-6 h-6 text-blue-600" />
-                        <div>
-                            <p className="text-sm text-gray-600">จำนวนสินค้าในตะกร้า</p>
-                            <p className="font-medium text-blue-600">
-                                {Array.isArray(cartData) ? cartData.reduce((total, item) => total + item.quantity, 0) : 0} ชิ้น
-                            </p>
-                        </div>
+        {/* Fixed Cart Button */}
+        <div className="sticky bottom-0 left-0 right-0 w-full bg-white border-t shadow-lg">
+            <div className="flex items-center justify-between p-4">
+                <div className="flex items-center space-x-3">
+                    <ShoppingCart className="w-6 h-6 text-blue-600" />
+                    <div>
+                        <p className="text-sm text-gray-600">จำนวนสินค้าในตะกร้า</p>
+                        <p className="font-medium text-blue-600">
+                            {Array.isArray(cartData) ? cartData.reduce((total, item) => total + item.quantity, 0) : 0} ชิ้น
+                        </p>
                     </div>
-                    <button
-                        onClick={() => navigate('/cart')}
-                        className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-all transform hover:scale-105 active:scale-95 shadow-md"
-                    >
-                        <span>ดูตะกร้า</span>
-                        <ChevronRight className="w-5 h-5" />
-                    </button>
                 </div>
+                <button
+                    onClick={() => navigate('/cart')}
+                    className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-all transform hover:scale-105 active:scale-95 shadow-md"
+                >
+                    <span>ดูตะกร้า</span>
+                    <ChevronRight className="w-5 h-5" />
+                </button>
             </div>
         </div>
+    </div>
     )
 }
 
