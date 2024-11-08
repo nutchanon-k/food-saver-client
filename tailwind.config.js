@@ -20,6 +20,15 @@ export default {
         "base-100" : "#ffffff"  //white bg color
       }
     }],
+    fontFamily: {
+        sans: ['Poppins', 'sans-serif'], // Replace 'Poppins' with your chosen font
+      },
+      
+  },
+
+  fontSize: {
+    'hero': '2.5rem', // Custom font size for large headings
+    'subheading': '1.125rem', // Adjust as needed
   },
 
  

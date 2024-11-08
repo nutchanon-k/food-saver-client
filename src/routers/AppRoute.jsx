@@ -20,6 +20,7 @@ import AdminProfile from "../pages/admin/AdminProfile";
 import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
+import HomePage from "../pages/HomePage";
 
 
 const router = createBrowserRouter([
@@ -89,7 +90,8 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
-        {index: true, element: <MapPage />},
+      {index: true, element: <MapPage />},
+      { path: "/Home", element: <HomePage/> },
         {path: "/map",element: <MapPage />},
         {path:"cart",element:<Cart />},
         {path:"order",element:<Order/>}

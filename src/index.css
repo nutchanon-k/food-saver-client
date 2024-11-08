@@ -1,3 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.7s ease-in-out forwards;
+  }
+
+  @keyframes slideInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .animate-slide-in-left {
+    animation: slideInLeft 0.7s ease-in-out forwards;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    margin: 0 -100px; /* Add horizontal margin to prevent overlap */
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Hover effect */
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    opacity: 1;
+  }
+  
