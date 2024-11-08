@@ -21,7 +21,7 @@ import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
 import AdminEditProfile from "../pages/admin/AdminEditProfile";
-
+import Store from "../pages/Store"
 
 
 const guestRouter = createBrowserRouter([
@@ -62,7 +62,7 @@ const buyerRouter = createBrowserRouter([
     children: [
         {index: true, element: <MapPage />},
         {path: "/map",element: <MapPage />},
-        {path:"store/:storeId",element:<Store />},
+        {path:"store/:storeId",element:<Store/>},
         {path:"cart",element:<Cart />},
         {path:"order",element:<Order/>},
         // {index: true, element: <Dashboard />},
