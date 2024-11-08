@@ -12,10 +12,6 @@ const Login = () => {
 
     const [isShowPassword, setIsShowPassword] = useState(false);
 
-<<<<<<< HEAD
-   const [isShowPassword,setIsShowPassword] = useState(false)
-
-=======
     const hdlOnChange = (e) => {
         setFormLogin({
             ...formLogin,
@@ -26,51 +22,12 @@ const Login = () => {
     const hdlSubmit = async (e) => {
         try {
             e.preventDefault()
->>>>>>> dev
 
             if (!formLogin.email.trim() || !formLogin.password.trim()) {
                 alert('Please fill in both email and password.')
                 return
             }
 
-<<<<<<< HEAD
-   const hdlOnChange = (e) => {
-    setFormLogin({
-        ...formLogin,
-        [e.target.name] : e.target.value
-    })
-    console.log(formLogin)
-
-
-   }
-   
-
-   const hdlSubmit = (e) => {
-    try{
-        if (!formLogin.email.trim() || !formLogin.password.trim()){
-            alert('please fill email or password ')
-            return
-        }
-        
-
-        const body = formLogin
-        console.log('sayhi',body)
-        const data = hdlLogin(body)
-        alert('loginSuccess' )
-        e.preventDefault()
-        
-    }catch(error){
-        alert(error)
-
-    }
-   }
-
-   //Tirawat11@gmail.com tirawat123456
-
-  
-
-    
-=======
             const body = formLogin
             const data = await hdlLogin(body)
             console.log(data)
@@ -91,7 +48,6 @@ const Login = () => {
             alert(error)
         }
     };
->>>>>>> dev
 
     return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 ">
@@ -114,27 +70,12 @@ const Login = () => {
                         <label className="block text-gray-800 text-sm">Password</label>
                         <div className="relative">
                             <input
-<<<<<<< HEAD
-                                type={isShowPassword? 'text' :'password'}
-=======
                                 type={isShowPassword ? "text" : "password"}
                                 name="password"
->>>>>>> dev
                                 placeholder="Enter password"
                                 onChange={hdlOnChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
-<<<<<<< HEAD
-                            <button className="absolute right-3 top-1/2 -translate-y-1/2"
-                            onClick={()=>setIsShowPassword(!isShowPassword)}
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                                </svg>
-                            </button>
-                        </div>
-                        <button onClick={()=>navigate('/forgetPassword')} className="text-orange-500 text-sm">Forgot password?</button>
-=======
                             <button
                                 type="button"
                                 className="absolute right-3 top-1/2 -translate-y-1/2"
@@ -186,7 +127,6 @@ const Login = () => {
                         >
                             Forgot password?
                         </button>
->>>>>>> dev
                     </div>
 
                     <button
@@ -220,9 +160,6 @@ const Login = () => {
 
                     <div className="text-center text-sm">
                         <span className="text-gray-600">Do not have an account? </span>
-<<<<<<< HEAD
-                        <button onClick={()=>navigate('/selectRegister')} className="text-orange-500">Register</button>
-=======
                         <button
                             type="button"
                             onClick={() => navigate("/selectRegister")}
@@ -230,7 +167,6 @@ const Login = () => {
                         >
                             Register
                         </button>
->>>>>>> dev
                     </div>
 
                     <div className="text-center text-sm">

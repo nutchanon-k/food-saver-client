@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import { Outlet } from "react-router-dom";
 
@@ -8,7 +7,7 @@ const BuyerLayout = () => {
       {/* Navbar section */}
       <div className="h-16 bg-white shadow-md flex items-center px-4">
         {/* Replace with your actual navbar content */}
-        <div className="text-lg font-semibold">asdasdasdasdasdasssssssss</div>
+        <div className="text-lg font-semibold">Navbar</div>
       </div>
 
       {/* Main content area */}
@@ -20,17 +19,3 @@ const BuyerLayout = () => {
 };
 
 export default BuyerLayout;
-=======
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-
-const BuyerLayout = () => {
-  return (
-    <div>
-      <Outlet />
-    </div>
-  )
-}
-
-export default BuyerLayout
->>>>>>> dev

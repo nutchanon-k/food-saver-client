@@ -255,43 +255,7 @@ const MerchantRegister = () => {
                             Login
                         </button>
                     </div>
-<<<<<<< HEAD
-                </div>
-
-                <div className="text-sm text-gray-600">
-                    By clicking <span className="font-medium">Create account</span>, you agree to the system's{" "}
-                    <a href="#" className="text-blue-600 hover:underline">Terms and policies</a>
-                </div>
-
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                    onClick={(e)=>hdlSubmit()}
-                >
-                    Register
-                </button>
-
-                <div className="text-center text-gray-500">or</div>
-
-                <button
-                    type="button"
-                    className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                    <img
-                        src="/api/placeholder/24/24"
-                        alt="Google logo"
-                        className="w-6 h-6"
-                    />
-                    Continue with Google
-                </button>
-
-                <div className="text-center text-sm">
-                    Do  have an account?{" "}
-                    <h1 onClick={()=>navigate('/login')}  className="text-blue-600 hover:underline" >login </h1>
-                </div>
-=======
                 </form>
->>>>>>> dev
             </div>
         </div>
     );
