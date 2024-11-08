@@ -18,3 +18,12 @@ export const getStoreDataAPI = async (storeId) => {
 }
 
 
+
+export const getStoreByQueryAPI = async (page, searchText, verifyFilter) => {
+  return await axiosInstance.get(`/stores?page=${page}&limit=10&search=${searchText}&sortBy=id&sortOrder=desc&isVerify=${verifyFilter}`);
+}
+
+export const verifyStoreAPI = async (id) => {
+  return await axiosInstance.patch(`/stores/${id}/isVerify`);
+}
+
