@@ -96,7 +96,9 @@ const Store = () => {
             if (Array.isArray(cartData)) {
                 const cartItem = cartData.find(cart => cart.productId === productId);
 
-                if (cartItem && cartItem.quantity > 1) {
+
+                if (cartItem && cartItem.quantity >= 0) {
+
                     // อัพเดทจำนวนสินค้าในตะกร้า
                     const response = await ChangeQuantityItem(cartItem.id, cartItem.quantity - 1);
                     console.log('Cart updated');
