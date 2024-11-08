@@ -16,7 +16,13 @@ export const getStoreArray = async (filters = {}) => {
     console.error('Error fetching store array:', error.response || error.message);
     throw error;
   }
-};
+}
+
+export const getStoreDataAPI = async (storeId) => {
+  console.log(storeId)
+  return axiosInstance.get(`/stores/?${storeId}`) 
+}
+
 
 /**
  * Fetches specific store data by store ID.

@@ -15,6 +15,7 @@ export const DeleteCartItemAPI = async (itemId ) => {
 
 
 export const addCartItem = async (body) => {
+    console.log(body)
     return await axiosInstance.post('/cart-items',body)
 }
 
