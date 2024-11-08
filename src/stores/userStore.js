@@ -1,6 +1,7 @@
 
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
+import { getCartDataAPI } from '../API/cartItemAPI';
 import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI } from "../API/UserApi";
 import { all } from 'axios';
 
@@ -13,6 +14,7 @@ const useUserStore = create(persist((set, get) => ({
     user: null,
     token: "",
     allUser: [],
+    isAuthenticated: false,
     // maintenanceMembers: [],
     // locationData: [],
     // departmentData: [],
@@ -25,9 +27,9 @@ const useUserStore = create(persist((set, get) => ({
     hdlLogin: async (body) => {
       try{
         const result = await loginAPI(body)
-        // set({ token: result.data.token, user: result.data.user })
-        console.log(result.data)
+        set({ user: result.data.user ,token: result.data.token, isAuthenticated: true})
         localStorage.setItem('token', result.data.token);
+        return result.data
       }catch(err){
         console.log(err)
       }
@@ -46,18 +48,15 @@ const useUserStore = create(persist((set, get) => ({
       set({ 
         user: null, 
         token: "",
-        maintenanceMembers: [],
-        locationData: [],
-        departmentData: [],
+        isAuthenticated: false,
         allUser : [],
-        currentUser : null 
+        
       })
-        localStorage.removeItem("accessToken");
+        localStorage.removeItem("userStore");
         localStorage.removeItem("token");
        
     },
-  
-    
+
 
   
     createUser : async (body) => {
@@ -70,22 +69,23 @@ const useUserStore = create(persist((set, get) => ({
         
       }
     },
+
+    
   
     
   
     
   
  
-    //   }
-    // },
 
     getMe : async () => {
       try{
         const result = await getMeAPI()
-        set({user : result.data})
+        set({user : result.data, isAuthenticated: true})
         return result
       }catch(error){
         console.log(error)
+        set({ user: null, isAuthenticated: false })
       }
     },
 

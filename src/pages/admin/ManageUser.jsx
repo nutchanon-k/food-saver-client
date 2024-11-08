@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import React, { useEffect, useState } from 'react';
 // import useUserStore from '../../stores/userStore';
 // import Swal from 'sweetalert2'
@@ -323,22 +324,20 @@
 
 
 
+=======
+>>>>>>> dev
 import React, { useEffect, useState } from 'react';
 import useUserStore from '../../stores/userStore';
 import Swal from 'sweetalert2';
-import axiosInstance from '../../API/Interceptor';
 import useSearchStore from '../../stores/SearchStore';
 import Pagination from '../../components/Pagination';
 import { getUserByQueryAPI } from '../../API/UserApi';
 
 const ManageUser = () => {
-    const getAllUser = useUserStore(state => state.getAllUser);
-    const allUser = useUserStore(state => state.allUser);
     const activateUser = useUserStore(state => state.activateUser);
     const searchText = useSearchStore(state => state.searchText);
 
     const [user, setUser] = useState(null);
-    // const [countUser, setCountUser] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isOpen, setIsOpen] = useState(false);
@@ -348,7 +347,6 @@ const ManageUser = () => {
     const fetchUser = async (page) => {
         try {
             const result = await getUserByQueryAPI(page, searchText, roleFilter);
-            // setCountUser(result?.data.countUser);
             setTotalPages(result?.data.totalPages);
             setUser(result?.data.data);
         } catch (error) {
@@ -408,7 +406,7 @@ const ManageUser = () => {
                         icon: "success"
                     });
                 } else if (
-                    /* Read more about handling dismissals below */
+                    
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
                     swalWithBootstrapButtons.fire({
@@ -496,12 +494,12 @@ const ManageUser = () => {
                         <table className="w-full  text-left">
                             <thead>
                                 <tr>
-                                    <th className="pb-2 border-b text-center">Profile</th>
-                                    <th className="pb-2 border-b text-center">Name</th>
+                                    <th className="pb-2 border-b text-center">รูปภาพ</th>
+                                    <th className="pb-2 border-b text-center">ชื่อ</th>
                                     <th className="pb-2 border-b text-center">Email</th>
                                     <th className="pb-2 border-b text-center">Role</th>
-                                    <th className="pb-2 border-b text-center">View Profile</th>
-                                    <th className="pb-2 border-b text-center">Status</th>
+                                    <th className="pb-2 border-b text-center">รายละเอียด</th>
+                                    <th className="pb-2 border-b text-center">สถานะ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -571,6 +569,8 @@ const ManageUser = () => {
                     </div>
                 </div>
             </div>
+
+            {/* User Detail Modal */}
             <dialog id="user_detail_modal" className="modal" onClose={() => { setIsOpen(false) }}>
                 <div className="modal-box">
 
@@ -581,19 +581,22 @@ const ManageUser = () => {
                     >
                         ✕
                     </button>
-                    <div className="card xl:card-side ">
+                    <h2 className="card-title -mb-5 ">ข้อมูลผู้ใช้งาน</h2>
+                    <div className="card xl:card-side w-full">
                         <figure>
                             <img
                                 src={userData.profilePicture}
-                                alt="Album" />
+                                alt="Album" 
+                                className='w-60  object-cover' 
+                                />
+                                
                         </figure>
-                        <div className="card-body">
-                            <h2 className="card-title">User Detail</h2>
-                            <p>Name : {userData.firstName + ' ' + userData.lastName}</p>
+                        <div className="card-body w-100">
+                            <p>ชื่อ : {userData.firstName + ' ' + userData.lastName}</p>
                             <p>Email : {userData.email}</p>
-                            <p>Phone : {userData.phoneNumber}</p>
+                            <p>เบอร์โทรศัพท์ : {userData.phoneNumber}</p>
                             <p>Role : {userData.role}</p>
-                            <p>Address : {userData.address}</p>
+                            <p>ที่อยู่ : {userData.address}</p>
                         </div>
                     </div>
 
