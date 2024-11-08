@@ -2,14 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { CloudUpload } from "lucide-react";
 import useUserStore from "../../stores/userStore";
 import { getMeAPI, patchSellerAPI, deleteStoreAPI } from "../../API/UserApi";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const MerchantPro = () => {
   const [isOpen, setIsOpen] = useState(false);
   const store = useUserStore((state) => state.user.store);
+  
+  const navigate = useNavigate();
 
   console.log(store);
+
+  
 
   const handleDelete = async (id) => {
     
@@ -37,6 +41,10 @@ const MerchantPro = () => {
           try {
             const result = await deleteStoreAPI(id);
             
+            localStorage.removeItem("token","userStore");
+            // useUserStore.setState({ user: null },{token:null});
+
+            navigate("/");
           } catch (error) {
             console.log(error);
           }
@@ -80,7 +88,7 @@ const MerchantPro = () => {
         <div className="flex flex-col justify-center items-center mb-6 ">
           <img
             className="w-3/4 h-full border-2 "
-            src={store.profilePicture}
+            src={store?.profilePicture}
             alt="profile"
           />
         </div>
