@@ -22,6 +22,7 @@ import Cart from "../pages/Cart";
 import Order from "../pages/Order";
 import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
+import Store from "../pages/Store";
 
 
 const guestRouter = createBrowserRouter([

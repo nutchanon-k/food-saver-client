@@ -106,7 +106,7 @@ const Store = () => {
             console.error('Error updating cart:', err);
         }
     };
-
+   
     const mapStoreData = storeData.products?.map((item, index) => {
         const cartItem = Array.isArray(cartData) ?
             cartData.find(cart => cart.productId === item.id) : null;
@@ -155,7 +155,7 @@ const Store = () => {
         </div>
     })
 
-
+    console.log("storedata",storeData)
     return (
         <div className="max-w-lg mx-auto bg-white min-h-screen pb-20"> {/* เพิ่ม pb-20 เพื่อให้เนื้อหาไม่ถูกปุ่มตะกร้าบัง */}
             {/* Restaurant Header */}

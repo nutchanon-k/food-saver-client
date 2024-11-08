@@ -14,7 +14,7 @@ export const getStoreArray = async (filters = {}) => {
 
 export const getStoreDataAPI = async (storeId) => {
   console.log(storeId)
-  return axiosInstance.get(`/stores/?${storeId}`) 
+  return axiosInstance.get(`/stores/?id=${storeId}&products=true`) 
 }
 
 
