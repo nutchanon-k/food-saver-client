@@ -1,51 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import useUserStore from '../../stores/userStore';
 import Swal from 'sweetalert2';
-import axiosInstance from '../../API/Interceptor';
 import useSearchStore from '../../stores/SearchStore';
 import Pagination from '../../components/Pagination';
-import { getUserByQueryAPI } from '../../API/UserApi';
 import useFoundationStore from '../../stores/FoundationStore';
+import { CloseIcon, UploadIcon } from '../../assets/icons/Icons';
+import { Pencil, Trash2 } from 'lucide-react';
+import { div } from 'framer-motion/client';
 
 const ManageCharity = () => {
-  const getAllUser = useUserStore(state => state.getAllUser);
-  const allUser = useUserStore(state => state.allUser);
-  const activateUser = useUserStore(state => state.activateUser);
   const searchText = useSearchStore(state => state.searchText);
   const getFoundationQuery = useFoundationStore(state => state.getFoundationQuery);
+  const createFoundation = useFoundationStore(state => state.createFoundation);
+  const deleteFoundation = useFoundationStore(state => state.deleteFoundation);
+  const updateFoundation = useFoundationStore(state => state.updateFoundation);
 
-  const [user, setUser] = useState(null);
+
   const [foundation, setFoundation] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
-  const [foundationData, setFoundationData] = useState({});
+  const [foundationData, setFoundationData] = useState({
+    name: '',
+    contactInfo: '',
+    address: '',
+  });
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+
+  //for edit 
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [foundationDataForEdit, setFoundationDataForEdit] = useState({})
 
 
 
-  console.log(foundation)
-
-  // const fetchUser = async (page) => {
-  //     try {
-  //         const result = await getUserByQueryAPI(page, searchText, roleFilter);
-  //         setTotalPages(result?.data.totalPages);
-  //         setUser(result?.data.data);
-  //     } catch (error) {
-  //         console.log(error);
-  //     }
-  // };
+  const fetchData = async () => {
+    try {
+      const result = await getFoundationQuery(currentPage, searchText);
+      // console.log(result)
+      setTotalPages(result?.totalPages);
+      setFoundation(result?.foundation);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getFoundationQuery(currentPage, searchText);
-        console.log(result)
-        setTotalPages(result?.totalPages);
-        setFoundation(result?.foundation);
-      } catch (error) {
-        console.log(error);
-      }
-    }
     fetchData();
   }, [currentPage, searchText]);
 
@@ -56,123 +57,191 @@ const ManageCharity = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  const toggleStatus = async (id) => {
-    let index = user.findIndex((user) => user.id === id);
-    if (user[index].isActive === true) {
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: "btn btn-success ml-2",
-          cancelButton: "btn btn-error mr-2"
-        },
-        buttonsStyling: false
-      });
-      swalWithBootstrapButtons.fire({
-        title: "Are you sure?",
-        text: "Do you want to deactivate this user!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, deactivate it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          try {
 
-            const result = await activateUser(id);
-            if (result) {
-              console.log("success")
-            }
-            setUser(
-              user.map(user =>
-                user.id === id ? { ...user, isActive: !user.isActive } : user
-              )
-            );
-          } catch (error) {
-            console.log(error)
-          }
-          swalWithBootstrapButtons.fire({
-            title: "Deactivated!",
-            text: "User has been deactivated.",
-            icon: "success"
-          });
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons.fire({
-            title: "Cancelled",
-            text: "User is safe :)",
-            icon: "error"
-          });
-        }
-      });
-    } else {
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: "btn btn-success ml-2",
-          cancelButton: "btn btn-error mr-2"
-        },
-        buttonsStyling: false
-      });
-      swalWithBootstrapButtons.fire({
-        title: "Are you sure?",
-        text: "Do you want to activate this user!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, activate it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          try {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFoundationData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
 
-            const result = await activateUser(id);
-            if (result) {
-              console.log("success")
-            }
-            setUser(
-              user.map(user =>
-                user.id === id ? { ...user, isActive: !user.isActive } : user
-              )
-            );
-          } catch (error) {
-            console.log(error)
-          }
-          swalWithBootstrapButtons.fire({
-            title: "Activated!",
-            text: "User has been activated.",
-            icon: "success"
-          });
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons.fire({
-            title: "Cancelled",
-            text: "User still deactivated :)",
-            icon: "error"
-          });
-        }
-      });
+    if (value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: '',
+      }));
+    }
+  };
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setFoundationDataForEdit((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+
+    if (value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: '',
+      }));
     }
   };
 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let validationErrors = {};
+      if (!foundationData.name) validationErrors.name = 'กรุณากรอกชื่อมูลนิธิ';
+      if (!foundationData.contactInfo) validationErrors.contactInfo = 'กรุณากรอกข้อมูลติดต่อ';
+      if (!foundationData.address) validationErrors.address = 'กรุณากรอกที่อยู่มูลนิธิ';
+
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        return;
+      }
+      setLoading(true);
+      const body = new FormData();
+      body.append("name", foundationData.name);
+      body.append("contactInfo", foundationData.contactInfo);
+      body.append("address", foundationData.address);
+      if (image) {
+        body.append("profilePicture", image);
+      }
+
+      const result = await createFoundation(body);
+      if (result) {
+        // setFoundation(prevFoundation => [...prevFoundation, result]);
+        document.getElementById('create_Foundation_modal').close()
+        fetchData()
+        Swal.fire({
+          // position: "top-end",
+          icon: 'success',
+          title: 'เพิ่มมูลนิธิสําเร็จ',
+          showConfirmButton: false,
+          timer: 1500
+        })
+
+      }
+      // console.log(result);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let validationErrors = {};
+      if (!foundationDataForEdit.name) validationErrors.name = 'กรุณากรอกชื่อมูลนิธิ';
+      if (!foundationDataForEdit.contactInfo) validationErrors.contactInfo = 'กรุณากรอกข้อมูลติดต่อ';
+      if (!foundationDataForEdit.address) validationErrors.address = 'กรุณากรอกที่อยู่มูลนิธิ';
+
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        return;
+      }
+      setLoading(true);
+      const body = new FormData();
+      body.append("name", foundationDataForEdit.name);
+      body.append("contactInfo", foundationDataForEdit.contactInfo);
+      body.append("address", foundationDataForEdit.address);
+      if (image) {
+        body.append("profilePicture", image);
+      }
+
+      const result = await updateFoundation(foundationDataForEdit.id, body);
+      if (result) {
+        setFoundation(prevFoundation => prevFoundation.map(foundation => foundation.id === result.id ? result : foundation));
+        document.getElementById('edit_Foundation_modal').close()
+        Swal.fire({
+          // position: "top-end",
+          icon: 'success',
+          title: 'บันทึกข้อมูลสําเร็จ',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+      // console.log(result);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success ml-2",
+        cancelButton: "btn btn-error mr-2"
+      },
+      buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
+      title: "Are you sure?",
+      text: "Do you want to delete this Foundation!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const result = await deleteFoundation(id);
+          if (result) {
+            fetchData()
+          }
+        } catch (error) {
+          console.log(error)
+        }
+        swalWithBootstrapButtons.fire({
+          title: "Deleted!",
+          text: "Foundation has been deleted.",
+          icon: "success"
+        });
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          text: "Foundation is safe :)",
+          icon: "error"
+        });
+      }
+    });
+
+  };
+
+
+
+
+
   return (
     <>
+      {/*Body*/}
       <div className="p-6 min-h-screen flex justify-center items-center">
         <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-6xl min-h-[500px]">
           <div className='flex justify-between items-center'>
             <h2 className="text-3xl font-semibold">Manage Charity</h2>
             <button
               type="button"
-              // onClick={() => setIsOpen(true)}
+              onClick={() => {
+                setIsOpen(true);
+                document.getElementById('create_Foundation_modal').showModal();
+              }}
               className="btn btn-primary btn-outline w-36 text-lg"
             >
               + เพิ่มมูลนิธิ
             </button>
           </div>
           {/* <div className='divider'></div> */}
-          <hr className='my-4'/>
+          <hr className='my-4' />
           <div className='min-h-[880px]'>
 
             <table className="w-full text-left">
@@ -183,13 +252,14 @@ const ManageCharity = () => {
                   <th className="pb-2 border-b text-center">ข้อมูลติดต่อ</th>
                   <th className="pb-2 border-b text-center">ที่อยู่</th>
                   <th className="pb-2 border-b text-center">แก้ไข</th>
+                  <th className="pb-2 border-b text-center">ลบ</th>
                 </tr>
               </thead>
               <tbody>
                 {foundation?.map(foundation => (
                   <tr key={foundation.id} className="hover:bg-gray-50">
                     <td className="py-4 flex items-center space-x-4">
-                      <div className="w-24 h-24  flex items-center justify-center">
+                      <div className="w-24 h-24  flex items-center justify-center overflow-hidden">
                         <img src={foundation.profilePicture} alt="Foundation Avatar" className="" />
                       </div>
                     </td>
@@ -204,13 +274,21 @@ const ManageCharity = () => {
                     </td>
                     <td className="py-4 text-center px-4">
                       <button
+                        type="button"
                         onClick={() => {
-                          setFoundationData(user);
-                          setIsOpen(true);
-                          document.getElementById('Foundation_detail_modal').showModal();
+                          setIsEditOpen(true);
+                          setFoundationDataForEdit(foundation);
+                          document.getElementById('edit_Foundation_modal').showModal();
                         }}
-                        className="bg-yellow-200 text-yellow-800 px-4 py-1 rounded-full">
-                        View
+                        className=" text-yellow-500 px-4 py-1 rounded-full">
+                        <Pencil />
+                      </button>
+                    </td>
+                    <td className="py-4 text-center px-4">
+                      <button
+                        onClick={() => handleDelete(foundation.id)}
+                        className=" text-red-500 px-4 py-1 rounded-full">
+                        <Trash2 />
                       </button>
                     </td>
                   </tr>
@@ -226,35 +304,293 @@ const ManageCharity = () => {
         </div>
       </div>
 
-      {/* Edit Foundation Modal */}
-      <dialog id="Foundation_detail_modal" className="modal" onClose={() => { setIsOpen(false) }}>
-        <div className="modal-box">
 
+      {/* Modal */}
+
+      {/* Create Foundation Modal */}
+      <dialog
+        id="create_Foundation_modal"
+        className="modal"
+        onClose={() => {
+          setIsOpen(false)
+          setErrors({})
+          setImage(null)
+          setFoundationData({
+            name: '',
+            contactInfo: '',
+            address: '',
+          })
+        }}>
+        <form
+          onSubmit={handleSubmit}
+          className="modal-box w-full max-w-4xl">
           <button
-            type='button'
+            type="button"
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
             onClick={e => e.target.closest('dialog').close()}
           >
             ✕
           </button>
-          <div className="card xl:card-side ">
-            <figure>
-              {/* <img
-                src={userData.profilePicture}
-                alt="Album" /> */}
-            </figure>
-            <div className="card-body">
-              {/* <h2 className="card-title">User Detail</h2>
-              <p>Name : {userData.firstName + ' ' + userData.lastName}</p>
-              <p>Email : {userData.email}</p>
-              <p>Phone : {userData.phoneNumber}</p>
-              <p>Role : {userData.role}</p>
-              <p>Address : {userData.address}</p> */}
+          <h3 className="text-2xl font-bold mb-4">เพิ่มมูลนิธิ</h3>
+          <div className="flex flex-col lg:flex-row gap-6">
+
+            {/* File Upload Section */}
+            {/* Upload Image */}
+            <div className="col-span-2 form-control w-1/2 h-full ">
+              <label className="label">
+                <span className="block text-gray-700 font-medium mb-2">เพิ่มรุปภาพ</span>
+              </label>
+              <div className="flex items-center justify-center w-full h-full">
+                <div
+                  className="flex flex-col items-center justify-center w-full h-[250px] border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100 relative p-2"
+                  onClick={() => document.getElementById('input-file').click()}
+                >
+                  {!image && (
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <UploadIcon className="w-10 h-10 mb-3 text-gray-400" />
+                      <p className="text-sm text-gray-400">Click to upload</p>
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    id='input-file'
+                    className="hidden"
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                  <div className='w-full absolute top-1 right-1 flex justify-end'>
+                    {image && (
+                      <CloseIcon
+                        className='w-10 h-10 hover:scale-110 active:scale-100 rounded-full cursor-pointer opacity-60'
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          document.getElementById('input-file').value = '';
+                          setImage(null);
+                        }}
+                      />
+                    )}
+                  </div>
+                  {image && <img src={URL.createObjectURL(image)} className='w-1/2 h-full object-cover' />}
+                </div>
+              </div>
+            </div>
+
+            {/* Input Fields Section */}
+            <div className="w-full lg:w-1/2">
+              <label className="block text-gray-700 font-medium mb-2">ชื่อมูลนิธิ</label>
+              <input
+                type="text"
+                name='name'
+                value={foundationData.name}
+                placeholder="กรุณากรอกชื่อมูลนิธิ"
+                className="input input-bordered w-full mb-4"
+                onChange={handleChange}
+              />
+              {errors.name && <p className="text-red-500 text-sm mb-4">{errors.name}</p>}
+
+              <label className="block text-gray-700 font-medium mb-2">ข้อมูลติดต่อมูลนิธิ</label>
+              <input
+                type="text"
+                name='contactInfo'
+                value={foundationData.contactInfo}
+                placeholder="กรุณากรอกข้อมูลติดต่อ"
+                className="input input-bordered w-full mb-4"
+                onChange={handleChange}
+              />
+              {errors.contactInfo && <p className="text-red-500 text-sm mb-4">{errors.contactInfo}</p>}
+
+
+              <label className="block text-gray-700 font-medium mb-2">ที่อยู่มูลนิธิ</label>
+              <textarea
+                placeholder="กรุณากรอกที่อยู่มูลนิธิ"
+                name='address'
+                value={foundationData.address}
+                className="textarea textarea-bordered w-full mb-4"
+                onChange={handleChange}
+              />
+              {errors.address && <p className="text-red-500 text-sm mb-4">{errors.address}</p>}
+
+
             </div>
           </div>
 
+          {/* Buttons */}
+          {loading ?
+            <div className='flex justify-center'>
+              <span className="loading loading-dots loading-lg"></span>
+            </div>
+            :
+            <div className="flex justify-between mt-6">
+              <button
+                type="button"
+                onClick={() => document.getElementById('create_Foundation_modal').close()}
+                className="btn bg-red-500 text-white w-36">
+                ยกเลิก
+              </button>
+              <button
+                type="submit"
+                className="btn
+              bg-green-500
+              text-white w-36">
+                เพิ่มมูลนิธิ
+              </button>
+            </div>
+          }
+        </form>
+      </dialog>
 
-        </div>
+
+      {/* Edit Foundation Modal */}
+      <dialog
+        id="edit_Foundation_modal"
+        className="modal"
+        onClose={() => {
+          setIsEditOpen(false)
+          setErrors({})
+          setImage(null)
+          setFoundationDataForEdit({})
+        }}>
+        <form
+          onSubmit={handleEditSubmit}
+          className="modal-box w-full max-w-4xl">
+          <button
+            type="button"
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            onClick={e => e.target.closest('dialog').close()}
+          >
+            ✕
+          </button>
+          <h3 className="text-2xl font-bold mb-4">แก้ไขข้อมูล มูลนิธิ</h3>
+          <div className="flex flex-col lg:flex-row gap-6">
+
+            {/* File Upload Section */}
+            {/* Upload Image */}
+            <div className="col-span-2 form-control w-1/2 h-full ">
+              <label className="label">
+                <span className="block text-gray-700 font-medium mb-2">เพิ่มรุปภาพ</span>
+              </label>
+              {foundationDataForEdit.profilePicture ? (
+                <div className="flex items-center justify-center w-full">
+                  <div
+                    className="flex flex-col items-center justify-center w-full border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100 relative p-2"
+                    onClick={() => document.getElementById('input-file').click()}
+                  >
+                    <input
+                      type="file"
+                      id='input-file'
+                      className="hidden"
+                      onChange={(e) => setImage(e.target.files[0])}
+                    />
+                    <div className='w-full absolute top-1 right-1 flex justify-end'>
+                      {foundationDataForEdit.profilePicture && <CloseIcon
+                        className='w-10 h-10 hover:scale-110 active:scale-100 rounded-full cursor-pointer opacity-60'
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          document.getElementById('input-file').value = '';
+                          setFoundationDataForEdit((prevData) => ({ ...prevData, profilePicture: null }));
+                        }}
+                      />}
+                    </div>
+                    {foundationDataForEdit.profilePicture && <img src={foundationDataForEdit.profilePicture} className='w-1/2 h-full object-cover' />}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center w-full h-full">
+                  <div
+                    className="flex flex-col items-center justify-center w-full h-[250px] border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100 relative p-2"
+                    onClick={() => document.getElementById('input-file').click()}
+                  >
+                    {!image && (
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <UploadIcon className="w-10 h-10 mb-3 text-gray-400" />
+                        <p className="text-sm text-gray-400">Click to upload</p>
+                      </div>
+                    )}
+                    <input
+                      type="file"
+                      id='input-file'
+                      className="hidden"
+                      onChange={(e) => setImage(e.target.files[0])}
+                    />
+                    <div className='w-full absolute top-1 right-1 flex justify-end'>
+                      {image && (
+                        <CloseIcon
+                          className='w-10 h-10 hover:scale-110 active:scale-100 rounded-full cursor-pointer opacity-60'
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            document.getElementById('input-file').value = '';
+                            setImage(null);
+                          }}
+                        />
+                      )}
+                    </div>
+                    {image && <img src={URL.createObjectURL(image)} className='w-1/2 h-full object-cover' />}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Input Fields Section */}
+            <div className="w-full lg:w-1/2">
+              <label className="block text-gray-700 font-medium mb-2">ชื่อมูลนิธิ</label>
+              <input
+                type="text"
+                name='name'
+                value={foundationDataForEdit.name}
+                placeholder="กรุณากรอกชื่อมูลนิธิ"
+                className="input input-bordered w-full mb-4"
+                onChange={handleEditChange}
+              />
+              {errors.name && <p className="text-red-500 text-sm mb-4">{errors.name}</p>}
+
+              <label className="block text-gray-700 font-medium mb-2">ข้อมูลติดต่อมูลนิธิ</label>
+              <input
+                type="text"
+                name='contactInfo'
+                value={foundationDataForEdit.contactInfo}
+                placeholder="กรุณากรอกข้อมูลติดต่อ"
+                className="input input-bordered w-full mb-4"
+                onChange={handleEditChange}
+              />
+              {errors.contactInfo && <p className="text-red-500 text-sm mb-4">{errors.contactInfo}</p>}
+
+
+              <label className="block text-gray-700 font-medium mb-2">ที่อยู่มูลนิธิ</label>
+              <textarea
+                placeholder="กรุณากรอกที่อยู่มูลนิธิ"
+                name='address'
+                value={foundationDataForEdit.address}
+                className="textarea textarea-bordered w-full mb-4"
+                onChange={handleEditChange}
+              />
+              {errors.address && <p className="text-red-500 text-sm mb-4">{errors.address}</p>}
+
+
+            </div>
+          </div>
+
+          {/* Buttons */}
+          {loading ?
+            <div className='flex justify-center'>
+              <span className="loading loading-dots loading-lg"></span>
+            </div>
+            :
+            <div className="flex justify-between mt-6">
+              <button
+                type="button"
+                onClick={() => document.getElementById('edit_Foundation_modal').close()}
+                className="btn bg-red-500 text-white w-36">
+                ยกเลิก
+              </button>
+              <button
+                type="submit"
+                className="btn
+              bg-green-500
+              text-white w-36">
+                ตกลง
+              </button>
+            </div>
+          }
+        </form>
       </dialog>
     </>
   )

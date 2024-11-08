@@ -5,11 +5,16 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: '180px', // Define a custom xs breakpoint for smaller screens
+      },
+    },
   },
 
   plugins: [
     require('daisyui'),
+    require('tailwind-scrollbar-hide')
   ],
   daisyui: {
     themes: [{
@@ -20,6 +25,15 @@ export default {
         "base-100" : "#ffffff"  //white bg color
       }
     }],
+    fontFamily: {
+        sans: ['Poppins', 'sans-serif'], // Replace 'Poppins' with your chosen font
+      },
+      
+  },
+
+  fontSize: {
+    'hero': '2.5rem', // Custom font size for large headings
+    'subheading': '1.125rem', // Adjust as needed
   },
 
  

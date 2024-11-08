@@ -1,36 +1,64 @@
 
 import { create } from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
-import { getFoundationByQueryAPI } from '../API/foundationAPI';
+import { createFoundationAPI, deleteFoundationAPI, getFoundationByQueryAPI, updateFoundationAPI } from '../API/foundationAPI';
 
+const useFoundationStore = create((set) => ({
+    foundations: [],
+    page: 1,
+    hasMore: true,
+    loading: false,
+    error: null,
 
-
-
-const useFoundationStore = create(persist((set, get) => ({
-
-
-    getFoundationQuery: async (page, searchText) => {
+    fetchFoundations: async (page = 1, name = '', limit = 10) => {
+        console.log('fetchFoundations called with:', { page, name, limit }); // Added log
+        set({ loading: true, error: null });
         try {
-            const result = await getFoundationByQueryAPI(page, searchText)
-            return result.data
+            const data = await getFoundationByQueryAPI(page, name, limit);
+            console.log(`Fetched Foundations (Page ${page}):`, data); // Existing log
+            const foundationsData = Array.isArray(data) ? data : [];
+            set((state) => ({
+                foundations: page === 1 ? foundationsData : [...state.foundations, ...foundationsData],
+                page,
+                hasMore: foundationsData.length === limit,
+                loading: false,
+            }));
+            return foundationsData;
         } catch (error) {
-            console.log(error)
-
+            console.error('Error in fetchFoundations:', error);
+            set({ error: error.message || 'Failed to fetch foundations.', loading: false });
+            throw error;
         }
     },
 
+    resetFoundations: () => set({ foundations: [], page: 1, hasMore: true, error: null }),
 
 
-    // createFoundation: async (body) => {
-    //     try {
-    //         const result = await RegisterAPI(body)
+    createFoundation: async (body) => {
+        try {
+            const result = await createFoundationAPI(body)
+            return result.data
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    deleteFoundation: async (id) => {
+        try {
+            const result = await deleteFoundationAPI(id)
+            return result.data
+        } catch (error) {
+            console.log(error)
+        }
+    },
 
-    //         return result.data
-    //     } catch (error) {
-    //         console.log(error)
-
-    //     }
-    // },
+    updateFoundation: async (id, body) => {
+        try {
+            const result = await updateFoundationAPI(id, body)
+            return result.data
+        } catch (error) {
+            console.log(error)
+        }
+    },
 
 
 
@@ -40,8 +68,6 @@ const useFoundationStore = create(persist((set, get) => ({
 }), {
     name: "foundationStore",
     storage: createJSONStorage(() => localStorage),
-}));
+});
 
-
-
-export default useFoundationStore
+export default useFoundationStore;
