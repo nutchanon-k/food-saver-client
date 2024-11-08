@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+.kpis-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .kpi-card {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    margin: 0 10px;
+    text-align: center;
+  }
+  
+  .kpi-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .kpi-card p {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .kpi-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .kpi-card ul li {
+    margin-bottom: 5px;
+  }

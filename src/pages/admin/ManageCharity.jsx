@@ -87,6 +87,7 @@ const ManageCharity = () => {
     }
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -219,6 +220,8 @@ const ManageCharity = () => {
 
 
 
+
+
   return (
     <>
       {/*Body*/}
@@ -256,7 +259,7 @@ const ManageCharity = () => {
                 {foundation?.map(foundation => (
                   <tr key={foundation.id} className="hover:bg-gray-50">
                     <td className="py-4 flex items-center space-x-4">
-                      <div className="w-24 h-24  flex items-center justify-center">
+                      <div className="w-24 h-24  flex items-center justify-center overflow-hidden">
                         <img src={foundation.profilePicture} alt="Foundation Avatar" className="" />
                       </div>
                     </td>

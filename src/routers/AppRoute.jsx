@@ -15,11 +15,12 @@ import BuyerLayout from "../layouts/BuyerLayout";
 import SellerLayout from "../layouts/SellerLayout";
 import LandingPage from "../pages/LandingPage";
 import NotFound from "../pages/NotFound";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import AdminProfile from "../pages/admin/AdminProfile";
 import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
+import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
 
 
@@ -45,6 +46,7 @@ const adminRouter = createBrowserRouter([
     children: [
       { path: '/', element: <Dashboard /> },
       { path: "admin-profile", element: <AdminProfile /> },
+      { path: "admin-edit-profile", element: <AdminEditProfile /> },
       { path: "manage-user", element: <ManageUser /> },
       { path: "manage-charity", element: <ManageCharity /> },
       { path: "manage-store", element: <ManageStore /> },
@@ -95,7 +97,7 @@ const sellerRouter = createBrowserRouter([
 
 
 const finalRouter = (role,isAuthenticate) => {
-  console.log(isAuthenticate,"app router")
+  // console.log(isAuthenticate,"app router")
   if(!isAuthenticate) return guestRouter;
   if (role === "ADMIN") {
     return adminRouter;

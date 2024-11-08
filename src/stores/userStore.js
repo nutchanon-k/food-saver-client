@@ -52,8 +52,10 @@ const useUserStore = create(persist((set, get) => ({
         allUser : [],
         
       })
+        
         localStorage.removeItem("userStore");
         localStorage.removeItem("token");
+        // window.location.assign('/')
        
     },
 
