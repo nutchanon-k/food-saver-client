@@ -35,7 +35,7 @@ const AdminSidebar = () => {
 
     };
     return (
-        <div className={`h-full bg-white border-r shadow-lg flex flex-col ${isExpanded ? 'w-64' : 'w-24'} px-2 py-4 transition-all duration-300`}>
+        <div className={`h-full bg-white border-r shadow-lg flex flex-col ${isExpanded ? 'w-72' : 'w-24'} px-2 py-4 transition-all duration-300`}>
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                     <div className="avatar flex items-center justify-center">
@@ -59,7 +59,7 @@ const AdminSidebar = () => {
                 </button>
             </div>
 
-            <div className="form-control mb-4">
+            {/* <div className="form-control mb-4">
                 <div className={`flex items-center ${isExpanded ? 'border rounded-lg p-2' : 'px-5 py-2'}`}>
                     <Search className="text-gray-400" />
                     {isExpanded && (
@@ -70,7 +70,8 @@ const AdminSidebar = () => {
                         />
                     )}
                 </div>
-            </div>
+            </div> */}
+            <div className="divider -mt-2 "></div>
 
             <ul className="menu flex-grow space-y-2">
                 <li>

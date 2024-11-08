@@ -32,7 +32,17 @@ const Login = () => {
             const data = await hdlLogin(body)
             console.log(data)
             if (data) {
-                navigate('/')
+                navigate('/');
+                window.location.reload();
+                // if (data.user.role === 'ADMIN') {
+                //     navigate('/admin');
+                // } else if (data.user.role === 'BUYER') {
+                //     navigate('/buyer');
+                // } else if (data.user.role === 'SELLER') {
+                //     navigate('/seller');
+                // } else {
+                //     navigate('/');
+                // }
             }
         } catch (error) {
             alert(error)

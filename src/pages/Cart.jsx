@@ -2,8 +2,10 @@ import { ChevronLeft, Trash } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import useUserStore from '../stores/userStore';
 import useCartStore from '../stores/cartStore';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
+    const navigate = useNavigate()
     const getCartData = useCartStore((state) => state.getCartData)
     const ChangeQuantityItem = useCartStore((state) => state.ChangeQuantityItem)
     const DeleteCartItem = useCartStore((state) => state.DeleteCartItem)
@@ -11,39 +13,78 @@ const Cart = () => {
     const [resultGetCartData, setResultGetCartData] = useState([])
 
 
-    // const [newCartItem , setNewCartItem ] = useState(300000)
-    // let countdownTime = 300
+
+    // const [durationCart, setDurationCart] = useState(2)
+    // const [showTime, setShowTime] = useState('5:00')
+
+
+
+    // const formatTime = (seconds) => {
+    //     const min = Math.floor(seconds / 60)
+    //     const sec = seconds % 60
+    //     return `${min}:${sec < 10 ? '0' : ''}${sec}`
+    // }
+
+
+
+
+    // const timeToDeleteCart = async () => {
+    //     try {
+    //         if (resultGetCartData?.data?.length > 0) {
+    //             for (const item of resultGetCartData.data) {
+    //                 await DeleteCartItem(item.id);
+    //             }
+    //             await CurrentCart(token); // รอให้ CurrentCart ทำงานเสร็จก่อน
+    //             alert('คุณไม่ได้ทำรายการในเวลาที่กำหนด(5:00) โปรดทำรายการอีกครั้ง');
+    //             setResultGetCartData({ data: [] });
+
+    //         }
+    //     } catch (err) {
+    //         console.error('Error clearing cart:', err);
+    //         alert('Failed to clear cart');
+    //     }
+    // }
+
     // const countDownCart = () => {
+    //     const intervalId = setInterval(() => {
+    //         setDurationCart(prevTime => {
+    //             const newTime = prevTime <= 1 ? 0 : prevTime - 1
+    //             setShowTime(formatTime(newTime))
+    //             console.log('เวลาที่เหลือ:', newTime)
+    //             if (prevTime <= 1) {
+    //                 clearInterval(intervalId)
+    //             }
+    //             return newTime
+    //         })
+    //     }, 1000)
 
-    //     setInterval(()=>{
-    //         countdownTime
-    //         console.log(countdownTime)
-    //         clearInterval()
-            
-            
-    //     },1000)
-        
+    //     return intervalId
     // }
-    // const timeToDeleteCart = () => {
-    //     setTimeout(()=>{
-            
-    //     },300000)
-    // }
 
-
+    // useEffect คงเดิม แต่เพิ่มการ clear interval
     useEffect(() => {
         CurrentCart(token)
-        // timeToDeleteCart()
-        // countDownCart()
-        
-
-
+        // const intervalId = countDownCart() // เก็บ intervalId ที่ได้จาก countDownCart
+        // return () => {
+        //     clearInterval(intervalId) // clear interval เมื่อ component unmount
+        // }
     }, [])
 
-    
-      
 
-    
+
+    // useEffect(() => {
+    //     if (durationCart === 0) {
+    //         timeToDeleteCart();
+
+    //     }
+    // }, [durationCart]);
+
+
+
+
+
+
+
 
 
     useEffect(() => {
@@ -51,6 +92,8 @@ const Cart = () => {
 
 
     }, [resultGetCartData])
+    
+    
 
     const CurrentCart = async (token) => {
         try {
@@ -76,10 +119,14 @@ const Cart = () => {
 
         const result = await ChangeQuantityItem(itemId, quantity)
         console.log('cartItem decrease', result)
-        CurrentCart()
+        CurrentCart(token)
         calculateTotals()
 
     }
+
+
+
+
     const IncreaseCartItem = async (itemId, quantity, storeQuantity) => {
         if (quantity <= storeQuantity - 1) {
 
@@ -90,22 +137,27 @@ const Cart = () => {
 
         const result = await ChangeQuantityItem(itemId, quantity)
         console.log('cartItem Inecrease', result)
-        CurrentCart()
         calculateTotals()
+        // setDurationCart(300)
 
 
     }
 
     const hdlDeleteCartItem = async (itemId) => {
-        console.log(itemId)
-        const result = await DeleteCartItem(itemId)
-        console.log('deleteSuccess ', result)
-        CurrentCart()
-        calculateTotals()
+        try {
+            await DeleteCartItem(itemId);
+            // ดึงข้อมูลใหม่หลังลบสินค้า
+            const newCart = await getCartData(token);
+            if(newCart){
+                setResultGetCartData(newCart);
 
-    }
-
-
+            }else{
+                setResultGetCartData({data:[]})
+            }
+        } catch (err) {
+            console.error("Error deleting item:", err);
+        }
+    };
 
     const calculateTotals = () => {
         const originalTotal = resultGetCartData.data?.reduce((sum, item) => {
@@ -128,20 +180,38 @@ const Cart = () => {
     const totals = calculateTotals();
 
 
+   
+
+  
+
+
 
 
     return (
         <div className="min-h-screen bg-white">
             {/* Header */}
-            <div className="px-4 py-4 flex items-center border-b">
-                <button className="p-2">
-                    <ChevronLeft className="w-6 h-6 text-gray-600" />
-                </button>
-                <h1 className="text-xl font-medium flex-1 text-center mr-8">Cart</h1>
+            <div className="border-b">
+                <div className="px-4 py-4 flex items-center">
+
+                    <h1 className="text-xl font-medium flex-1 text-center mr-8">Cart</h1>
+                    <div className="flex flex-col items-center mr-8">
+                        {/* <h1 className="text-xl font-medium text-center">{showTime}</h1> */}
+                        {/* <p className="text-sm text-red-500">กรุณาชำระเงินก่อนเวลาที่กำหนด</p> */}
+                    </div>
+                </div>
+                <div className="px-4 py-2 bg-yellow-50">
+                    <p className="text-sm text-yellow-700 text-center">
+                        ⏰ กรุณาทำรายการให้เสร็จสิ้นภายในเวลาที่กำหนด
+                    </p>
+                </div>
             </div>
 
             {/* Cart Item */}
-            {resultGetCartData?.data?.map((item, index) => {
+            {(!resultGetCartData?.data || resultGetCartData.data.length === 0) ? (
+                <div className="text-center py-8">
+                    <p className="text-gray-500">ไม่มีสินค้าในตะกร้า</p>
+                </div>
+            ) : (resultGetCartData?.data?.map((item, index) => {
                 return <div key={item.id} className="flex items-center space-x-4 border-b pb-4 px-4">
                     {/* Food Image */}
                     <img
@@ -161,7 +231,7 @@ const Cart = () => {
                                 <span className="text-yellow-600 font-bold">{item.product.quantity}</span>
                                 <span className="text-yellow-700 text-sm">ชิ้น</span>
                             </div>
-                            <button 
+                            <button
                                 onClick={() => hdlDeleteCartItem(item.id)}
                                 className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
                             >
@@ -198,7 +268,7 @@ const Cart = () => {
                         </div>
                     </div>
                 </div>
-            })}
+            }))}
 
             {/* Total Price Summary */}
             <div className="bg-white border-t p-4 mt-4">
@@ -218,7 +288,9 @@ const Cart = () => {
 
             {/* Payment Button */}
             <div className="p-4">
-                <button className="w-full bg-green-500 text-white py-3 rounded-lg font-medium">
+                <button className="w-full bg-green-500 text-white py-3 rounded-lg font-medium"
+                    onClick={() => navigate('/order')}
+                >
                     Payment
                 </button>
             </div>

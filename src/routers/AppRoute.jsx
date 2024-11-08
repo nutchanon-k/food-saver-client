@@ -5,7 +5,6 @@ import Login from "../pages/Auth/Login";
 import SelectRegister from "../pages/Auth/SelectRegister";
 import UserRegister from "../pages/Auth/UserRegister";
 import MerchantRegister from "../pages/Auth/MerchantRegister";
-
 import AdminLayout from "../layouts/AdminLayout";
 import ManageUser from "../pages/admin/ManageUser";
 import Dashboard from "../pages/admin/Dashboard";
@@ -16,11 +15,18 @@ import BuyerLayout from "../layouts/BuyerLayout";
 import SellerLayout from "../layouts/SellerLayout";
 import LandingPage from "../pages/LandingPage";
 import NotFound from "../pages/NotFound";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import AdminProfile from "../pages/admin/AdminProfile";
 import ForgetPassword from "../pages/Auth/forgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
+import Store from "../pages/Store";
+import HomePage from "../pages/HomePage";
+import VerifyPayment from "../pages/VerifyPayment";
+import OrderSuccess from "../pages/OrderSuccess";
+import OrderFailed from "../pages/OrderFailed";
+
+import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
 import SellerDashboard from "../pages/seller/SellerDashboard";
 import SellerProfile from "../pages/seller/SellerProfile";
@@ -35,7 +41,7 @@ const guestRouter = createBrowserRouter([
   { path: "UserRegister", element: <UserRegister /> },
   { path: "MerchantRegister", element: <MerchantRegister /> },
   { path: "forgetPassword", element: <ForgetPassword /> },
-  { path: "*", element: <LandingPage /> }, // สามารถเปลี่ยนเป็น <NotFound /> ได้ถ้าต้องการ
+  { path: "*", element: <LandingPage /> },
 ]);
 
 const adminRouter = createBrowserRouter([
@@ -43,8 +49,9 @@ const adminRouter = createBrowserRouter([
     path: "/",
     element: <AdminLayout />,
     children: [
-      { index: true, element: <Dashboard /> },
+      { path: '/', element: <Dashboard /> },
       { path: "admin-profile", element: <AdminProfile /> },
+      { path: "admin-edit-profile", element: <AdminEditProfile /> },
       { path: "manage-user", element: <ManageUser /> },
       { path: "manage-charity", element: <ManageCharity /> },
       { path: "manage-store", element: <ManageStore /> },
@@ -58,11 +65,22 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
-      { index: true, element: <MapPage /> },
-      // { path: "/map", element: <MapPage /> },
-      { path: "cart", element: <Cart /> },
-      { path: "order", element: <Order /> },
-    ],
+      {index: true, element: <MapPage />},
+      { path: "/Home", element: <HomePage /> },
+        {path: "/map",element: <MapPage />},
+        {path:"store/:storeId",element:<Store />},
+        {path:"cart",element:<Cart />},
+        {path:"order",element:<Order/>},
+        { path: "verify", element: <VerifyPayment /> },      
+      { path: "order-success", element: <OrderSuccess /> },
+      { path: "order-failed", element: <OrderFailed /> },
+        // {index: true, element: <Dashboard />},
+        // {path: "manage-user", element: <ManageUser />},
+        // {path: "manage-charity", element: <ManageCharity />},
+        // {path: "manage-store", element: <ManageStore/>},
+        // {path: "*", element: <NotFound  />}, 
+    ]
+
   },
   {
     path: "/user",
@@ -88,9 +106,11 @@ const sellerRouter = createBrowserRouter([
   },
 ]);
 
-const finalRouter = (role, isAuthenticate) => {
-  console.log(isAuthenticate, "app router");
-  if (!isAuthenticate) return guestRouter;
+
+
+const finalRouter = (role,isAuthenticate) => {
+  // console.log(isAuthenticate,"app router")
+  if(!isAuthenticate) return guestRouter;
   if (role === "ADMIN") {
     return adminRouter;
   } else if (role === "BUYER") {
@@ -109,18 +129,16 @@ export default function AppRoute() {
 
   useEffect(() => {
     const loadUser = async () => {
-      await getMe();
-    };
-    loadUser();
-  }, [getMe]);
+      await getMe()
+    }
+    loadUser()
+  }, [])
 
-  console.log(user, "router");
-  console.log(isAuthenticated, "router");
+  // console.log(user, "router")
+  // console.log(isAuthenticated, "routerxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+  // console.log(user?.role, "role")
 
-  const router = useMemo(
-    () => finalRouter(user?.role, isAuthenticated),
-    [user?.role, isAuthenticated]
-  );
+  const router = finalRouter(user?.role, isAuthenticated);
 
   return (
     <div>
