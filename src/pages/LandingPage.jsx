@@ -1,17 +1,37 @@
 import React from 'react';
-// import {link} from 'react-router-dom';
+import { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/autoplay';
+import { Pagination } from 'swiper/modules'; 
+import { Navigation } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import MainFood from '../assets/pictures/FoodImg_LandingPage.png';
 import Neatby from '../assets/pictures/User_NearbyMap.png';
 import testimonial from '../assets/pictures/UserTestimonial.png';
 import foundation from '../assets/pictures/Foundation.png';
+import { useNavigate } from 'react-router-dom';
+
 
 const LandingPage = () => {
-  console.log('landing page');
+
+  const navigate = useNavigate();
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div className="App bg-background">
       {/* Header */}
       <header className="flex justify-between items-center p-4 border-b border-gray-200">
         <h1 className="text-primary text-xl font-semibold">Food Saver</h1>
+
+        {/* Desktop Navigation */}
         <nav className="space-x-4 hidden md:flex items-center">
           <a href="/login" className="text-primary font-medium">
             เข้าสู่ระบบ
@@ -23,7 +43,9 @@ const LandingPage = () => {
             สมัครสมาชิก
           </a>
         </nav>
-        <button className="md:hidden">
+
+        {/* Hamburger Icon for Mobile */}
+        <button onClick={toggleMenu} className="md:hidden">
           <svg
             className="w-6 h-6"
             fill="none"
@@ -40,12 +62,27 @@ const LandingPage = () => {
         </button>
       </header>
 
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <nav className="absolute right-0 top-14 flex flex-col items-start bg-white shadow-md p-4 rounded-md md:hidden space-y-2 z-50">
+          <a href="/login" className="text-primary font-medium">
+            เข้าสู่ระบบ
+          </a>
+          <a
+            href="/UserRegister"
+            className="bg-primary text-white px-4 py-2 rounded-md font-medium"
+          >
+            สมัครสมาชิก
+          </a>
+        </nav>
+      )}
+
       {/* Hero Section */}
-      <section className=" py-5 md:py-1">
+      <section className="py-5 md:py-1">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-6 md:px-12 text-center md:text-left">
           {/* Text Content */}
-          <div className="max-w-md mb-8 md:mb-0">
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4 tracking-wide">
+          <div className="max-w-md mb-8 md:mb-0 opacity-0 -translate-x-10 animate-slide-in-left">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4 tracking-wider">
               อิ่มอร่อยในราคาสุดคุ้ม พร้อมช่วยโลกไปด้วยกัน
             </h2>
             <p className="text-gray-600 text-base md:text-lg mb-6">
@@ -55,7 +92,10 @@ const LandingPage = () => {
             </p>
             <div className="flex justify-center md:justify-start space-x-4">
               {/* Primary Button */}
-              <button className="bg-primary hover:bg-green-400 text-white px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300">
+              <button
+                onClick={() => navigate("/login")} // Navigate to the login page on click
+                className="bg-primary hover:bg-green-400 text-white px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300"
+              >
                 เริ่มต้นใช้งาน
               </button>
 
@@ -84,11 +124,12 @@ const LandingPage = () => {
           </div>
 
           {/* Image Section */}
-          <div className="w-full md:w-1/2 flex justify-center md:justify-center">
+          {/* Image Section with Pulse Animation */}
+          <div className="w-full md:w-1/2 flex justify-center md:justify-center opacity-0 animate-fade-in">
             <img
               src={MainFood}
               alt="App preview"
-              className="w-96 h-auto lg:w-[30rem] xl:w-[35rem]"
+              className="w-96 h-auto lg:w-[30rem] xl:w-[35rem] animate-pulse-slow"
             />
           </div>
         </div>
@@ -98,7 +139,7 @@ const LandingPage = () => {
       <section className="py-12 md:py-16 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-5xl mx-auto px-6 md:px-8 text-center grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Benefit 1 */}
-          <div className="p-6 bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+          <div className="p-6 bg-gradient-to-b from-blue-50 to-white  hover:shadow-2xl transition-shadow duration-300 rounded-md">
             <div className="flex justify-center mb-4">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
                 <svg
@@ -127,7 +168,7 @@ const LandingPage = () => {
           </div>
 
           {/* Benefit 2 */}
-          <div className="p-6 bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+          <div className="p-6 bg-gradient-to-b from-blue-50 to-white  hover:shadow-2xl transition-shadow duration-300 rounded-md">
             <div className="flex justify-center mb-4">
               <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center">
                 <svg
@@ -156,7 +197,7 @@ const LandingPage = () => {
           </div>
 
           {/* Benefit 3 */}
-          <div className="p-6 bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+          <div className="p-6 bg-gradient-to-b from-blue-50 to-white  hover:shadow-2xl transition-shadow duration-300 rounded-md">
             <div className="flex justify-center mb-4">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
                 <svg
@@ -187,7 +228,19 @@ const LandingPage = () => {
       </section>
       {/* Nearby Restaurants Section */}
       <section className="py-12 bg-white">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center px-4 md:px-8">
+        {/* Main Header Section */}
+        <div className="max-w-6xl mx-auto text-center px-4 md:px-8 mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-text mb-4">
+            ร้านอาหารใกล้คุณพร้อมดีลสุดพิเศษ
+          </h2>
+          <p className="text-gray-600">
+            ค้นหาร้านอาหารที่อยู่ใกล้คุณ พร้อมข้อเสนอสุดพิเศษได้ง่าย ๆ
+            ด้วยแผนที่ของเรา
+          </p>
+        </div>
+
+        {/* Image and Details Section */}
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start px-4 md:px-8">
           {/* Image Section */}
           <div className="w-full md:w-1/2 flex justify-center mb-8 md:mb-0 relative">
             <img
@@ -195,65 +248,111 @@ const LandingPage = () => {
               alt="Map showing nearby restaurants"
               className="w-72 h-auto rounded-lg shadow-lg"
             />
-            <div className="absolute inset-0 flex items-center justify-center"></div>
           </div>
 
-          {/* Text Section */}
+          {/* Additional Text Section */}
           <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-            <h2 className="text-2xl font-bold text-blue-900 mb-4">
-              ร้านอาหารใกล้คุณพร้อมดีลสุดพิเศษ
-            </h2>
-            <p className="text-gray-600 mb-4">
-              ค้นหาร้านอาหารที่อยู่ใกล้คุณ พร้อมข้อเสนอสุดพิเศษได้ง่าย ๆ
-              ด้วยแผนที่ของเรา
-            </p>
             <div className="border-l-4 border-green-500 pl-4">
               <h3 className="text-xl font-semibold text-green-600 mb-2">
                 ค้นหาร้านอาหารใกล้ตัว 🗺️
               </h3>
-              <p className="text-gray-600">ค้นหาได้สะดวกตามตำแหน่งที่คุณอยู่</p>
+              <p className="text-gray-600 mb-4">
+                <span className="font-bold">
+                  ค้นหาได้สะดวกตามตำแหน่งที่คุณอยู่:
+                </span>{" "}
+                เลือกร้านอาหารที่ใกล้ที่สุด เพียงเปิดแผนที่
+                คุณก็จะเห็นร้านค้าในบริเวณใกล้เคียงที่พร้อมให้ข้อเสนอพิเศษ
+              </p>
+              <p className="text-gray-600 mb-4">
+                <span className="font-bold">ข้อเสนอที่หลากหลาย:</span>{" "}
+                รับดีลสุดคุ้มจากร้านโปรด ลดค่าใช้จ่ายพร้อมสนับสนุนร้านค้าในชุมชน
+              </p>
+              <p className="text-gray-600">
+                <span className="font-bold">ลดการสูญเสียอาหาร:</span>{" "}
+                เพลิดเพลินกับมื้ออร่อย
+                พร้อมร่วมเป็นส่วนหนึ่งในการลดขยะอาหารไปด้วยกัน
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonial Section */}
-      <section className="py-12  flex justify-center items-center bg-gradient-to-b from-blue-50 to-white">
-        <div className="max-w-4xl flex flex-col md:flex-row items-center p-6 md:p-8 ">
-          {/* Image Section */}
-          <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
-            <img
-              src={testimonial} // Replace this with the actual image URL
-              alt="User testimonial"
-              className="w-36 sm:w-48 h-36 sm:h-48 rounded-lg object-cover shadow-lg"
-            />
-          </div>
+      <section className="py-12 flex justify-center items-center bg-gradient-to-b from-blue-50 to-white">
+        <Swiper
+          spaceBetween={30}
+          slidesPerView={1}
+          pagination={{ clickable: true }}
+          navigation={true}
+          autoplay={{
+            delay: 5000, // 5000ms = 5 seconds
+            disableOnInteraction: false, // Autoplay continues even after user interaction
+          }}
+          modules={[Pagination, Navigation, Autoplay]}
+          className="max-w-4xl p-6 md:p-8"
+        >
+          {/* Testimonial Slides */}
+          <SwiperSlide>
+            <div className="flex flex-col md:flex-row items-center">
+              {/* Image Section */}
+              <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
+                <img
+                  src={testimonial} // Replace with the actual image URL
+                  alt="User testimonial"
+                  className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
+                />
+              </div>
 
-          {/* Text Section */}
-          <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-            <h3 className="text-gray-700 font-semibold text-lg mb-2">
-              เสียงตอบรับจากผู้ใช้จริง
-            </h3>
-            <p className="text-gray-700 italic text-sm sm:text-base mb-4">
-              “แอปนี้ช่วยให้ฉันได้เข้าถึงอาหารคุณภาพในราคาย่อมเยา
-              และยังได้มีส่วนร่วมในการลดขยะอาหาร
-              รู้สึกดีที่ได้เป็นส่วนหนึ่งของการเปลี่ยนแปลงนี้!”
-            </p>
-            <p className="text-gray-600 text-sm sm:text-base">
-              สนุสิา,
-              <br />
-              ผู้ใช้งานจริง
-            </p>
-            <div className="mt-4 flex justify-center md:justify-start space-x-1 text-green-500">
-              {/* Placeholder for rating dots */}
-              <span>•</span>
-              <span>•</span>
-              <span>•</span>
-              <span>•</span>
-              <span>•</span>
+              {/* Text Section */}
+              <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
+                <h3 className="text-gray-700 font-semibold text-lg mb-2">
+                  เสียงตอบรับจากผู้ใช้จริง
+                </h3>
+                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                  “แอปนี้ช่วยให้ฉันได้เข้าถึงอาหารคุณภาพในราคาย่อมเยา
+                  และยังได้มีส่วนร่วมในการลดขยะอาหาร
+                  รู้สึกดีที่ได้เป็นส่วนหนึ่งของการเปลี่ยนแปลงนี้!”
+                </p>
+                <p className="text-gray-600 text-sm sm:text-base">
+                  สนุสิา,
+                  <br />
+                  ผู้ใช้งานจริง
+                </p>
+              </div>
             </div>
-          </div>
-        </div>
+          </SwiperSlide>
+
+          {/* Testimonial 2 */}
+          <SwiperSlide>
+            <div className="flex flex-col md:flex-row items-center">
+              {/* Image Section */}
+              <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
+                <img
+                  src={testimonial} // Replace with the actual image URL for the second testimonial
+                  alt="User testimonial"
+                  className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
+                />
+              </div>
+
+              {/* Text Section */}
+              <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
+                <h3 className="text-gray-700 font-semibold text-lg mb-2">
+                  เสียงตอบรับจากผู้ใช้จริง
+                </h3>
+                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                  “แอปนี้เปลี่ยนวิธีการบริโภคอาหารของฉัน
+                  รู้สึกดีที่สามารถช่วยลดขยะและเข้าถึงอาหารอร่อยในราคาที่จับต้องได้!”
+                </p>
+                <p className="text-gray-600 text-sm sm:text-base">
+                  นันทนา,
+                  <br />
+                  ผู้ใช้งานจริง
+                </p>
+              </div>
+            </div>
+          </SwiperSlide>
+
+          {/* Add more <SwiperSlide> for additional testimonials as needed */}
+        </Swiper>
       </section>
 
       {/* Donation Section */}
@@ -299,14 +398,11 @@ const LandingPage = () => {
 
           {/* Navigation Links */}
           <nav className="flex space-x-4 mt-2 sm:mt-0">
-            <a href="#about" className="text-gray-400 hover:text-white">
-              About
-            </a>
-            <a href="#contact" className="text-gray-400 hover:text-white">
-              Contact Us
-            </a>
-            <a href="#charity" className="text-gray-400 hover:text-white">
-              Charity
+            <a
+              href="/MerchantRegister"
+              className="text-gray-400 hover:text-white"
+            >
+              สมัครสมาชิกสำหรับร้านค้า
             </a>
           </nav>
         </div>
@@ -314,5 +410,5 @@ const LandingPage = () => {
     </div>
   );
 };
-
-export default LandingPage;
+ 
+export default LandingPage

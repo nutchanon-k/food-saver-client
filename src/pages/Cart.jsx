@@ -138,7 +138,7 @@ const Cart = () => {
         const result = await ChangeQuantityItem(itemId, quantity)
         console.log('cartItem Inecrease', result)
         calculateTotals()
-        setDurationCart(300)
+        // setDurationCart(300)
 
 
     }

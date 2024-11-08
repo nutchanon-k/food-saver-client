@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const AdminHeader = () => {
+const SellerHeader = () => {
     const navigate = useNavigate()
     const user = useUserStore(state => state.user);
     const searchText = useSearchStore(state => state.searchText)
@@ -27,7 +27,6 @@ const AdminHeader = () => {
 
     const handleLogout = async() => {
         await hdlLogout()
-        navigate('/')
         
     };
 
@@ -100,4 +99,4 @@ const AdminHeader = () => {
 };
 
 
-export default AdminHeader
+export default SellerHeader
