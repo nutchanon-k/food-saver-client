@@ -24,24 +24,24 @@ export const getStoreDataAPI = async (storeId) => {
 }
 
 
-/**
- * Fetches specific store data by store ID.
- *
- * @param {string|number} storeId - The unique identifier of the store.
- * @returns {Promise<Object>} - The store data object.
- * @throws Will throw an error if the API request fails or if storeId is invalid.
- */
-export const getStoreDataAPI = async (storeId) => {
-  if (!storeId) {
-    throw new Error('Store ID is required to fetch store data.');
-  }
+// /**
+//  * Fetches specific store data by store ID.
+//  *
+//  * @param {string|number} storeId - The unique identifier of the store.
+//  * @returns {Promise<Object>} - The store data object.
+//  * @throws Will throw an error if the API request fails or if storeId is invalid.
+//  */
+// export const getStoreDataAPI = async (storeId) => {
+//   if (!storeId) {
+//     throw new Error('Store ID is required to fetch store data.');
+//   }
 
-  try {
-    const response = await axiosInstance.get(`/stores/${storeId}`);
-    console.log(`Store Data API Response for ID ${storeId}:`, response.data);
-    return response.data;
-  } catch (error) {
-    console.error(`Error fetching store data for ID ${storeId}:`, error.response || error.message);
-    throw error;
-  }
-};
+//   try {
+//     const response = await axiosInstance.get(`/stores/${storeId}`);
+//     console.log(`Store Data API Response for ID ${storeId}:`, response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error(`Error fetching store data for ID ${storeId}:`, error.response || error.message);
+//     throw error;
+//   }
+// };

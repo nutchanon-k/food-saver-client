@@ -68,6 +68,6 @@ const useFoundationStore = create((set) => ({
 }), {
     name: "foundationStore",
     storage: createJSONStorage(() => localStorage),
-}));
+});
 
 export default useFoundationStore;
