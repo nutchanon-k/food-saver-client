@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { getStoreArray } from '../API/storeApi';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { getStoreByQueryAPI, verifyStoreAPI } from '../API/storeApi';
 
 const useStore = create(
   persist(
@@ -38,6 +39,24 @@ const useStore = create(
         set({ searchText: text });
         // You might want to trigger a search or filter here based on the searchText
       },
+      getStoreQuery: async (page, searchText, verifyFilter) => {
+        try {
+          const result = await getStoreByQueryAPI(page, searchText,verifyFilter )
+          return result.data
+        } catch (error) {
+          console.log(error)
+    
+        }
+      },
+    
+      verifyStore: async (id) => {
+        try {
+          const result = await verifyStoreAPI(id)
+          return result.data
+        } catch (error) {
+          console.log(error)
+        }
+      }
     }),
     {
       name: 'Store',

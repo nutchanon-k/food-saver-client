@@ -5,11 +5,16 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: '180px', // Define a custom xs breakpoint for smaller screens
+      },
+    },
   },
 
   plugins: [
     require('daisyui'),
+    require('tailwind-scrollbar-hide')
   ],
   daisyui: {
     themes: [{

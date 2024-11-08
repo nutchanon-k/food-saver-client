@@ -29,4 +29,12 @@ export const getProductsAPI = async ({
     console.error('Error fetching products from API:', error.response || error.message);
     throw error;
   }
+}
+
+export const getAllergensAPI = async () => {
+  return await axiosInstance.get("/allergens");
+};
+
+export const getCategoriesAPI = async () => {
+  return await axiosInstance.get("/categories");
 };

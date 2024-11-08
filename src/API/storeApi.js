@@ -9,9 +9,8 @@ import axiosInstance from './Interceptor';
  */
 export const getStoreArray = async (filters = {}) => {
   try {
-    const response = await axiosInstance.get('/stores', { params: filters });
-    console.log('Store Array API Response:', response.data);
-    return response.data.data; // Assuming the API returns data under a 'data' key
+    const response = await axiosInstance.get("stores/filter",{params : filters});
+    return response.data.data; // Return the data from the response
   } catch (error) {
     console.error('Error fetching store array:', error.response || error.message);
     throw error;
@@ -20,7 +19,7 @@ export const getStoreArray = async (filters = {}) => {
 
 export const getStoreDataAPI = async (storeId) => {
   console.log(storeId)
-  return axiosInstance.get(`/stores/?${storeId}`) 
+  return axiosInstance.get(`/stores/?id=${storeId}&products=true`) 
 }
 
 
@@ -45,3 +44,12 @@ export const getStoreDataAPI = async (storeId) => {
 //     throw error;
 //   }
 // };
+
+export const getStoreByQueryAPI = async (page, searchText, verifyFilter) => {
+  return await axiosInstance.get(`/stores?page=${page}&limit=10&search=${searchText}&sortBy=id&sortOrder=desc&isVerify=${verifyFilter}`);
+}
+
+export const verifyStoreAPI = async (id) => {
+  return await axiosInstance.patch(`/stores/${id}/isVerify`);
+}
+
