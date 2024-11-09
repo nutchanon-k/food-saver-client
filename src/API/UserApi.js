@@ -5,6 +5,11 @@ import axiosInstance from "./Interceptor";
 export const loginAPI = async (body) => {
     return axiosInstance.post('/auth/login', body)
 }
+
+export const loginGoogle = async (body) => {
+    return axiosInstance.post('/auth/login-google', body)
+}
+
 export const resetAPI = async (body) => {
     return axiosInstance.patch('/auth/reset-password', body)
 }

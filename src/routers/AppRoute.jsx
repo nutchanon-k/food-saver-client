@@ -32,10 +32,9 @@ import OrderFailed from "../pages/OrderFailed";
 
 import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
-import Store from "../pages/Store";
 
 import SellerDashboard from "../pages/seller/SellerDashboard";
-import SellerProfile from "../pages/seller/SellerProfile";
+
 import ManageProduct from "../pages/seller/ManageProduct";
 import ManageOrder from "../pages/seller/ManageOrder";
 import { Inbox } from "lucide-react";
@@ -71,9 +70,6 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
-
-
-
       { index: true, element: <MapPage /> },
       { path: "/Home", element: <HomePage /> },
       { path: "/map", element: <MapPage /> },
@@ -91,10 +87,8 @@ const buyerRouter = createBrowserRouter([
     ],
 
   },
-  {
-    path: "/user",
-    element: <UserProfile />,
-  },
+  
+  { path: "/user",element: <UserProfile />},
 ]);
 
 const sellerRouter = createBrowserRouter([

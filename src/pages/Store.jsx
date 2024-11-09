@@ -97,14 +97,14 @@ const Store = () => {
                 const cartItem = cartData.find(cart => cart.productId === productId);
 
 
-                if (cartItem && cartItem.quantity >= 0) {
+                if (cartItem && cartItem.quantity > 1) {
 
                     // อัพเดทจำนวนสินค้าในตะกร้า
                     const response = await ChangeQuantityItem(cartItem.id, cartItem.quantity - 1);
                     console.log('Cart updated');
                     CartData(); // รีเฟรชข้อมูลตะกร้า
                 }
-                if(cartItem && cartItem.quantity == 1){
+                else if(cartItem && cartItem.quantity == 1){
                     setCartData(prevCart => prevCart.filter(item => item.id !== cartItem.id));
                     const response = await DeleteCartItem(cartItem.id);
                     console.log('Cart updated');

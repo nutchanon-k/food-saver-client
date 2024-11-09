@@ -2,8 +2,8 @@
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
 import { getCartDataAPI } from '../API/cartItemAPI';
-import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI, patchSellerAPI } from "../API/UserApi";
-import { all } from 'axios';
+import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI, patchSellerAPI, loginGoogle } from "../API/UserApi";
+import axios, { all } from 'axios';
 
 
 
@@ -33,6 +33,22 @@ const useUserStore = create(persist((set, get) => ({
       }catch(err){
         console.log(err)
       }
+    },
+    actionLoginGoogle: async (codeResponse) => {
+      const res = await axios.get(
+        `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${codeResponse.access_token}`,
+        {
+          headers: {
+            Authorization: `Bearer ${codeResponse.access_token}`,
+          },
+        }
+      );
+      // console.log(res.data);
+      const result = await loginGoogle(res.data);
+      console.log(result, "Check result");
+      localStorage.setItem('token', result.data.token);
+      set({ user: result.data.user ,token: result.data.token, isAuthenticated: true})
+      return res.data;
     },
     resetPassword : async (body) => {
       try{

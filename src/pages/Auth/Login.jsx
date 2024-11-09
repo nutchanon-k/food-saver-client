@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import useUserStore from '../../stores/userStore'
+import { useGoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
     const hdlLogin = useUserStore((state) => state.hdlLogin);
+    const actionLoginGoogle = useUserStore((state) => state.actionLoginGoogle);
+    
+    
     const navigate = useNavigate();
     const [formLogin, setFormLogin] = useState({
         email: "",
@@ -19,30 +23,38 @@ const Login = () => {
         });
     };
 
+
+    const hdlLoginGoogle = useGoogleLogin({
+        onSuccess: async (codeResponse) => {
+          try {
+            const res = await actionLoginGoogle(codeResponse);
+            if (res) {
+                navigate('/');
+                window.location.reload();
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        },
+        onError: (err) => {
+          console.log(err);
+        },
+      });
+
+
     const hdlSubmit = async (e) => {
         try {
             e.preventDefault()
-
             if (!formLogin.email.trim() || !formLogin.password.trim()) {
                 alert('Please fill in both email and password.')
                 return
             }
-
             const body = formLogin
             const data = await hdlLogin(body)
             console.log(data)
             if (data) {
                 navigate('/');
                 window.location.reload();
-                // if (data.user.role === 'ADMIN') {
-                //     navigate('/admin');
-                // } else if (data.user.role === 'BUYER') {
-                //     navigate('/buyer');
-                // } else if (data.user.role === 'SELLER') {
-                //     navigate('/seller');
-                // } else {
-                //     navigate('/');
-                // }
             }
         } catch (error) {
             alert(error)
@@ -145,9 +157,7 @@ const Login = () => {
                     <button
                         type="button"
                         className="w-full bg-blue-500 text-white py-3 px-4 rounded-3xl hover:bg-blue-600 transition-colors flex items-center justify-center space-x-2"
-                        onClick={() => {
-                            // เพิ่มฟังก์ชันสำหรับการล็อกอินด้วย Google หากมี
-                        }}
+                        onClick={() => {hdlLoginGoogle()}}
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24">
                             <path
