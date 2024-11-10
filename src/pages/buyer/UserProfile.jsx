@@ -45,20 +45,20 @@ const UserProfile = () => {
     if (!formUpdate.firstName.trim()) {
       newErrors.firstName = "กรุณากรอกชื่อ";
     }
-    console.log(1)
+    
     if (!formUpdate.lastName.trim()) {
       newErrors.lastName = "กรุณากรอกนามสกุล";
     }
-    console.log(2)
+    
     if (!formUpdate.phoneNumber) {
       newErrors.phoneNumber = "กรุณากรอกเบอร์โทรศัพท์";
     } else if (!isValidPhoneNumber(formUpdate.phoneNumber)) {
       newErrors.phoneNumber = "กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง (0xxxxxxxxx)";
     }
-    console.log(3)
+    
     if (!formUpdate.address.trim()) {
       newErrors.address = "กรุณากรอกที่อยู่";
-    }console.log(4)
+    }
 
     setErrors(newErrors);
     const isValid = Object.keys(newErrors).length === 0; //เช็คว่าในobjectของnewError มีerrorหรือไม่ถ้าใlenght = 0 คือไม่มีerror
@@ -103,7 +103,7 @@ const UserProfile = () => {
         body.append("lastName", formUpdate.lastName);
         body.append("phoneNumber", formUpdate.phoneNumber);
         body.append("address", formUpdate.address);
-
+        console.log(body)
         if (file) {
           body.append("image", file);
         }
@@ -118,6 +118,9 @@ const UserProfile = () => {
       setLoading(false);
     }
   };
+
+
+  
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
@@ -154,7 +157,7 @@ const UserProfile = () => {
           </div>
         )
       ) : (
-        <div className="flex justify-center mb-6 ">
+        <div className="flex flex-col justify-center items-center mb-6 ">
           <img
             className="w-[250px] h-[250px] border-2 rounded-full"
             src={user.profilePicture}

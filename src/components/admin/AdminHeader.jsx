@@ -27,6 +27,7 @@ const AdminHeader = () => {
 
     const handleLogout = async() => {
         await hdlLogout()
+        navigate('/')
         
     };
 

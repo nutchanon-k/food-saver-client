@@ -2,7 +2,7 @@
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
 import { getCartDataAPI } from '../API/cartItemAPI';
-import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI } from "../API/UserApi";
+import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI, patchSellerAPI } from "../API/UserApi";
 import { all } from 'axios';
 
 
@@ -52,8 +52,10 @@ const useUserStore = create(persist((set, get) => ({
         allUser : [],
         
       })
+        
         localStorage.removeItem("userStore");
         localStorage.removeItem("token");
+        // window.location.assign('/')
        
     },
 
@@ -107,7 +109,7 @@ const useUserStore = create(persist((set, get) => ({
       }catch(error){
         console.log(error)
       }
-    }
+    },
   
     // hdlLogout: () => {
     //   set({ 
@@ -211,6 +213,19 @@ const useUserStore = create(persist((set, get) => ({
 //       }
 //     },
   
+                              // seller store
+//______________________________________________________________________________________//
+
+  patchSellerProfile : async (body,storeId) => {
+    try {
+      const data = await patchSellerAPI(body,storeId)
+      console.log(data)
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
     
   }),{
     name: "userStore",
