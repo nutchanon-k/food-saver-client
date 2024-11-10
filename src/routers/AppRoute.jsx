@@ -34,7 +34,7 @@ import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
 
 import SellerDashboard from "../pages/seller/SellerDashboard";
-import SellerProfile from "../pages/seller/SellerProfile";
+// import SellerProfile from "../pages/seller/SellerProfile";
 import ManageProduct from "../pages/seller/ManageProduct";
 import ManageOrder from "../pages/seller/ManageOrder";
 import { Inbox } from "lucide-react";

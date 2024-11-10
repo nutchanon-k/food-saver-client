@@ -25,13 +25,16 @@ export default function StoreMap() {
   const setZoom = useMapStore((state) => state.setZoom);
   const center = useMapStore((state) => state.center);
   const setCenter = useMapStore((state) => state.setCenter);
+  const filter = useMapStore((state) => state.filter);
+  const setFilter = useMapStore((state) => state.setFilter);
 
   const handleMapClick = (event) => {
     const lat = event.detail.latLng.lat;
     const lng = event.detail.latLng.lng;
     setMapCenter({ lat, lng });
+    console.log(filter)
     getStoreArray({
-      radius: 2,
+      radius: filter.radius,
       latitude: lat,
       longitude: lng,
       products: true,
