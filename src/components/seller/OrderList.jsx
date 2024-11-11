@@ -15,7 +15,7 @@ const OrderList = () => {
         { id: 9, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
         { id: 10, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
         { id: 11, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        { id: 12, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
+        
         
     ];
 

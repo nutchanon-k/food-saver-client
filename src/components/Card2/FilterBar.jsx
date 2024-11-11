@@ -30,7 +30,7 @@ const FilterBar = () => {
                         </div>
                         <div className="flex flex-col space-y-2">
                             <label className="flex items-center">
-                                <input type="checkbox" className="mr-2" />
+                                <input type="checkbox" className="mr-2 border-green-500 rounded-sm text-green-500 focus:ring-green-500" />
                                 หมวดหมู่อาหาร
                             </label>
                             <label className="flex items-center">
