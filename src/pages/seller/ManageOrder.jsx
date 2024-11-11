@@ -26,22 +26,8 @@ const ManageOrder = () => {
     <div>
       {/* <div className="justify-center flex h-screen w-full"> */}
       <OrderList />
-      <OrderDetail /> 
-      <ModalFoodDetail />
-      <ProductAdd /> 
-
-<ConfirmOrder />
-<FilterBar />
-<ModalDeactiveUser />
-<FoundationCard />
-<NearMe />
-<PromoCard />
-<RecommendedCard />
-<RestuarantCard />
-<RestuarantIcon />
-<SearchFilterPage />
-<Store/>
-<StoreDashboard />
+      <OrderDetail />
+      
     </div>
   );
 };

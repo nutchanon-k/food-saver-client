@@ -1,10 +1,12 @@
 import { AlertCircle, Eye, EyeOff } from 'lucide-react'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useUserStore from '../../stores/userStore';
+import Swal from 'sweetalert2';
 
 const ForgetPassword = () => {
   const navigate = useNavigate()
+  const {token} = useParams()
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -64,12 +66,19 @@ const ForgetPassword = () => {
     }
     try{
       
-      // const data = resetPassword(formData)
-      alert('รีเซ็ตรหัสผ่านสำเร็จ!');
-      navigate('/login')
+      const data = resetPassword(token,formData)
+      if(data) {
+        console.log("daataaaaaa",data)
+        Swal.fire({
+          icon: 'success',
+          title: 'สําเร็จ',
+          text: 'รีเซ็ตรหัสผ่านเรียบร้อย',
+        })
+        navigate('/login')
+      }
       
     }catch(err){
-
+      console.log(err)
     }
   }
 
@@ -158,3 +167,4 @@ const ForgetPassword = () => {
 }
 
 export default ForgetPassword
+
