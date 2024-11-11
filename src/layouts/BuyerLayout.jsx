@@ -6,7 +6,7 @@ import useSearchStore from "../stores/SearchStore";
 
 const BuyerLayout = () => {
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col bg-gray-100">
       {/* Navbar section */}
       <div className="">
         {/* Replace with your actual navbar content */}

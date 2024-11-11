@@ -32,7 +32,7 @@ const Login = () => {
             const data = await hdlLogin(body)
             console.log(data)
             if (data) {
-                navigate('/');
+                navigate('/home');
                 window.location.reload();
                 // if (data.user.role === 'ADMIN') {
                 //     navigate('/admin');

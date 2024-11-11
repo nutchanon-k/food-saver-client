@@ -57,7 +57,7 @@ const Home = () => {
           <Carousel.Slide className="bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
             <h2 className="text-white text-3xl font-bold">Explore the Latest Manga!</h2>
           </Carousel.Slide>
-          <Carousel.Slide className="bg-gradient-to-r from-green-400 to-blue-400 flex items-center justify-center">
+          <Carousel.Slide className="bg-gradient-to-r from-gray-400 to-blue-400 flex items-center justify-center">
             <h2 className="text-white text-3xl font-bold">Discover New Adventures</h2>
           </Carousel.Slide>
           <Carousel.Slide className="bg-gradient-to-r from-yellow-400 to-orange-400 flex items-center justify-center">
