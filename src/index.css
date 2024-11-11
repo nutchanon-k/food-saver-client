@@ -98,3 +98,12 @@
   .kpi-card ul li {
     margin-bottom: 5px;
   }
+
+
+
+  .login-image {
+    background: url('./assets/pictures/flat-lay-circular-food-frame.jpg') no-repeat center center;
+    background-size: cover;
+    color: white;
+    opacity: 80%;
+  }
