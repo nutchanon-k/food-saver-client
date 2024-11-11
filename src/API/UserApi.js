@@ -28,6 +28,10 @@ export const updateUserAPI = async (body) => {
     return axiosInstance.patch("/users/me",body)
 }
 
+export const deleteUserAPI = async (id) => {
+    return axiosInstance.delete(`/users/${id}`)
+}
+
 
 export const activateUserAPI = async (id) => {
     return axiosInstance.patch(`/users/isActive/${id}`) 
