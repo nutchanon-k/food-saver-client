@@ -5,7 +5,7 @@ import { getMeAPI, patchSellerAPI, deleteStoreAPI } from "../../API/UserApi";
 import { Link,useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const MerchantPro = () => {
+const SellerProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const store = useUserStore((state) => state.user.store);
   
@@ -179,4 +179,4 @@ const MerchantPro = () => {
 };
 
 
-export default MerchantPro;
+export default SellerProfile;

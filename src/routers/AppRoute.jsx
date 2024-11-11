@@ -40,6 +40,7 @@ import { Inbox } from "lucide-react";
 import SendEmailForgetPassword from "../pages/Auth/SendEmailForgetPassword";
 import CreateStore from "../pages/Auth/CreateStore";
 import UserEditProfile from "../pages/buyer/UserEditProfile";
+import SellerProfile from "../pages/seller/SellerProfile";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -105,7 +106,7 @@ const sellerRouter = createBrowserRouter([
     children: [
       { index: true, element: <SellerDashboard /> },
       { path: "user", element: <UserProfile /> },
-      { path: "sellProfile", element: <SellerProfile /> },
+      { path: "sellerProfile", element: <SellerProfile /> },
       { path: "sellEdit", element: <SellerEdit /> },
       { path: "manage-product", element: <ManageProduct /> },
       { path: "manage-order", element: <ManageOrder /> },
