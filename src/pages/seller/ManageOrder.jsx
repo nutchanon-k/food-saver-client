@@ -25,12 +25,12 @@ const ManageOrder = () => {
   return (
     <div>
       {/* <div className="justify-center flex h-screen w-full"> */}
-      <OrderList />
-      <OrderDetail /> 
+      {/* <OrderList />
+      <OrderDetail />  */}
       <ModalFoodDetail />
       <ProductAdd /> 
 
-<ConfirmOrder />
+{/* <ConfirmOrder />
 <FilterBar />
 <ModalDeactiveUser />
 <FoundationCard />
@@ -41,7 +41,7 @@ const ManageOrder = () => {
 <RestuarantIcon />
 <SearchFilterPage />
 <Store/>
-<StoreDashboard />
+<StoreDashboard /> */}
     </div>
   );
 };

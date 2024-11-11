@@ -17,3 +17,7 @@ export const getCategoriesAPI = async () => {
 export const getAllergenAPI = async () => {
   return axiosInstance.get(`/allergens`);
 }
+
+export const uploadProductAPI = async(body) => {
+  return axiosInstance.post(`/products/`,body)
+}
