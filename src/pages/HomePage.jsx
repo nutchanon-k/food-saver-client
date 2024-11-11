@@ -229,18 +229,31 @@ const CategoryProducts = () => {
  * ProductShowcase Component
  */
 const ProductShowcase = () => {
-  const { products, fetchProducts, loading, error } = useProductStore();
+  const { products, fetchProducts, loading, error,fetchPopularProduct } = useProductStore();
+  const [popularProducts, setPopularProducts] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       await fetchProducts(1, 5);
+  //     } catch (error) {
+  //       console.error("Failed to fetch products:", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [fetchProducts]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetchProducts(1, 5);
+        const popularProducts = await fetchPopularProduct();
+        setPopularProducts(popularProducts);
       } catch (error) {
-        console.error("Failed to fetch products:", error);
+        console.error("Failed to fetch popular products:", error);
       }
     };
     fetchData();
-  }, [fetchProducts]);
+  }, [fetchPopularProduct]);
 
   if (loading && products.length === 0) {
     return <p className="p-4 md:p-8 text-center">Loading Best Sellers...</p>;
@@ -257,7 +270,7 @@ const ProductShowcase = () => {
   return (
     <section className="product-showcase  py-2 px-1">
       <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
-        {products.slice(0, 5).map((product) => (
+        {popularProducts.slice(0, 5).map((product) => (
           <ModalFood product={product} key={product.id} />
         ))}
       </div>
@@ -475,9 +488,6 @@ const DonationSection = () => {
 
   return (
     <section className="donation-section p-4 md:p-8 bg-white">
-      <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">
-        Donate Food
-      </h2>
       <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
         {foundations.map((foundation) => (
           <div
@@ -498,6 +508,59 @@ const DonationSection = () => {
                 {foundation.contactInfo || "No contact info available"}
               </p>
             </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const PopularStore = () => {
+  const { fetchPopularStore, loading, error } = useStoreStore();
+  const [stores, setStores] = useState([]);
+  const { navigateToStore } = useNavigateService();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetchPopularStore();
+        setStores(res);
+      } catch (error) {
+        console.error("Failed to fetch popular stores:", error);
+      }
+    };
+    fetchData();
+  }, [fetchPopularStore]);
+
+  if (loading && stores.length === 0) {
+    return <p className="p-4 md:p-8 text-center">Loading Popular Stores...</p>;
+  }
+
+  if (error) {
+    return (
+      <p className="p-4 md:p-8 text-center text-red-500">
+        Error: {error || "Failed to load popular stores."}
+      </p>
+    );
+  }
+
+  return (
+    <section className="popular-stores-section ">
+      <div className="flex space-x-4 md:space-x-6 h-fit p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
+        {stores.slice(0, 10).map((store) => (
+          <div
+            onClick={() => navigateToStore(store.id)}
+            key={store.id}
+            className="cursor-pointer flex-shrink-0 w-[10%] aspect-square text-center"
+          >
+            <img
+              src={store.profilePicture}
+              alt={store.storeName}
+              className="h-full w-full object-cover rounded-lg aspect-square"
+            />
+            <span className="block mt-2 text-sm font-medium text-gray-700 truncate">
+              {store.storeName}
+            </span>
           </div>
         ))}
       </div>
@@ -672,6 +735,14 @@ const HomePage = () => {
               <RecommendedSection />
             </div>
 
+            <div className="mb-6">
+              <div className="flex items-center pb-4">
+                <h2 className="text-3xl font-bold">ร้านอาหารยอดฮิต</h2>
+                <ChevronRight color="#b5bbc5" />
+              </div>
+              <PopularStore />
+            </div>
+
             {/* All Stores Section */}
             <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-4 py-6 mb-6">
               <div className="flex items-center pb-4">
@@ -679,6 +750,14 @@ const HomePage = () => {
                 <ChevronRight color="#b5bbc5" />
               </div>
               <TopRestaurants />
+            </div>
+
+            <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-4 py-6 mb-6">
+              <div className="flex items-center pb-4">
+                <h2 className="text-3xl font-bold">ร้านทั้งหมด</h2>
+                <ChevronRight color="#b5bbc5" />
+              </div>
+              <DonationSection />
             </div>
           </div>
         ) : (

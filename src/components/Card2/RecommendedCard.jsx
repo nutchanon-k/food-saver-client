@@ -5,9 +5,12 @@ import { useNavigateService } from "../../routers/navigateService";
 const RecommendedCard = ({ store, key }) => {
   const { navigateToStore } = useNavigateService();
   return (
-    <div className="cursor-pointer active:scale-90 transition-all duration-200" onClick={() => navigateToStore(store.id)}>
+    <div
+      className="cursor-pointer active:scale-90 transition-all duration-200"
+      onClick={() => navigateToStore(store.id)}
+    >
       <div key={store?.id} className="h-full">
-        <div className="w-[250px] rounded-lg overflow-hidden shadow-lg h-full border bg-white">
+        <div className="w-[250px] rounded-lg overflow-hidden shadow-lg h-full border bg-white flex flex-col">
           <div className="relative">
             <div className="overflow-hidden w-[250px] h-[160px]">
               <img
@@ -23,15 +26,14 @@ const RecommendedCard = ({ store, key }) => {
               4% off your order
             </div>
           </div>
-          <div className="px-4 py-4">
-            <div className="font-bold text-lg mb-2">{store?.storeName}</div>
-            <div className="text-gray-600 text-sm flex items-center">
+          <div className="px-4 py-4 flex-1 flex flex-col">
+            <div className="font-bold text-lg flex-1">{store?.storeName}</div>
+            <div className="text-gray-600 text-sm flex items-center justify-end mt-auto">
               <span>
                 {store?.distance
-                  ? `${(store?.distance * 1.609344).toFixed(2)} km`
+                  ? `${(store?.distance * 1.609344).toFixed(2)} km | `
                   : ""}
               </span>
-              <span className="mx-2">|</span>
               <div className="flex items-center gap-1">
                 <Star className="w-4 h-4 text-yellow-500" />
                 <span className="text-yellow-500">4.8</span>

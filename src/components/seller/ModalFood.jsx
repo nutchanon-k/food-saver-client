@@ -4,13 +4,17 @@ import { useNavigateService } from "../../routers/navigateService";
 const ModalFood = ({ product }) => {
   const { navigateToStore } = useNavigateService();
   return (
+    
     <label className="swap swap-flip active:scale-90 transition-all duration-200">
       <input type="checkbox" />
-
       {/* Front of card */}
-      <div className="swap-off h-[300px]">
+      <div className="swap-off h-[300px] relative">
         <div className="flex-shrink-0 w-48 md:w-64 rounded-xl overflow-hidden shadow-lg bg-white text-sm h-full">
+            <div className="h-[75px] w-[75px] overflow-hidden rounded-xl absolute top-24 right-4 z-20 border-4 border-white">
+              <img className="h-full" src={product.store.profilePicture} alt="" />
+            </div>
           <div className="h-36 md:h-32 overflow-hidden group">
+            
             <img
               src={
                 product?.imageUrl ||
