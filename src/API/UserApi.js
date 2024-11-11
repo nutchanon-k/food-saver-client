@@ -51,3 +51,8 @@ export const patchSellerAPI = async (storeId,body) =>{
 export const deleteStoreAPI = async (storeId) =>{
     return await axiosInstance.delete(`/stores/${storeId}`)
 }
+export const createStoreAPI = async (body) =>{
+    console.log(Object.fromEntries(body))
+    return await axiosInstance.post(`/stores`,body)
+}
+

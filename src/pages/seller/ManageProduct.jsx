@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { CircleX, Pencil } from "lucide-react";
 import useSellerManageProduct from "../../stores/seller store/SellerManageProduct";
+import useUserStore from "../../stores/userStore";
+
 
 const ManageProduct = () => {
   const getStoreProduct = useSellerManageProduct(
     (state) => state.getStoreProduct
   );
   const deleteProduct = useSellerManageProduct((state) => state.deleteProduct);
+  const user = useUserStore((state)=>state.user)
+
+
+  console.log(user)
+
   const [mapItem, setMapItem] = useState([]);
 
-  const id = 1;
+  const id = user.store.id
+  // const id = 1;
+  
 
   useEffect(() => {
     MapStoreProduct();
+
   }, []);
 
   const MapStoreProduct = async () => {
