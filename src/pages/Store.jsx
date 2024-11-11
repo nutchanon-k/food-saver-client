@@ -104,7 +104,7 @@ const Store = () => {
                     console.log('Cart updated');
                     CartData(); // รีเฟรชข้อมูลตะกร้า
                 }
-                else if(cartItem && cartItem.quantity == 1){
+                if(cartItem && cartItem.quantity === 1){
                     setCartData(prevCart => prevCart.filter(item => item.id !== cartItem.id));
                     const response = await DeleteCartItem(cartItem.id);
                     console.log('Cart updated');

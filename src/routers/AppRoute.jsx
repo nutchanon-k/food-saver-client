@@ -22,7 +22,6 @@ import Cart from "../pages/Cart";
 import Order from "../pages/Order";
 
 import { use } from "framer-motion/client";
-import SellerProfile from "../pages/seller/SellerProfile";
 import SellerEdit from "../pages/seller/SellerEdit";
 import Store from "../pages/Store";
 import HomePage from "../pages/HomePage";
@@ -39,6 +38,8 @@ import ManageProduct from "../pages/seller/ManageProduct";
 import ManageOrder from "../pages/seller/ManageOrder";
 import { Inbox } from "lucide-react";
 import SendEmailForgetPassword from "../pages/Auth/SendEmailForgetPassword";
+import CreateStore from "../pages/Auth/CreateStore";
+import UserEditProfile from "../pages/buyer/UserEditProfile";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -48,6 +49,8 @@ const guestRouter = createBrowserRouter([
   { path: "MerchantRegister", element: <MerchantRegister /> },
   { path: "forgetPassword/:token", element: <ForgetPassword /> },
   { path: "send-email-forgetPassword", element: <SendEmailForgetPassword /> },
+  
+  { path: "createStore", element: <CreateStore /> },
   { path: "*", element: <LandingPage /> },
 ]);
 
@@ -81,6 +84,8 @@ const buyerRouter = createBrowserRouter([
       { path: "verify", element: <VerifyPayment /> },
       { path: "order-success", element: <OrderSuccess /> },
       { path: "order-failed", element: <OrderFailed /> },
+      { path: "userProfile", element: <UserProfile />},
+      { path: "userEdit", element: <UserEditProfile /> },
       // {index: true, element: <Dashboard />},
       // {path: "manage-user", element: <ManageUser />},
       // {path: "manage-charity", element: <ManageCharity />},
@@ -115,9 +120,17 @@ const sellerRouter = createBrowserRouter([
   ,
 ]);
 
-const finalRouter = (role, isAuthenticate) => {
+const finalRouter = (role, isAuthenticate , user) => {
   // console.log(isAuthenticate,"app router")
   if (!isAuthenticate) return guestRouter;
+
+  if (role === "SELLER" && user.store == null) {
+    return createBrowserRouter([
+      { path: "*", element: <CreateStore /> }
+    ]);
+  }
+
+
   if (role === "ADMIN") {
     return adminRouter;
   } else if (role === "BUYER") {
@@ -132,6 +145,7 @@ const finalRouter = (role, isAuthenticate) => {
 export default function AppRoute() {
   const getMe = useUserStore((state) => state.getMe);
   const user = useUserStore((state) => state.user);
+
   const isAuthenticated = useUserStore((state) => state.isAuthenticated);
 
   useEffect(() => {
@@ -145,7 +159,15 @@ export default function AppRoute() {
   // console.log(isAuthenticated, "routerxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
   // console.log(user?.role, "role")
 
-  const router = finalRouter(user?.role, isAuthenticated);
+
+
+  console.log('Current User:', user);
+  console.log('Store ID:', user?.store);
+  console.log('Is Authenticated:', isAuthenticated);
+  console.log('User Role:', user?.role);
+
+
+  const router = finalRouter(user?.role, isAuthenticated , user);
 
   return (
     <div>

@@ -1,13 +1,16 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import BuyerNavBar from "../components/buyer/BuyerNavBar";
+import useUserStore from "../stores/userStore";
+import useSearchStore from "../stores/SearchStore";
 
 const BuyerLayout = () => {
   return (
     <div className="h-screen flex flex-col">
       {/* Navbar section */}
-      <div className="h-16 bg-white shadow-md flex items-center px-4">
+      <div className="">
         {/* Replace with your actual navbar content */}
-        <div className="text-lg font-semibold">Navbar</div>
+        <BuyerNavBar />
       </div>
 
       {/* Main content area */}

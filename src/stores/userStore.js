@@ -2,8 +2,10 @@
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
 import { getCartDataAPI } from '../API/cartItemAPI';
-import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI, patchSellerAPI, loginGoogle, forgetPasswordAPI, resetPasswordAPI } from "../API/UserApi";
+import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI, patchSellerAPI, loginGoogle, createStoreAPI, forgetPasswordAPI, resetPasswordAPI } from "../API/UserApi";
 import axios, { all } from 'axios';
+
+
 
 
 
@@ -15,6 +17,9 @@ const useUserStore = create(persist((set, get) => ({
     token: "",
     allUser: [],
     isAuthenticated: false,
+    setToken : (token) => {
+      set({token:token})
+    },
     // maintenanceMembers: [],
     // locationData: [],
     // departmentData: [],
@@ -177,6 +182,26 @@ const useUserStore = create(persist((set, get) => ({
       console.log(error)
     }
   },
+  createSellerStore : async (body) => {
+
+    try{
+      console.log(body)
+      const resp = await createStoreAPI(body)
+    
+      set({
+        user: resp.data,
+        isAuthenticated: true
+      });
+
+    console.log('Store creation response:', resp.data);
+      return resp.data
+
+
+    }catch(err){
+      console.log(err)
+      throw err
+    }
+  }
 
     
   }),{
