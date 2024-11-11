@@ -24,6 +24,7 @@ const SellerEdit = () => {
     longitude: "",
     profilePicture: "",
   });
+  
 
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -355,13 +356,13 @@ const SellerEdit = () => {
             </div>
           </div>
 
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <label className="block text-gray-700 mb-2">Upload Image</label>
             <div className="border-2 border-dashed border-green-500 p-4 rounded-lg text-center">
               <input type="" className="hidden" />
               <p className="text-gray-400">select your or drag and drop</p>
             </div>
-          </div>
+          </div> */}
 
           <div className="mt-6">
             <div className="flex justify-between  mt-6">
