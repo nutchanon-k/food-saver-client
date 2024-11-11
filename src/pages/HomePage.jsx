@@ -5,13 +5,16 @@ import { MapPin, User } from 'lucide-react';
 import useFoundationStore from '../stores/FoundationStore';
 import useMapStore from '../stores/mapStore';
 import useCategoryStore from '../stores/CategoryStore';
+import { useNavigateService } from "../routers/navigateService";
 
 import Banner from '../assets/pictures/HomePagePromo.png';
 import Map from '../assets/pictures/HomePageMap.png';
+import { useNavigate } from 'react-router-dom';
+import StoreCardHomePage from '../components/buyer/StoreCardHomePage';
 
 /**
  * Header Component
- */
+*/
 const Header = () => {
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between px-4 md:px-6 py-2 md:py-4 bg-white shadow-md">
@@ -255,10 +258,11 @@ const ProductShowcase = () => {
  * MapSection Component
  */
 const MapSection = () => {
+  const  {navigateToMap} = useNavigateService()
   return (
     <section className="map-section px-4 md:px-8 py-8 md:py-16 bg-green-50 flex items-center justify-center">
       <div className="map-image w-full h-full">
-        <img
+        <img onClick={navigateToMap}
           src={Map}
           alt="Map showing nearby restaurants"
           className="rounded-lg shadow-lg w-full h-full object-cover"
@@ -274,6 +278,7 @@ const MapSection = () => {
  */
 const NewRestaurants = () => {
   const { stores, fetchStores, loading, error } = useStoreStore();
+  const { navigateToStore } = useNavigateService();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -303,27 +308,7 @@ const NewRestaurants = () => {
       <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">New Restaurants</h2>
       <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
         {stores.slice(0, 5).map((store) => (
-          <div
-            key={store.id}
-            className="restaurant-card p-4 border rounded-lg shadow-md min-w-[200px]"
-          >
-            <img
-              src={store.profilePicture}
-              alt={store.storeName}
-              className="h-32 md:h-40 w-full object-cover rounded"
-              loading="lazy"
-            />
-            <div className="mt-4">
-              <h3 className="text-md md:text-lg font-bold text-gray-800">{store.storeName}</h3>
-              <p className="text-gray-600 mt-2 text-sm">
-                Promo: {store.promoDetails || 'No promo available'}
-              </p>
-              <p className="text-green-700 mt-2 font-medium">{store.distance || 'N/A'}</p>
-              <button className="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
-                Visit Store
-              </button>
-            </div>
-          </div>
+          <StoreCardHomePage store={store} key={store.id}/>
         ))}
       </div>
     </section>
@@ -430,17 +415,7 @@ const TopRestaurants = () => {
       <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">Top Restaurants</h2>
       <div className="flex space-x-2 md:space-x-4 overflow-x-auto">
         {stores.slice(10, 17).map((store) => (
-          <div
-            key={store.id}
-            className="restaurant-card p-2 border rounded-lg shadow-md min-w-[100px] w-[100px] h-[100px] md:min-w-[150px] md:w-[150px] md:h-[150px]"
-          >
-            <img
-              src={store.profilePicture}
-              alt={store.storeName}
-              className="h-full w-full object-cover rounded-md"
-              loading="lazy"
-            />
-          </div>
+         <StoreCardHomePage store={store} key={store.id}/>
         ))}
       </div>
     </section>
@@ -543,33 +518,7 @@ const NearbyStoresSection = () => {
       <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">Nearby Stores</h2>
       <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
         {stores.map((store) => (
-          <div
-            key={store.id}
-            className="store-card flex-shrink-0 w-48 md:w-64 p-4 bg-white rounded-lg shadow-md"
-          >
-            <img
-              src={store.profilePicture}
-              alt={store.storeName}
-              className="h-24 md:h-32 w-full object-cover rounded-md"
-              loading="lazy"
-            />
-            <div className="mt-2">
-              <h3 className="text-md md:text-lg font-bold text-gray-800">
-                {store.storeName}
-              </h3>
-              <p className="text-sm text-gray-600 mt-1">
-                {store.storeAddress || 'No address available'}
-              </p>
-              <p className="text-green-700 mt-2 font-medium">
-                {store.distance
-                  ? `${(store.distance * 1.609344).toFixed(2)} km`
-                  : 'N/A'}
-              </p>
-              <button className="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
-                Visit Store
-              </button>
-            </div>
-          </div>
+          <StoreCardHomePage store={store} key={store.id}/> 
         ))}
       </div>
     </section>
@@ -647,12 +596,12 @@ const HomePage = () => {
   const { selectedCategory } = useCategoryStore();
 
   return (
-    <div className="font-sans">
-      <Header />
+    <div className="w-3/4 min-w-[1024px] mx-auto">
+      {/* <Header /> */}
       <HeroSection />
+      <CategoriesSection />
       {!selectedCategory ? (
-        <>
-          <CategoriesSection />
+        <div className=''>
           <ProductShowcase />
           <MapSection />
           <NewRestaurants />
@@ -661,7 +610,7 @@ const HomePage = () => {
           <DonationSection />
           <NearbyStoresSection />
           <RecommendedSection />
-        </>
+        </div>
       ) : (
         <CategoryProducts />
       )}

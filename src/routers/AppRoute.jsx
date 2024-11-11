@@ -33,11 +33,12 @@ import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
 
 import SellerDashboard from "../pages/seller/SellerDashboard";
-import SellerProfile from "../pages/seller/SellerProfile";
+
 import ManageProduct from "../pages/seller/ManageProduct";
 import ManageOrder from "../pages/seller/ManageOrder";
 import { Inbox } from "lucide-react";
 import CreateStore from "../pages/Auth/CreateStore";
+import UserEditProfile from "../pages/buyer/UserEditProfile";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -71,10 +72,6 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
-
-
-
-      { index: true, element: <MapPage /> },
       { path: "/Home", element: <HomePage /> },
       { path: "/map", element: <MapPage /> },
       { path: "store/:storeId", element: <Store /> },
@@ -83,6 +80,8 @@ const buyerRouter = createBrowserRouter([
       { path: "verify", element: <VerifyPayment /> },
       { path: "order-success", element: <OrderSuccess /> },
       { path: "order-failed", element: <OrderFailed /> },
+      { path: "userProfile", element: <UserProfile />},
+      { path: "userEdit", element: <UserEditProfile /> },
       // {index: true, element: <Dashboard />},
       // {path: "manage-user", element: <ManageUser />},
       // {path: "manage-charity", element: <ManageCharity />},
@@ -91,10 +90,7 @@ const buyerRouter = createBrowserRouter([
     ],
 
   },
-  {
-    path: "/user",
-    element: <UserProfile />,
-  },
+
 ]);
 
 const sellerRouter = createBrowserRouter([

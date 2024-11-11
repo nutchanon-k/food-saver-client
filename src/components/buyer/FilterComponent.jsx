@@ -16,12 +16,13 @@ export default function FilterComponent() {
     category: [],
     radius: 2, // Initialize empty, we'll update this after fetching categories
   });
-  const [displayRadius,setDisplayRadius] = useState(20);
+  const [displayRadius, setDisplayRadius] = useState(20);
 
   const getAllergens = async () => {
     try {
       const result = await getAllergensAPI();
       setAllergens(result.data.data);
+      return result.data.data;
     } catch (err) {
       console.log(err);
     }
@@ -31,7 +32,6 @@ export default function FilterComponent() {
     try {
       const result = await getCategoriesAPI();
       setCategories(result.data);
-
       // After fetching categories, initialize `selectedFilters.category` to all selected
       const allCategoryIds = result.data.map((category) => category.id);
 
@@ -39,14 +39,24 @@ export default function FilterComponent() {
         ...prev,
         category: allCategoryIds, // Set all categories as selected by default
       }));
+      return result.data;
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
+    const initializeFilters = async () => {
+      const categories = await getCategories();
+      const categoriesIndex = categories.map((item) => item.id);
+      setFilter({
+        ...filter,
+        category: categoriesIndex,
+      });
+    };
+
+    initializeFilters();
     getAllergens();
-    getCategories();
   }, []);
 
   const hdlSelect = (e, id, filterName) => {
@@ -71,9 +81,9 @@ export default function FilterComponent() {
   const hdlSliding = (e) => {
     setSelectedFilters((prev) => ({
       ...prev,
-      radius: e.target.value/10,
+      radius: e.target.value / 10,
     }));
-    setDisplayRadius(e.target.value)
+    setDisplayRadius(e.target.value);
   };
 
   const hdlSubmit = (e) => {
@@ -83,13 +93,13 @@ export default function FilterComponent() {
       latitude: mapCenter.lat,
       longitude: mapCenter.lng,
     };
-    selectedFilters.radius = selectedFilters.radius
+    selectedFilters.radius = selectedFilters.radius;
     Object.entries(selectedFilters).forEach(([key, value]) => {
       queryObj[key] = value;
     });
     const updatedFilter = { ...filter, ...queryObj };
-    getStoreArray(updatedFilter)
-    console.log(updatedFilter)
+    getStoreArray(updatedFilter);
+    console.log(updatedFilter);
     setFilter(updatedFilter);
   };
 
@@ -107,23 +117,22 @@ export default function FilterComponent() {
         </ul> */}
       </details>
       <dialog id="create-modal" className="modal">
-        <div className="modal-box max-w-[700px]">
-          <button
-            type="button"
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            onClick={(e) => {
-              e.target.closest("dialog").close();
-            }}
-          >
-            ✕
-          </button>
-          <h1 className="font-bold text-xl">ค้นหาร้านค้า</h1>
-          <form
-            className=" w-full h-full flex flex-col gap-2"
-            onSubmit={hdlSubmit}
-          >
+        <div className="modal-box max-w-[700px] flex flex-col">
+          {/* Fixed Header with Range Bar */}
+          <div className="sticky top-0 bg-base-100 z-10 pb-4 border-b">
+            <button
+              type="button"
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              onClick={(e) => {
+                e.target.closest("dialog").close();
+              }}
+            >
+              ✕
+            </button>
+            <h1 className="font-bold text-3xl mb-4 text-primary">ค้นหาร้านค้า</h1>
+
             <div className="border p-2 rounded-lg">
-              <h1>Find store within {selectedFilters.radius} km</h1>
+              <h1>ค้นหาร้านค้าในระยะ <span className="text-primary"> {selectedFilters.radius} </span> กม.</h1>
               <input
                 onChange={hdlSliding}
                 type="range"
@@ -133,25 +142,39 @@ export default function FilterComponent() {
                 className="range range-primary range-xs"
               />
             </div>
-            <div className="flex gap-2">
-              <CheckboxComponent
-                title="Allergens"
-                selectedFilters={selectedFilters}
-                data={allergens}
-                filterName="allergen"
-                hdlSelect={hdlSelect}
-              />
+          </div>
 
-              <CheckboxComponent
-                title="Categories"
-                selectedFilters={selectedFilters}
-                data={categories}
-                filterName="category"
-                hdlSelect={hdlSelect}
-              />
+          <form
+            className="w-full h-full flex flex-col gap-2"
+            onSubmit={hdlSubmit}
+          >
+            {/* Scrollable Checkboxes */}
+            <div className="overflow-y-auto flex-1 py-4">
+              <div className="flex gap-2">
+                <CheckboxComponent
+                  title="ของที่แพ้"
+                  selectedFilters={selectedFilters}
+                  data={allergens}
+                  filterName="allergen"
+                  hdlSelect={hdlSelect}
+                  setSelectedFilters={setSelectedFilters}
+                />
+
+                <CheckboxComponent
+                  title="ประเภทอาหาร"
+                  selectedFilters={selectedFilters}
+                  data={categories}
+                  filterName="category"
+                  hdlSelect={hdlSelect}
+                  setSelectedFilters={setSelectedFilters}
+                />
+              </div>
             </div>
 
-            <button className="btn btn-primary">Search</button>
+            {/* Fixed Footer */}
+            <div className="sticky bottom-0 bg-base-100 pt-2 border-t shadow-lg">
+              <button className="btn btn-primary w-full">ค้นหา</button>
+            </div>
           </form>
         </div>
       </dialog>
