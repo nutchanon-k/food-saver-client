@@ -1,22 +1,42 @@
-import React, { useEffect, useRef, useState } from "react";
-import { CloudUpload } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import useUserStore from "../../stores/userStore";
-import { getMeAPI, patchSellerAPI, deleteStoreAPI } from "../../API/UserApi";
-import { Link,useNavigate } from "react-router-dom";
+import { CloudUpload, Target } from "lucide-react";
+import { deleteUserAPI, getMeAPI, updateUserAPI } from "../../API/UserApi";
 import Swal from "sweetalert2";
 
 const SellerProfile = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const store = useUserStore((state) => state.user.store);
-  
+  const user = useUserStore((state) => state.user);
+  const getMe = useUserStore((state) => state.getMe);
+  console.log(user);
+
+  const [isEdit, setIsEdit] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  console.log(store);
+  const [formUpdate, setFormUpdate] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    address: "",
+  });
 
-  
+
+  useEffect(() => {
+    getMe();
+    setFormUpdate({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber: user.phoneNumber,
+      address: user.address,
+    });
+  }, []);
+
+
+
 
   const handleDelete = async (id) => {
-    
+
     console.log(id);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -36,15 +56,15 @@ const SellerProfile = () => {
         reverseButtons: true,
       })
       .then(async (result) => {
-        console.log("delete",result);
+        console.log("delete", result);
         if (result.isConfirmed) {
           try {
-            const result = await deleteStoreAPI(id);
-            
-            localStorage.removeItem("token","userStore");
-            // useUserStore.setState({ user: null },{token:null});
+            const result = await deleteUserAPI(id);
 
+            localStorage.removeItem("token", "userStore");
+            useUserStore.setState({ user: null }, { token: null });
             navigate("/");
+            window.location.reload();
           } catch (error) {
             console.log(error);
           }
@@ -66,117 +86,79 @@ const SellerProfile = () => {
       });
   };
 
+
   return (
-    <div className="flex justify-center  items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">My Store Profile</h2>
-          <label className="flex items-center cursor-pointer">
-            <span className="mr-2 text-gray-600">เปิด - ปิด ร้าน</span>
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <h1 className="text-xl font-semibold mb-6">My Profile</h1>
+      <hr className="border-black mb-4" />
+      <div className="flex w-full h-full justify-center">
 
-            <input
-              onChange={() => setIsOpen(!isOpen)}
-              type="checkbox"
-              className="toggle toggle-success"
-              defaultChecked
-            />
-          </label>
-        </div>
-
-        <hr className="border-black mb-6" />
-
+        {/* Picture Area */}
         <div className="flex flex-col justify-center items-center mb-6 ">
+
           <img
-            className="w-3/4 h-full border-2 "
-            src={store?.profilePicture}
-            alt="profile"
+            className="w-[250px] h-[250px] border-2 rounded-full"
+            src={user.profilePicture}
+            alt=""
           />
         </div>
+      </div>
 
-        {/* Form Fields */}
-        <div className="space-y-4">
+      {/* Form Fields */}
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-gray-700">Store Name</label>
-
-            <p className="w-full px-3 py-2 border-b-2">{store.storeName}</p>
-          </div>
-          <div>
-            <label className="block text-gray-700">Phone Number</label>
-
-            <p className="w-full px-3 py-2 border-b-2">{store.phoneNumber}</p>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              ชื่อ
+            </label>
+            <p className="w-full px-3 py-2 border-b-2">{user.firstName}</p>
           </div>
           <div>
-            <label className="block text-gray-700">Address</label>
-
-            <p className="w-full px-3 py-2 border-b-2">{store.storeAddress}</p>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              นามสกุล
+            </label>
+            <p className="w-full px-3 py-2 border-b-2">{user.lastName}</p>
           </div>
-          <div>
-            <label className="block text-gray-700">Detail</label>
+        </div>
 
-            <p className="w-full px-3 py-2 border-b-2">{store.storeDetails}</p>
-          </div>
-          <div className="flex  gap-8">
-            <div>
-              <label className="block text-gray-700">Time Open</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            เบอร์โทรศัพท์
+          </label>
+          <p className=" w-full px-3 py-2 border-b-2">{user.phoneNumber}</p>
+        </div>
 
-              <p className="w-full px-3 py-2 border-b-2">{store.timeOpen}</p>
-            </div>
-            <div>
-              <label className="block text-gray-700">Time Close</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            ที่อยู่
+          </label>
+          <p className="w-full px-3 py-2 border-b-2">{user.address}</p>
+        </div>
 
-              <p className="w-full px-3 py-2 border-b-2">{store.timeClose}</p>
-            </div>
-          </div>
 
-          <div className="flex flex-col w-full gap-4">
-            <div>
-              <label className="block text-gray-700">Latitude</label>
+        <div className="mt-6">
 
-              <p className="w-full px-3 py-2 border-b-2">{store.latitude}</p>
-            </div>
-            <div>
-              <label className="block text-gray-700">Longitude</label>
-
-              <p className="w-full px-3 py-2 border-b-2">{store.longitude}</p>
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <label className="block text-gray-700 mb-2">Map Location</label>
-            <div className="w-full h-40 bg-gray-100 border rounded-md flex items-center justify-center">
-              <p className="text-gray-400">Map Placeholder</p>
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <label className="block text-gray-700 mb-2">Upload Image</label>
-            <div className="border-2 border-dashed border-green-500 p-4 rounded-lg text-center">
-              <input type="" className="hidden" />
-              <p className="text-gray-400">select your or drag and drop</p>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <div className="flex justify-between  mt-6">
+            <div className="flex justify-between  mt-4">
               <button
-                onClick={() => handleDelete(store.id)}
-                className="w-[250px] px-4 py-2 bg-red-500 text-white rounded-3xl"
+                onClick={() => handleDelete(user.id)}
+                className="w-[250px] px-4 py-2 bg-red-500 text-white rounded-xl"
               >
-                Delete Store
+                Delete Account
               </button>
               <Link
-                to={"/sellEdit"}
-                className="w-[250px] px-4 py-2 bg-green-500 text-white rounded-3xl text-center"
+                to={"/seller-edit-profile"}
+                className="w-[250px] p-4 bg-green-500 text-white rounded-xl text-center"
               >
                 Edit
               </Link>
             </div>
-          </div>
+          
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
+
 };
 
 
-export default SellerProfile;
+export default SellerProfile

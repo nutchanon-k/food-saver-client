@@ -53,10 +53,12 @@ const Login = () => {
             const data = await hdlLogin(body)
             console.log(data)
             if (data) {
+
                 navigate('/');
                 window.location.reload();
             }
         } catch (error) {
+            
             alert(error)
         }
     };

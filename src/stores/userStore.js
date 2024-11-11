@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { getCartDataAPI } from '../API/cartItemAPI';
 import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI, patchSellerAPI, loginGoogle, createStoreAPI, forgetPasswordAPI, resetPasswordAPI } from "../API/UserApi";
 import axios, { all } from 'axios';
+import Swal from 'sweetalert2';
 
 
 
@@ -36,7 +37,13 @@ const useUserStore = create(persist((set, get) => ({
         localStorage.setItem('token', result.data.token);
         return result.data
       }catch(err){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message,
+        })
         console.log(err)
+        
       }
     },
     actionLoginGoogle: async (codeResponse) => {
