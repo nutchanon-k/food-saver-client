@@ -67,10 +67,12 @@ const ManageProduct = () => {
                   <td className="border-b p-2  text-[#ff5722]">
                     {product.salePrice}
                   </td>
-                  <td className="border-b p-2">{product.expirationDate}</td>
+                  <td className="border-b p-2">{product.expirationDate ? product.expirationDate : "-"}</td>
                   <td className="border-b p-2">{product.quantity}</td>
-                  <td className="border-b p-2"></td>
-                  <td className="border-b p-2"></td>
+
+                  <td className="border-b p-2">{product?.productAllergens?.map((item)=> <p>{item.allergen.name}</p>)}</td>
+                  
+                  <td className="border-b p-2">{product?.productCategories?.map((categories)=> <p>{categories.category.name}</p>)}</td>
                   <td className="border-b p-2 text-[#FFAE00] text-center">
                     <Pencil />
                   </td>

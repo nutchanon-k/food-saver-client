@@ -1,9 +1,10 @@
 import React from "react";
 import OrderList from "../../components/seller/OrderList";
 import OrderDetail from "../../components/seller/OrderDetail";
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
 import ModalFoodDetail from "../../components/seller/ModalFoodDetail";
 import ProductAdd from "../../components/seller/ProductAdd";
+
 
 import ConfirmOrder from "../../components/Card2/ConfirmOrder";
 import FilterBar from "../../components/Card2/FilterBar";
@@ -18,11 +19,29 @@ import SearchFilterPage from "../../components/Card2/SearchFilterPage";
 import Store from "../../components/Card2/Store";
 import StoreDashboard from "../../components/Card2/StoreDashboard";
 
+
+
 const ManageOrder = () => {
   return (
-    <div className="justify-center flex h-screen w-full">
+    <div>
+      {/* <div className="justify-center flex h-screen w-full"> */}
       <OrderList />
-      <OrderDetail />
+      <OrderDetail /> 
+      <ModalFoodDetail />
+      <ProductAdd /> 
+
+<ConfirmOrder />
+<FilterBar />
+<ModalDeactiveUser />
+<FoundationCard />
+<NearMe />
+<PromoCard />
+<RecommendedCard />
+<RestuarantCard />
+<RestuarantIcon />
+<SearchFilterPage />
+<Store/>
+<StoreDashboard />
     </div>
   );
 };
