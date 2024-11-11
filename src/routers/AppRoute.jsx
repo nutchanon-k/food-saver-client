@@ -34,6 +34,7 @@ import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
 
 import SellerDashboard from "../pages/seller/SellerDashboard";
+
 import ManageProduct from "../pages/seller/ManageProduct";
 import ManageOrder from "../pages/seller/ManageOrder";
 import { Inbox } from "lucide-react";
@@ -70,10 +71,6 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
-
-
-
-      { index: true, element: <MapPage /> },
       { path: "/Home", element: <HomePage /> },
       { path: "/map", element: <MapPage /> },
       { path: "store/:storeId", element: <Store /> },

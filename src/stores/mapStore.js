@@ -18,7 +18,7 @@ const useMapStore = create((set, get) => ({
       ...prev,
       filter: {
         ...prev.filter, // Spread existing filter properties
-        ...newFilter,   // Overwrite with new properties from newFilter
+        ...newFilter, // Overwrite with new properties from newFilter
       },
     })),
   zoom: 10,
@@ -52,7 +52,7 @@ const useMapStore = create((set, get) => ({
     })),
   getStoreArray: async (queryObj) => {
     try {
-      const {category,allergen,...remainQuery} = queryObj
+      const { category, allergen, ...remainQuery } = queryObj;
       const allStores = await getStoreArray(remainQuery); // Await the async function
       console.log(allStores);
       set({ stores: allStores }); // Update the state with the fetched stores
@@ -77,8 +77,14 @@ const useMapStore = create((set, get) => ({
     }
   },
   initialPosition: () => {
-    const { userLocation, setZoom, setCenter, setMapCenter, getStoreArray } =
-      get();
+    const {
+      userLocation,
+      setZoom,
+      setCenter,
+      setMapCenter,
+      getStoreArray,
+      filter,
+    } = get();
     setZoom(15);
     setCenter(userLocation);
     setMapCenter(userLocation); // Add this line to update marker position
@@ -88,12 +94,34 @@ const useMapStore = create((set, get) => ({
       setCenter(undefined);
     }, 1000);
     getStoreArray({
-      radius: 2,
+      radius: filter.radius,
       latitude: userLocation.lat,
       longitude: userLocation.lng,
       products: true,
     });
   },
+  sortStoreByDistance: () => {
+    const { stores } = get();
+    // Create a new array instead of mutating the existing one
+    const sortedStores = [...stores].sort((a, b) => {
+      const distanceA = a.distance;
+      const distanceB = b.distance;
+      return distanceA - distanceB;
+    });
+    // Set the new array to trigger re-render
+    set({ stores: sortedStores });
+  },
+  sortStoreByAvalilability: () => {
+    const { stores } = get();
+    // Create a new array instead of mutating the existing one
+    const sortedStores = [...stores].sort((a, b) => {
+      const availabilityA = a.products.reduce((acc,product) => acc + product.quantity, 0);
+      const availabilityB = b.products.reduce((acc,product) => acc + product.quantity, 0);
+      return availabilityA - availabilityB;
+    });
+    // Set the new array to trigger re-render
+    set({ stores: sortedStores });
+  }
 }));
 
 export default useMapStore;
