@@ -67,7 +67,7 @@ const CategoryItem = ({ id, name, imageUrl, onSelect }) => {
       className="category-item flex flex-col items-center mx-2 cursor-pointer hover:text-green-600"
       onClick={() => onSelect(id)}
     >
-      <div className="icon bg-green-100 p-2.5 rounded-full shadow-md hover:bg-green-200">
+      <div className="icon p-2.5 md:w-14 rounded-full hover:rotate-3 active:scale-95 duration-200 hover:drop-shadow-md hover:opacity-90 hover:scale-110 transition-all ">
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -75,9 +75,12 @@ const CategoryItem = ({ id, name, imageUrl, onSelect }) => {
             className="h-10 w-10 md:h-14 md:w-14 object-cover rounded-full"
           />
         ) : (
-          <span className="material-icons text-green-800 text-xl md:text-2xl">
-            img
-          </span>
+          <img
+            className="w-14 scale-[2] aspect-square"
+            src="https://static.vecteezy.com/system/resources/thumbnails/013/995/943/small_2x/3d-rendering-of-fried-chicken-fast-food-icon-png.png"
+          /> // <span className=" mt-2 font-medium text-xs text-center truncate max-w-[60px] text-base-400">
+          //   {name}
+          // </span>
         )}
       </div>
       <p className="text-gray-800 mt-2 font-medium text-sm">{name}</p>
@@ -174,7 +177,7 @@ const CategoryProducts = () => {
           Products in "{categoryName}"
         </h2>
         <button
-          className="bg-green-600 text-white px-3 md:px-4 py-1 md:py-2 rounded hover:bg-green-700"
+          className="bg-green-600 rounded-full transition-all text-white px-3 md:px-4 py-1 md:py-2 hover:bg-green-700"
           onClick={resetSelectedCategory}
         >
           Back
@@ -193,31 +196,7 @@ const CategoryProducts = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {products.map((product) => (
-            <div
-              key={product.id}
-              className="product-card bg-white p-4 border rounded-lg shadow-md"
-            >
-              <img
-                src={product.imageUrl}
-                alt={product.name}
-                className="h-40 w-full object-cover rounded"
-                loading="lazy"
-              />
-              <div className="mt-4">
-                <h3 className="text-lg font-bold text-gray-800">
-                  {product.name}
-                </h3>
-                <p className="text-gray-600 mt-2 text-sm">
-                  {product.description}
-                </p>
-                <p className="text-green-700 mt-2 font-bold">
-                  Sale Price: ${product.salePrice}
-                </p>
-                <button className="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
-                  Visit Store
-                </button>
-              </div>
-            </div>
+            <ModalFood product={product} key={product.id} />
           ))}
         </div>
       )}
@@ -229,7 +208,8 @@ const CategoryProducts = () => {
  * ProductShowcase Component
  */
 const ProductShowcase = () => {
-  const { products, fetchProducts, loading, error,fetchPopularProduct } = useProductStore();
+  const { products, fetchProducts, loading, error, fetchPopularProduct } =
+    useProductStore();
   const [popularProducts, setPopularProducts] = useState([]);
 
   // useEffect(() => {

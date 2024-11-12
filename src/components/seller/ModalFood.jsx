@@ -4,17 +4,15 @@ import { useNavigateService } from "../../routers/navigateService";
 const ModalFood = ({ product }) => {
   const { navigateToStore } = useNavigateService();
   return (
-    
     <label className="swap swap-flip active:scale-90 transition-all duration-200">
       <input type="checkbox" />
       {/* Front of card */}
       <div className="swap-off h-[300px] relative">
-        <div className="flex-shrink-0 w-48 md:w-64 rounded-xl overflow-hidden shadow-lg bg-white text-sm h-full">
-            <div className="h-[75px] w-[75px] overflow-hidden rounded-xl absolute top-24 right-4 z-20 border-4 border-white">
-              <img className="h-full" src={product.store.profilePicture} alt="" />
-            </div>
+        <div className="flex-shrink-0 w-48 md:w-56 rounded-xl overflow-hidden shadow-lg bg-white text-sm h-full">
+          <div className="h-[65px] w-[65px] overflow-hidden rounded-xl absolute top-20 right-2 z-20 border-4 border-white">
+            <img className="h-full" src={product.store.profilePicture} alt="" />
+          </div>
           <div className="h-36 md:h-32 overflow-hidden group">
-            
             <img
               src={
                 product?.imageUrl ||
@@ -27,7 +25,7 @@ const ModalFood = ({ product }) => {
           </div>
           <div className="p-4 flex flex-col justify-between h-[calc(100%-128px)]">
             <div>
-              <h3 className="text-md md:text-lg font-bold text-gray-800 mb-2">
+              <h3 className="text-md md:text-xl font-bold text-gray-800 mb-2">
                 {product?.name || "Product name"}
               </h3>
               <div className="flex items-center mb-3">
@@ -53,7 +51,7 @@ const ModalFood = ({ product }) => {
 
       {/* Back of card */}
       <div className="swap-on h-[300px]">
-        <div className="w-48 md:w-64 rounded-xl shadow-lg bg-white p-4 h-full flex flex-col justify-between">
+        <div className="w-48 md:w-56 rounded-xl shadow-lg bg-white p-4 h-full flex flex-col justify-between">
           <div>
             <h3 className="text-lg font-bold mb-3">{product?.name}</h3>
             <p className="text-gray-600 mb-4">{product?.description}</p>
