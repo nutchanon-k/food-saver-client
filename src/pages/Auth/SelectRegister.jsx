@@ -2,14 +2,15 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const SelectRegister = () => {
-   const navigate = useNavigate() 
+  const navigate = useNavigate()
   return (
-    <div>
-         <div className="space-y-4">
-          {/* User Option */}
-          <button 
+    <div className='login-image w-screen h-screen flex items-center justify-center'>
+      <div className=" flex items-center justify-center gap-4">
+        {/* User Option */}
+        <div className='w-full h-[150px] '>
+          <button
             onClick={() => navigate('/UserRegister')}
-            className="w-full p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
+            className="w-full p-6 h-full bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200"
           >
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -26,11 +27,13 @@ const SelectRegister = () => {
               </svg>
             </div>
           </button>
+        </div>
 
-          {/* Store Option */}
-          <button 
-            onClick={() => navigate('/MerchantRegister', { state: { type: 'store' }})}
-            className="w-full p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
+        {/* Store Option */}
+        <div className='w-full h-[150px] '>
+          <button
+            onClick={() => navigate('/MerchantRegister', { state: { type: 'store' } })}
+            className="w-full p-6 h-full bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200"
           >
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
@@ -48,6 +51,7 @@ const SelectRegister = () => {
             </div>
           </button>
         </div>
+      </div>
     </div>
   )
 }
