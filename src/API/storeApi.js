@@ -53,3 +53,6 @@ export const verifyStoreAPI = async (id) => {
   return await axiosInstance.patch(`/stores/${id}/isVerify`);
 }
 
+export const getPopularStoresAPI = async () => {
+  return await axiosInstance.get(`/stores/popular`);
+}

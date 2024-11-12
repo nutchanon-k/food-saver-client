@@ -21,3 +21,7 @@ export const getAllergenAPI = async () => {
 export const uploadProductAPI = async(body) => {
   return axiosInstance.post(`/products/`,body)
 }
+
+export const EditProductAPI = async(id,body) => {
+  return axiosInstance.patch(`/products/${id}`,body)
+}

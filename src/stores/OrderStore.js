@@ -1,6 +1,7 @@
 
 import {create} from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { getSellerOrderAPI } from '../API/orderAPI';
 
 
 
@@ -15,6 +16,16 @@ const useOrderStore = create(persist((set, get) => ({
 
       }catch(err){
 
+      }
+    },
+
+    getSellerOrder : async(sellerId) =>{
+      try{
+        const result = await getSellerOrderAPI(sellerId)
+        console.log(result)
+        return result
+      }catch(err){
+        console.log(err)
       }
     }
   
