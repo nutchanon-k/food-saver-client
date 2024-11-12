@@ -39,7 +39,7 @@ const SalesOverTimeChart = () => {
                 const response = await getSalesOverTimeAPI();
 
                 const data = response?.data;
-                console.log(data)
+                console.log("xxxxx",data)
 
                 const labels = data?.map(item => item.month);
                 const revenues = data?.map(item => item.totalRevenue);
@@ -49,7 +49,7 @@ const SalesOverTimeChart = () => {
                     labels,
                     datasets: [
                         {
-                            label: 'Sales Over Time',
+                            label: 'Sales',
                             data: revenues,
                             fill: false,
                             backgroundColor: 'rgba(75,192,192,0.4)',
@@ -65,14 +65,14 @@ const SalesOverTimeChart = () => {
                 console.error('Error fetching Sales Over Time:', error);
             }
         };
-
+        
         fetchSalesOverTime();
     }, []);
     console.log(chartData)
 
     return (
-        <div className="card bg-base-100 shadow-xl p-4">
-            <h2 className="card-title mb-4">Sales Over Time</h2>
+        <div className="card bg-base-100 shadow-xl p-4 flex flex-col items-center">
+            <h2 className="card-title mb-4 text-3xl p-4 ">Monthly Sales</h2>
             <Line
                 data={chartData}
                 options={{

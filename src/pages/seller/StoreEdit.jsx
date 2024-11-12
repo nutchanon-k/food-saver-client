@@ -379,14 +379,14 @@ const StoreEdit = () => {
                 <button
                   type="button"
                   onClick={() => navigate("/store-profile")}
-                  className="w-[250px] px-4 py-2 bg-red-500 text-white rounded-3xl"
+                  className="w-[250px] px-4 py-4 bg-red-500 text-white rounded-xl"
                 >
                   Back
                 </button>
                 <button
                   onClick={hdlSubmit}
                   type="submit"
-                  className="w-[250px] px-4 py-2 bg-green-500 text-white rounded-3xl text-center"
+                  className="w-[250px] px-4 py-4 bg-green-500 text-white rounded-xl text-center"
                 >
                   Save
                 </button>

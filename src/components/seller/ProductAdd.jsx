@@ -10,8 +10,8 @@ const ProductAdd = ({ onSuccessAdd }) => {
     name: "",
     description: "",
     expirationDate: "",
-    categoryId: 0,
-    allergenId: 0,
+    categoryId: "",
+    allergenId: "",
     salePrice: "",
     originalPrice: "",
     quantity: "",
@@ -41,35 +41,35 @@ const ProductAdd = ({ onSuccessAdd }) => {
     getAllergenList();
   }, []);
 
-  console.log(user.store.id)
+  // console.log(user.store.id)
 
 
   const id = user.store.id;
   const getCategoriesList = async () => {
     try {
       const CategoriesResult = await getCategories(id);
-      console.log(CategoriesResult);
+      // console.log(CategoriesResult);
       return setCategories(CategoriesResult);
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(categories);
+  // console.log(categories);
 
   const getAllergenList = async () => {
     try {
       const AllergenResult = await getAllergen();
-      console.log(AllergenResult);
+      // console.log(AllergenResult);
       return setAllergen(AllergenResult);
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log(allergen);
+  // console.log(allergen);
 
   const hdlOnChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -98,12 +98,12 @@ const ProductAdd = ({ onSuccessAdd }) => {
       body.append("description", (form.description));
       body.append("expirationDate", (form.expirationDate));
 
-      for (let i = 0; i < form.categoryId.length; i++) {
-        body.append(`categoryId[${i}]`, [Number(form.categoryId[i])]);
-      }
-      for (let i = 0; i < form.allergenId.length; i++) {
-        body.append(`allergenId[${i}]`, [Number(form.allergenId[i])]);
-      }
+
+        body.append(`categoryId[0]`, [Number(form.categoryId)]);
+      
+      
+        body.append(`allergenId[0]`, [Number(form.allergenId)]);
+      
 
       body.append("salePrice", Number(form.salePrice));
       body.append("originalPrice", Number(form.originalPrice));
@@ -111,12 +111,22 @@ const ProductAdd = ({ onSuccessAdd }) => {
       if (image) {
         body.append('imageUrl', image)
       }
-      console.log('Form data:', Object.fromEntries(body));
+      // console.log('Form data:', Object.fromEntries(body));
       const resp = await uploadProductData(body);
-      console.log('Upload success:', resp);
+      // console.log('Upload success:', resp);
       if (resp) {
         setLoading(false)
         onSuccessAdd?.()
+        setForm({
+          name: "",
+          description: "",
+          expirationDate: "",
+          categoryId: 0,
+          allergenId: 0,
+          salePrice: "",
+          originalPrice: "",
+          quantity: "",
+        })
         await Swal.fire({
           icon: "success",
           title: "สําเร็จ",
@@ -132,7 +142,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
             }
           }
         });
-        
+
       }
     } catch (err) {
       setLoading(false)
@@ -143,7 +153,19 @@ const ProductAdd = ({ onSuccessAdd }) => {
         title: "เกิดข้อผิดพลาด",
         text: err.message || "ไม่สามารถเพิ่มสินค้าได้",
       });
-    } 
+    } finally {
+      setLoading(false)
+      // setForm({
+      //   name: "",
+      //   description: "",
+      //   expirationDate: "",
+      //   categoryId: 0,
+      //   allergenId: 0,
+      //   salePrice: "",
+      //   originalPrice: "",
+      //   quantity: "",
+      // })
+    }
   }, [form, image, uploadProductData])
 
 
@@ -156,7 +178,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
   return (
     <div>
       <div className="flex items-center justify-center">
-        <form onSubmit={hdlUploadProduct} className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
+        <form onSubmit={hdlUploadProduct} className="bg-white p-8 rounded-lg  w-full max-w-4xl">
           <h2 className="text-xl font-bold mb-6">เพิ่มสินค้า</h2>
           <div className="grid grid-cols-2 gap-6">
 
@@ -169,7 +191,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
                   onClick={openInput}
                 >
                   {/* Container สำหรับรูปภาพ */}
-                  <div className="relative w-full h-full flex items-center justify-center mb-4">
+                  <div className="relative w-full h-full flex items-center justify-center mb-4 cursor-pointer">
                     <img
                       src={imagePreview}
                       alt="uploadImage"
@@ -209,7 +231,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
               ) : (
 
                 <div
-                  className="border-2 border-dashed border-[#5abd4f] rounded-lg p-6 flex flex-col items-center justify-center"
+                  className="border-2 border-dashed cursor-pointer border-[#5abd4f] rounded-lg p-6 flex flex-col items-center justify-center"
                   onClick={openInput}
                 >
                   <input
@@ -236,6 +258,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
                 <label className="block text-gray-700">ชื่อสินค้า</label>
                 <input
                   onChange={hdlOnChange}
+                  value={form.name}
                   name="name"
                   type="text"
                   placeholder="กรุณากรอกชื่อสินค้า"
@@ -246,6 +269,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
                 <label className="block text-gray-700">รายละเอียดสินค้า</label>
                 <textarea
                   onChange={hdlOnChange}
+                  value={form.description}
                   name="description"
                   placeholder="กรุณากรอกรายละเอียดสินค้า"
                   className="w-full border rounded-lg p-2 mt-1"
@@ -255,9 +279,12 @@ const ProductAdd = ({ onSuccessAdd }) => {
                 <label className="block text-gray-700">ประเภทอาหาร</label>
                 <select
                   onChange={hdlOnChange}
+                  value={form.categoryId}
                   name="categoryId"
                   className="w-full border rounded-lg p-2 mt-1"
+                  defaultValue={""}
                 >
+                  <option value="" disabled>กรุณาเลือกประเภทอาหาร</option>
                   {/* <option>กรุณาเลือกประเภทอาหาร</option> */}
                   {categories?.data?.map((item, index) => (
                     <option key={index} value={item.id}>
@@ -271,8 +298,12 @@ const ProductAdd = ({ onSuccessAdd }) => {
                 <select
                   onChange={hdlOnChange}
                   name="allergenId"
+                  value={form.allergenId}
                   className="w-full border rounded-lg p-2 mt-1"
+                  defaultValue={""}
+                  placeholder="กรุณาเลือกส่วนประกอบสำหรับแพ้อาหาร"
                 >
+                  <option value="" disabled>กรุณาเลือกส่วนประกอบสำหรับแพ้อาหาร</option>
                   {/* <option>กรุณาเลือกอาหารแพ้อาหาร</option> */}
                   {allergen?.data?.data?.map((item, index) => (
                     <option key={index} value={item.id}>
@@ -288,6 +319,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
                 <input
                   onChange={hdlOnChange}
                   name="originalPrice"
+                  value={form.originalPrice}
                   type="number"
                   placeholder="฿฿"
                   className="w-full border rounded-lg p-2 mt-1"
@@ -298,6 +330,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
                 <input
                   onChange={hdlOnChange}
                   name="salePrice"
+                  value={form.salePrice}
                   type="number"
                   placeholder="฿฿"
                   className="w-full border rounded-lg p-2 mt-1"
@@ -310,6 +343,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
                     onChange={hdlOnChange}
                     name="expirationDate"
                     type="date"
+                    value={form.expirationDate}
                     placeholder="01/11/2567"
                     className="w-full border rounded-lg p-2 mt-1"
                   />
@@ -322,6 +356,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
                   onChange={hdlOnChange}
                   name="quantity"
                   type="number"
+                  value={form.quantity}
                   placeholder=""
                   className="w-full border rounded-lg p-2 mt-1"
                 />
@@ -335,7 +370,7 @@ const ProductAdd = ({ onSuccessAdd }) => {
               </div>
             ) : (
               <>
-                
+
                 <button
                   type="submit"
                   className="bg-[#5abd4f] text-white font-semibold py-2 px-6 rounded-3xl">

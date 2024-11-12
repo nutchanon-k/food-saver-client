@@ -17,8 +17,8 @@ const Dashboard = () => {
       <OrdersOverTimeChart />
       <SalesByCategoryChart />
       <SalesBySellerChart />
-      <NewUserRegistrationsChart />
-      <OrdersByStatusChart />
+      {/* <NewUserRegistrationsChart /> */}
+      {/* <OrdersByStatusChart /> */}
 
     </div>
 

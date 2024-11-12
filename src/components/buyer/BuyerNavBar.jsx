@@ -28,7 +28,7 @@ const BuyerNavBar = () => {
     <header className="flex items-center w-full justify-between bg-white px-4 py-4 border-b shadow-sm">
       {/* Logo */}
       <Link to="/home" className="flex items-center">
-        <h1 className="text-2xl font-bold text-green-600">Logo</h1>
+        <img src='../../src/assets/pictures/FoodSaver.png' alt="Logo" className="w-24 h-12 mr-2" />
       </Link>
 
       {/* Search Bar */}

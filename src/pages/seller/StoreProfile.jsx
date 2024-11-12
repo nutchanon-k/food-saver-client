@@ -160,13 +160,13 @@ const StoreProfile = () => {
             <div className="flex justify-between  mt-6">
               <button
                 onClick={() => handleDelete(store.id)}
-                className="w-[250px] px-4 py-2 bg-red-500 text-white rounded-3xl"
+                className="w-[250px] px-4 py-4 bg-red-500 text-white rounded-xl"
               >
                 Delete Store
               </button>
               <Link
                 to={"/store-edit"}
-                className="w-[250px] px-4 py-2 bg-green-500 text-white rounded-3xl text-center"
+                className="w-[250px] px-4 py-4 bg-green-500 text-white rounded-xl text-center"
               >
                 Edit
               </Link>

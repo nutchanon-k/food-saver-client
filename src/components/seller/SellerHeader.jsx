@@ -20,14 +20,14 @@ const SellerHeader = () => {
 
     useEffect(() => {
         const delay = setTimeout(() => {
-          setSearchText(text)
+            setSearchText(text)
         }, 500)
         return () => clearTimeout(delay)
-      }, [text])
+    }, [text])
 
-    const handleLogout = async() => {
+    const handleLogout = async () => {
         await hdlLogout()
-        
+
     };
 
 
@@ -39,7 +39,7 @@ const SellerHeader = () => {
         <header className="flex items-center justify-between bg-white px-4 py-4 border-b shadow-sm">
             {/* Logo */}
             <div className="flex items-center">
-                <h1 className="text-2xl font-bold text-green-600">Logo</h1>
+                <img src='../../src/assets/pictures/FoodSaver.png' alt="Logo" className="w-24 h-12 mr-2" />
             </div>
 
             {/* Search Bar */}

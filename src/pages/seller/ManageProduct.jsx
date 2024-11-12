@@ -5,6 +5,7 @@ import useUserStore from "../../stores/userStore";
 import ProductAdd from "../../components/seller/ProductAdd";
 import Swal from "sweetalert2";
 import EditModal from "../../components/seller/EditModal";
+import moment from 'moment';
 
 
 const ManageProduct = () => {
@@ -15,7 +16,7 @@ const ManageProduct = () => {
   const user = useUserStore((state) => state.user)
 
 
-  console.log(user)
+  // console.log(user)
 
   const [mapItem, setMapItem] = useState([]);
   const [currentProduct, setCurrentProduct] = useState('')
@@ -29,7 +30,7 @@ const ManageProduct = () => {
 
   }, []);
 
-  
+
 
   const MapStoreProduct = async () => {
     const getMapItem = await getStoreProduct(id);
@@ -94,11 +95,11 @@ const ManageProduct = () => {
     MapStoreProduct(); // รีโหลดข้อมูลหลังจากเพิ่มสินค้า
   }
 
-
-console.log("xxxxxxxxxxxxxxxxxxxxxx",currentProduct)
+  // const timeValid = moment(store?.timeOpen.slice(0, 19)).format('HH:mm:ss');
+  
   return (
     <div>
-      <div className="bg-white p-6 rounded-lg shadow-lg">
+      <div className="bg-white p-6 rounded-lg ">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold ">Manage Product</h1>
           <button
@@ -120,7 +121,8 @@ console.log("xxxxxxxxxxxxxxxxxxxxxx",currentProduct)
               <th className="border-b p-2">คงเหลือ</th>
               <th className="border-b p-2">มีส่วนผสมของ</th>
               <th className="border-b p-2">ประเภทอาหาร</th>
-              <th className="border-b p-2"></th>
+              <th className="border-b p-2"> แก้ไข</th>
+              <th className="border-b p-2"> ลบ</th>
             </tr>
           </thead>
 
@@ -128,11 +130,11 @@ console.log("xxxxxxxxxxxxxxxxxxxxxx",currentProduct)
             {mapItem?.data?.map((product) => {
               return (
                 <tr key={product.id}>
-                  <td className="border-b p-2 flex items-center">
+                  <td className="border-b p-2 flex items-center ">
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className="w-36 h-20 rounded-lg mr-4"
+                      className="w-36 h-28 rounded-lg mr-4"
                     />
                     {product.name}
                   </td>
@@ -140,25 +142,30 @@ console.log("xxxxxxxxxxxxxxxxxxxxxx",currentProduct)
                   <td className="border-b p-2  text-[#ff5722]">
                     {product.salePrice}
                   </td>
-                  <td className="border-b p-2">{product.expirationDate ? product.expirationDate : "-"}</td>
+                  <td className="border-b p-2">{product.expirationDate ?  moment(product.expirationDate.slice(0, 19)).format('DD/MM/YYYY') : "-"}</td>
                   <td className="border-b p-2">{product.quantity}</td>
 
                   <td className="border-b p-2">{product?.productAllergens?.map((item) => <p>{item.allergen.name}</p>)}</td>
 
                   <td className="border-b p-2">{product?.productCategories?.map((categories) => <p>{categories.category.name}</p>)}</td>
-                  <td className="border-b p-2 text-[#FFAE00] text-center">
+                  <td className="border-b p-2 text-[#FFAE00] text-center cursor-pointer active:scale-95 duration-200 hover:drop-shadow-md hover:opacity-90 hover:scale-110 transition-all ">
+
                     <Pencil onClick={() => {
+
                       const modal = document.getElementById('edit_product_modal');
                       modal.showModal();
                       setCurrentProduct(product)
                       // console.log(currentProduct)
                     }} />
+
                   </td>
                   <td
                     onClick={() => handleDelete(product.id)}
-                    className="border-b p-2 text-red-500 text-center"
+                    className="border-b p-2 text-red-500 text-center cursor-pointer active:scale-95 duration-200 hover:drop-shadow-md hover:opacity-90 hover:scale-110 transition-all " 
                   >
+
                     <CircleX />
+
                   </td>
                 </tr>
               );
@@ -183,17 +190,17 @@ console.log("xxxxxxxxxxxxxxxxxxxxxx",currentProduct)
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
-          <EditModal 
-          onSuccessEdit={onSuccessEdit} 
-          product={currentProduct}
-          
+          <EditModal
+            onSuccessEdit={onSuccessEdit}
+            product={currentProduct}
+
           />
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>
-    </div>
+    </div >
   );
 };
 
