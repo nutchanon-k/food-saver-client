@@ -27,7 +27,7 @@ const BuyerNavBar = () => {
   return (
     <header className="flex items-center w-full justify-between bg-white px-4 py-4 border-b shadow-sm">
       {/* Logo */}
-      <Link to='/home' className="flex items-center">
+      <Link to="/home" className="flex items-center">
         <h1 className="text-2xl font-bold text-green-600">Logo</h1>
       </Link>
 

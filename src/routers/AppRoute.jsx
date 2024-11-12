@@ -17,7 +17,7 @@ import LandingPage from "../pages/LandingPage";
 import NotFound from "../pages/NotFound";
 import { useEffect } from "react";
 import AdminProfile from "../pages/admin/AdminProfile";
-import ForgetPassword from "../pages/Auth/forgetPassword";
+import ForgetPassword from "../pages/Auth/ForgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
 
@@ -37,6 +37,7 @@ import SellerDashboard from "../pages/seller/SellerDashboard";
 import ManageProduct from "../pages/seller/ManageProduct";
 import ManageOrder from "../pages/seller/ManageOrder";
 import { Inbox } from "lucide-react";
+import SendEmailForgetPassword from "../pages/Auth/SendEmailForgetPassword";
 import CreateStore from "../pages/Auth/CreateStore";
 import UserEditProfile from "../pages/buyer/UserEditProfile";
 import SellerProfile from "../pages/seller/SellerProfile";
@@ -47,7 +48,9 @@ const guestRouter = createBrowserRouter([
   { path: "selectRegister", element: <SelectRegister /> },
   { path: "UserRegister", element: <UserRegister /> },
   { path: "MerchantRegister", element: <MerchantRegister /> },
-  { path: "forgetPassword", element: <ForgetPassword /> },
+  { path: "forgetPassword/:token", element: <ForgetPassword /> },
+  { path: "send-email-forgetPassword", element: <SendEmailForgetPassword /> },
+  
   { path: "createStore", element: <CreateStore /> },
   { path: "*", element: <LandingPage /> },
 ]);
@@ -73,6 +76,7 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
+      { index: true, element: <MapPage /> },
       { path: "/Home", element: <HomePage /> },
       { path: "/map", element: <MapPage /> },
       { path: "store/:storeId", element: <Store /> },
@@ -91,7 +95,8 @@ const buyerRouter = createBrowserRouter([
     ],
 
   },
-
+  
+  { path: "/user",element: <UserProfile />},
 ]);
 
 const sellerRouter = createBrowserRouter([
@@ -101,7 +106,7 @@ const sellerRouter = createBrowserRouter([
     children: [
       { index: true, element: <SellerDashboard /> },
       { path: "user", element: <UserProfile /> },
-      { path: "sellProfile", element: <SellerProfile /> },
+      { path: "sellerProfile", element: <SellerProfile /> },
       { path: "sellEdit", element: <SellerEdit /> },
       { path: "manage-product", element: <ManageProduct /> },
       { path: "manage-order", element: <ManageOrder /> },

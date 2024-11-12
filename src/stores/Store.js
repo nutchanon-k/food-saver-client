@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { getStoreArray } from '../API/storeApi';
+import { getPopularStoresAPI, getStoreArray } from '../API/storeApi';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { getStoreByQueryAPI, verifyStoreAPI } from '../API/storeApi';
 
@@ -55,6 +55,16 @@ const useStore = create(
           return result.data
         } catch (error) {
           console.log(error)
+        }
+      },
+      fetchPopularStore : async() => {
+        try {
+          const result = await getPopularStoresAPI()
+          console.log(result,"popular store")
+          return result.data.data
+        } catch (error) {
+          console.log(error)
+          
         }
       }
     }),

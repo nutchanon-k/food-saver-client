@@ -116,7 +116,7 @@ const Store = () => {
             console.error('Error updating cart:', err);
         }
     };
-
+   
     const mapStoreData = storeData.products?.map((item, index) => {
         const cartItem = Array.isArray(cartData) ?
         cartData.find(cart => cart.productId === item.id) : null;
@@ -166,7 +166,7 @@ const Store = () => {
         </div>
     })
 
-
+    console.log("storedata",storeData)
     return (
        <div className="relative h-screen flex flex-col max-w-lg mx-auto bg-white">
         <div className="flex-1 overflow-y-auto">
