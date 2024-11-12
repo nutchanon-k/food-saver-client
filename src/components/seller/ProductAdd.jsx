@@ -5,7 +5,7 @@ import { CloudUpload } from "lucide-react";
 import useUserStore from "../../stores/userStore";
 import Swal from "sweetalert2";
 
-const ProductAdd = () => {
+const ProductAdd = ({ onSuccessAdd }) => {
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -27,11 +27,13 @@ const ProductAdd = () => {
   const [imagePreview, setImagePreview] = useState(null)
 
 
+  const [loading, setLoading] = useState(false);
+
 
   const getCategories = useSellerAddProduct((state) => state.getCategories);
   const getAllergen = useSellerAddProduct((state) => state.getAllergen);
   const uploadProductData = useSellerAddProduct((state) => state.uploadProductData)
-  const user = useUserStore((state)=>state.user)
+  const user = useUserStore((state) => state.user)
 
 
   useEffect(() => {
@@ -89,39 +91,59 @@ const ProductAdd = () => {
 
   const hdlUploadProduct = useCallback(async (e) => {
     e.preventDefault();
+    setLoading(true); // เพิ่ม loading state
     try {
       const body = new FormData()
       body.append("name", (form.name));
       body.append("description", (form.description));
       body.append("expirationDate", (form.expirationDate));
-   
-      for(let i = 0; i < form.categoryId.length ;i++ ){
+
+      for (let i = 0; i < form.categoryId.length; i++) {
         body.append(`categoryId[${i}]`, [Number(form.categoryId[i])]);
       }
-      for(let i = 0; i < form.allergenId.length ;i++ ){
+      for (let i = 0; i < form.allergenId.length; i++) {
         body.append(`allergenId[${i}]`, [Number(form.allergenId[i])]);
       }
-  
+
       body.append("salePrice", Number(form.salePrice));
       body.append("originalPrice", Number(form.originalPrice));
       body.append("quantity", Number(form.quantity));
       if (image) {
         body.append('imageUrl', image)
       }
-      console.log('Form data:', Object.fromEntries(body)); //เพื่อจะได้ไม่ต้องใช้for of loop สำหรับconsole.log(ค่าในform) 
+      console.log('Form data:', Object.fromEntries(body));
       const resp = await uploadProductData(body);
       console.log('Upload success:', resp);
-      if (resp){
-        Swal.fire({
+      if (resp) {
+        setLoading(false)
+        onSuccessAdd?.()
+        await Swal.fire({
           icon: "success",
           title: "สําเร็จ",
           text: "สร้างสินค้าเรียบร้อย",
-      })
+          customClass: {
+            container: 'swal-container-class',
+            popup: 'swal-popup-class'
+          },
+          didOpen: () => {
+            const swalContainer = document.querySelector('.swal-container-class');
+            if (swalContainer) {
+              swalContainer.style.zIndex = "100000";
+            }
+          }
+        });
+        
       }
     } catch (err) {
+      setLoading(false)
+      onSuccessAdd?.()
       console.error('Upload error:', err);
-    }
-
+      Swal.fire({
+        icon: "error",
+        title: "เกิดข้อผิดพลาด",
+        text: err.message || "ไม่สามารถเพิ่มสินค้าได้",
+      });
+    } 
   }, [form, image, uploadProductData])
 
 
@@ -133,8 +155,7 @@ const ProductAdd = () => {
 
   return (
     <div>
-      {" "}
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center">
         <form onSubmit={hdlUploadProduct} className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
           <h2 className="text-xl font-bold mb-6">เพิ่มสินค้า</h2>
           <div className="grid grid-cols-2 gap-6">
@@ -307,15 +328,21 @@ const ProductAdd = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between mt-6">
-            <button className="bg-[#ff5722] text-white font-semibold py-2 px-6 rounded-3xl">
-              ยกเลิก
-            </button>
-            <button
-              type="submit"
-              className="bg-[#5abd4f] text-white font-semibold py-2 px-6 rounded-3xl">
-              เพิ่มสินค้า
-            </button>
+          <div className="flex justify-center mt-6">
+            {loading ? (
+              <div className="flex justify-center w-full">
+                <span className="loading loading-dots loading-lg"></span>
+              </div>
+            ) : (
+              <>
+                
+                <button
+                  type="submit"
+                  className="bg-[#5abd4f] text-white font-semibold py-2 px-6 rounded-3xl">
+                  เพิ่มสินค้า
+                </button>
+              </>
+            )}
           </div>
         </form>
       </div>

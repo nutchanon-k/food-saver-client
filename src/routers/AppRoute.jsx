@@ -21,8 +21,7 @@ import ForgetPassword from "../pages/Auth/ForgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
 
-import { use } from "framer-motion/client";
-import SellerEdit from "../pages/seller/SellerEdit";
+
 import Store from "../pages/Store";
 import HomePage from "../pages/HomePage";
 import VerifyPayment from "../pages/VerifyPayment";
@@ -36,11 +35,15 @@ import SellerDashboard from "../pages/seller/SellerDashboard";
 
 import ManageProduct from "../pages/seller/ManageProduct";
 import ManageOrder from "../pages/seller/ManageOrder";
-import { Inbox } from "lucide-react";
+
 import SendEmailForgetPassword from "../pages/Auth/SendEmailForgetPassword";
 import CreateStore from "../pages/Auth/CreateStore";
 import UserEditProfile from "../pages/buyer/UserEditProfile";
+
+import StoreProfile from "../pages/seller/StoreProfile";
+import StoreEdit from "../pages/seller/StoreEdit";
 import SellerProfile from "../pages/seller/SellerProfile";
+import EditSellerProfile from "../pages/seller/EditSellerProfile";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -50,7 +53,6 @@ const guestRouter = createBrowserRouter([
   { path: "MerchantRegister", element: <MerchantRegister /> },
   { path: "forgetPassword/:token", element: <ForgetPassword /> },
   { path: "send-email-forgetPassword", element: <SendEmailForgetPassword /> },
-  
   { path: "createStore", element: <CreateStore /> },
   { path: "*", element: <LandingPage /> },
 ]);
@@ -91,7 +93,7 @@ const buyerRouter = createBrowserRouter([
       // {path: "manage-user", element: <ManageUser />},
       // {path: "manage-charity", element: <ManageCharity />},
       // {path: "manage-store", element: <ManageStore/>},
-      // {path: "*", element: <NotFound  />},
+      {path: "*", element: <HomePage  />},
     ],
 
   },
@@ -106,8 +108,10 @@ const sellerRouter = createBrowserRouter([
     children: [
       { index: true, element: <SellerDashboard /> },
       { path: "user", element: <UserProfile /> },
-      { path: "sellerProfile", element: <SellerProfile /> },
-      { path: "sellEdit", element: <SellerEdit /> },
+      { path: "store-profile", element: <StoreProfile /> },
+      { path: "store-edit", element: <StoreEdit /> },
+      { path: "seller-profile", element: <SellerProfile /> },
+      { path: "seller-edit-profile", element: <EditSellerProfile /> },
       { path: "manage-product", element: <ManageProduct /> },
       { path: "manage-order", element: <ManageOrder /> },
       { path: "*", element: <NotFound /> },
@@ -122,7 +126,7 @@ const sellerRouter = createBrowserRouter([
 ]);
 
 const finalRouter = (role, isAuthenticate , user) => {
-  // console.log(isAuthenticate,"app router")
+
   if (!isAuthenticate) return guestRouter;
 
   if (role === "SELLER" && user.store == null) {
@@ -155,17 +159,6 @@ export default function AppRoute() {
     };
     loadUser();
   }, []);
-
-  // console.log(user, "router")
-  // console.log(isAuthenticated, "routerxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-  // console.log(user?.role, "role")
-
-
-
-  console.log('Current User:', user);
-  console.log('Store ID:', user?.store);
-  console.log('Is Authenticated:', isAuthenticated);
-  console.log('User Role:', user?.role);
 
 
   const router = finalRouter(user?.role, isAuthenticated , user);
