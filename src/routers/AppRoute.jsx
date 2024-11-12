@@ -17,12 +17,11 @@ import LandingPage from "../pages/LandingPage";
 import NotFound from "../pages/NotFound";
 import { useEffect } from "react";
 import AdminProfile from "../pages/admin/AdminProfile";
-import ForgetPassword from "../pages/Auth/forgetPassword";
+import ForgetPassword from "../pages/Auth/ForgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
 
 import { use } from "framer-motion/client";
-import SellerProfile from "../pages/seller/SellerProfile";
 import SellerEdit from "../pages/seller/SellerEdit";
 import Store from "../pages/Store";
 import HomePage from "../pages/HomePage";
@@ -34,10 +33,14 @@ import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
 
 import SellerDashboard from "../pages/seller/SellerDashboard";
-// import SellerProfile from "../pages/seller/SellerProfile";
+
 import ManageProduct from "../pages/seller/ManageProduct";
 import ManageOrder from "../pages/seller/ManageOrder";
 import { Inbox } from "lucide-react";
+import SendEmailForgetPassword from "../pages/Auth/SendEmailForgetPassword";
+import CreateStore from "../pages/Auth/CreateStore";
+import UserEditProfile from "../pages/buyer/UserEditProfile";
+import SellerProfile from "../pages/seller/SellerProfile";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -45,7 +48,10 @@ const guestRouter = createBrowserRouter([
   { path: "selectRegister", element: <SelectRegister /> },
   { path: "UserRegister", element: <UserRegister /> },
   { path: "MerchantRegister", element: <MerchantRegister /> },
-  { path: "forgetPassword", element: <ForgetPassword /> },
+  { path: "forgetPassword/:token", element: <ForgetPassword /> },
+  { path: "send-email-forgetPassword", element: <SendEmailForgetPassword /> },
+  
+  { path: "createStore", element: <CreateStore /> },
   { path: "*", element: <LandingPage /> },
 ]);
 
@@ -70,6 +76,7 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
+      { index: true, element: <MapPage /> },
       { path: "/Home", element: <HomePage /> },
       { path: "/map", element: <MapPage /> },
       { path: "store/:storeId", element: <Store /> },
@@ -78,6 +85,8 @@ const buyerRouter = createBrowserRouter([
       { path: "verify", element: <VerifyPayment /> },
       { path: "order-success", element: <OrderSuccess /> },
       { path: "order-failed", element: <OrderFailed /> },
+      { path: "userProfile", element: <UserProfile />},
+      { path: "userEdit", element: <UserEditProfile /> },
       // {index: true, element: <Dashboard />},
       // {path: "manage-user", element: <ManageUser />},
       // {path: "manage-charity", element: <ManageCharity />},
@@ -86,10 +95,8 @@ const buyerRouter = createBrowserRouter([
     ],
 
   },
-  {
-    path: "/user",
-    element: <UserProfile />,
-  },
+  
+  { path: "/user",element: <UserProfile />},
 ]);
 
 const sellerRouter = createBrowserRouter([
@@ -99,7 +106,7 @@ const sellerRouter = createBrowserRouter([
     children: [
       { index: true, element: <SellerDashboard /> },
       { path: "user", element: <UserProfile /> },
-      { path: "sellProfile", element: <SellerProfile /> },
+      { path: "sellerProfile", element: <SellerProfile /> },
       { path: "sellEdit", element: <SellerEdit /> },
       { path: "manage-product", element: <ManageProduct /> },
       { path: "manage-order", element: <ManageOrder /> },
@@ -114,9 +121,17 @@ const sellerRouter = createBrowserRouter([
   ,
 ]);
 
-const finalRouter = (role, isAuthenticate) => {
+const finalRouter = (role, isAuthenticate , user) => {
   // console.log(isAuthenticate,"app router")
   if (!isAuthenticate) return guestRouter;
+
+  if (role === "SELLER" && user.store == null) {
+    return createBrowserRouter([
+      { path: "*", element: <CreateStore /> }
+    ]);
+  }
+
+
   if (role === "ADMIN") {
     return adminRouter;
   } else if (role === "BUYER") {
@@ -131,6 +146,7 @@ const finalRouter = (role, isAuthenticate) => {
 export default function AppRoute() {
   const getMe = useUserStore((state) => state.getMe);
   const user = useUserStore((state) => state.user);
+
   const isAuthenticated = useUserStore((state) => state.isAuthenticated);
 
   useEffect(() => {
@@ -144,7 +160,15 @@ export default function AppRoute() {
   // console.log(isAuthenticated, "routerxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
   // console.log(user?.role, "role")
 
-  const router = finalRouter(user?.role, isAuthenticated);
+
+
+  console.log('Current User:', user);
+  console.log('Store ID:', user?.store);
+  console.log('Is Authenticated:', isAuthenticated);
+  console.log('User Role:', user?.role);
+
+
+  const router = finalRouter(user?.role, isAuthenticated , user);
 
   return (
     <div>

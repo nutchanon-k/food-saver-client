@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { CircleX, Pencil } from "lucide-react";
 import useSellerManageProduct from "../../stores/seller store/SellerManageProduct";
+import useUserStore from "../../stores/userStore";
+
 
 const ManageProduct = () => {
   const getStoreProduct = useSellerManageProduct(
     (state) => state.getStoreProduct
   );
   const deleteProduct = useSellerManageProduct((state) => state.deleteProduct);
+  const user = useUserStore((state)=>state.user)
+
+
+  console.log(user)
+
   const [mapItem, setMapItem] = useState([]);
 
-  const id = 1;
+  const id = user.store.id
+  // const id = 1;
+  
 
   useEffect(() => {
     MapStoreProduct();
+
   }, []);
 
   const MapStoreProduct = async () => {
@@ -67,10 +77,12 @@ const ManageProduct = () => {
                   <td className="border-b p-2  text-[#ff5722]">
                     {product.salePrice}
                   </td>
-                  <td className="border-b p-2">{product.expirationDate}</td>
+                  <td className="border-b p-2">{product.expirationDate ? product.expirationDate : "-"}</td>
                   <td className="border-b p-2">{product.quantity}</td>
-                  <td className="border-b p-2"></td>
-                  <td className="border-b p-2"></td>
+
+                  <td className="border-b p-2">{product?.productAllergens?.map((item)=> <p>{item.allergen.name}</p>)}</td>
+                  
+                  <td className="border-b p-2">{product?.productCategories?.map((categories)=> <p>{categories.category.name}</p>)}</td>
                   <td className="border-b p-2 text-[#FFAE00] text-center">
                     <Pencil />
                   </td>

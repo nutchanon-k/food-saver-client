@@ -82,7 +82,7 @@ const SellerSidebar = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/seller-profile" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
+                    <NavLink to="/sellProfile" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <User className="mr-2" />
                         {isExpanded && <span>Profile</span>}
                     </NavLink>

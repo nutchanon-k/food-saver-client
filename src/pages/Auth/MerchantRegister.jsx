@@ -6,6 +6,7 @@ import { Eye, EyeOff, Upload } from 'lucide-react';
 const MerchantRegister = () => {
     const navigate = useNavigate();
     const createUser = useUserStore((state) => state.createUser);
+    const setToken = useUserStore((state)=>state.setToken)
 
     const [formRegister, setFormRegister] = useState({
         firstName: "",
@@ -99,10 +100,14 @@ const MerchantRegister = () => {
             const body = formRegister;
             const data = await createUser(body);
             alert('Merchant register success');
+            navigate('/login')
+           
         } catch (error) {
             alert(error);
         }
     };
+
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -249,7 +254,7 @@ const MerchantRegister = () => {
                     <div className="text-center text-sm">
                         <span className="text-gray-500">Do have an account? </span>
                         <button 
-                            onClick={() => navigate('/login')} 
+                            // onClick={() => navigate('/login')} 
                             className="text-orange-400 hover:underline"
                         >
                             Login

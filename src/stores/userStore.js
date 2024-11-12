@@ -2,8 +2,10 @@
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
 import { getCartDataAPI } from '../API/cartItemAPI';
-import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI, patchSellerAPI } from "../API/UserApi";
-import { all } from 'axios';
+import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI, patchSellerAPI, loginGoogle, createStoreAPI, forgetPasswordAPI, resetPasswordAPI } from "../API/UserApi";
+import axios, { all } from 'axios';
+
+
 
 
 
@@ -15,6 +17,9 @@ const useUserStore = create(persist((set, get) => ({
     token: "",
     allUser: [],
     isAuthenticated: false,
+    setToken : (token) => {
+      set({token:token})
+    },
     // maintenanceMembers: [],
     // locationData: [],
     // departmentData: [],
@@ -34,11 +39,27 @@ const useUserStore = create(persist((set, get) => ({
         console.log(err)
       }
     },
-    resetPassword : async (body) => {
+    actionLoginGoogle: async (codeResponse) => {
+      const res = await axios.get(
+        `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${codeResponse.access_token}`,
+        {
+          headers: {
+            Authorization: `Bearer ${codeResponse.access_token}`,
+          },
+        }
+      );
+      // console.log(res.data);
+      const result = await loginGoogle(res.data);
+      console.log(result, "Check result");
+      localStorage.setItem('token', result.data.token);
+      set({ user: result.data.user ,token: result.data.token, isAuthenticated: true})
+      return res.data;
+    },
+    resetPassword : async (token, body) => {
       try{
-        const result = await resetApi(body)
+        const result = await resetPasswordAPI(token, body)
         console.log(result.data)
-        localStorage.setItem('token', result.data.token);
+        // localStorage.setItem('token', result.data.token);
       }catch(err){
         console.log(err)
       }
@@ -111,67 +132,8 @@ const useUserStore = create(persist((set, get) => ({
       }
     },
   
-    // hdlLogout: () => {
-    //   set({ 
-    //     user: null, 
-    //     token: "",
-    //     maintenanceMembers: [],
-    //     locationData: [],
-    //     departmentData: [],
-    //     allUser : [],
-    //     currentUser : null 
-    //   })
-    //     localStorage.removeItem("accessToken");
-    //     localStorage.removeItem("token");
-        
-        
-    // },
 
-    // createUser : async (token, body) => {
-    //   try{
-    //     const result = await createUserAPI(token, body)
-       
-    //     return result
-    //   }catch(error){
-    //     console.log(error)
-        
-    //   }
-    // },
-  
-    // getAllUser : async (token) => {
-    //   try{
-    //     const result = await getUserAPI(token)
-    //     set({allUser : result.data.data})
-    //     return result
-    //   }catch(error){
-    //     console.log(error)
-    //   }
-    // },
-  
-    // deleteUser : async (token, userId) => {
-    //   try{
-    //     const result = await deleteUserAPI(token , userId)
-       
-    //     return result
-    //   }catch(error){
-    //     console.log(error)
-       
-    //   }
-    // },
-  
-    // resetCurrentUser : () => {
-    //   set({currentUser : null})
-    // },
-  
-    // updateUser : async (token, body, userId) => {
-    //   try{
-    //     console.log(body)
-    //     const result = await updateUserAPI(token, body, userId)
-    //     return result
-    //   }catch(error){
-    //     console.log(error)
-    //   }
-    // },
+      
 
 
   
@@ -185,19 +147,14 @@ const useUserStore = create(persist((set, get) => ({
 //     }
 //   },
   
-//     getForgetPassword : async (body) => {
-//       try{
-//         const result = await forgetPasswordAPI(body)
-//         return result
-//       }catch(error){
-//         Swal.fire({
-//           icon: "error",
-//           title: "Error",
-//           text: `${error.response.data.message}`,
-//         });
-//         console.log(error)
-//       }
-//     },
+    getForgetPassword : async (body) => {
+      try{
+        const result = await forgetPasswordAPI(body)
+        return result
+      }catch(error){
+        console.log(error)
+      }
+    },
   
 //     getResetPassword : async (token,body) => {
 //       try{
@@ -225,6 +182,26 @@ const useUserStore = create(persist((set, get) => ({
       console.log(error)
     }
   },
+  createSellerStore : async (body) => {
+
+    try{
+      console.log(body)
+      const resp = await createStoreAPI(body)
+    
+      set({
+        user: resp.data,
+        isAuthenticated: true
+      });
+
+    console.log('Store creation response:', resp.data);
+      return resp.data
+
+
+    }catch(err){
+      console.log(err)
+      throw err
+    }
+  }
 
     
   }),{
