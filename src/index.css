@@ -6,6 +6,17 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* Add this custom utility class */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 @keyframes fadeIn {
     0% {
       opacity: 0;

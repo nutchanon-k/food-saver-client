@@ -24,7 +24,10 @@ export const useNavigateService = () => {
   const navigateToLogin = useCallback(() => {
     navigate("/login");
   }, [navigate]);
-
   // You can add more navigation functions here as needed
-  return { navigateToMap, navigateToHomePage, navigateToStore,navigateToLogin };
+
+  const navigateToFoundation = useCallback(() => {
+    navigate("/foundations");
+  }, [navigate]);
+  return { navigateToMap, navigateToHomePage, navigateToStore,navigateToLogin,navigateToFoundation };
 };
