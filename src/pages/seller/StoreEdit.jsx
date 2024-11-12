@@ -365,8 +365,8 @@ const StoreEdit = () => {
 
           <div className="mt-4">
             <label className="block text-gray-700 mb-2">Map Location</label>
-            <div className="w-full h-40 bg-gray-100 border rounded-md flex items-center justify-center">
-              <SellerMap setState={setFormUpdate} latitude={formUpdate.latitude} longitude={formUpdate.longitude} />
+            <div className="w-full h-[300px] bg-gray-100 border rounded-md flex items-center justify-center">
+              <SellerMap setState={setFormUpdate} latitude={formUpdate.latitude} longitude={formUpdate.longitude} canEdit={true} />
             </div>
           </div>
 
