@@ -1,23 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ChevronRight,ClipboardList ,Search  } from 'lucide-react';
+import useOrderStore from '../../stores/OrderStore';
+import useUserStore from '../../stores/userStore'
+
 
 const OrderList = () => {
 
-    const orders = [
-        { id: 1, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        { id: 2, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        { id: 3, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        { id: 4, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: true },
-        { id: 5, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        { id: 6, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        { id: 7, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        { id: 8, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        { id: 9, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        { id: 10, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        { id: 11, number: '00001', date: '1 พ.ย. 2567', time: '17:00 น.', amount: 230.00, isHighlighted: false },
-        
-        
-    ];
+    const [orders,setOrders] = useState([])
+
+    const user = useUserStore((state)=>state.user)
+    const getSellerOrder = useOrderStore((state)=>state.getSellerOrder)
+    const sellerId = user.id
+
+
+
+
+
+
+
+    useEffect(()=>{
+        getOrderData()
+        console.log(sellerId)
+    },[])
+
+
+    const getOrderData = async() =>{
+        const result = await getSellerOrder(sellerId)
+        console.log('getOrderData',result.data.orderItems)
+        setOrders(result.data.orderItems)
+    }
+ 
+
+    
 
   return (
     <div>
@@ -39,7 +53,7 @@ const OrderList = () => {
                                     <div className="text-xl font-semibold mr-6">Order #{order.number}</div>
                                     <div className="text-xs text-gray-400">{order.date} {order.time}</div>
                                 </div>
-                                <div className={`text-xl font-semibold ${order.isHighlighted ? 'text-[#ff5722]' : 'text-[#5abd4f]'}`}>${order.amount.toFixed(2)}</div>
+                                <div className={`text-xl font-semibold ${order.isHighlighted ? 'text-[#ff5722]' : 'text-[#5abd4f]'}`}>${order.amount}</div>
                                 <button className='bg-[#5abd4f] text-white rounded mr-2'><ChevronRight/></button>
                             </div>
                         ))}

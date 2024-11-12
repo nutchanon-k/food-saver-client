@@ -55,17 +55,17 @@ const Store = () => {
         console.log(storeData)
     }, [storeData])
 
-    const formatTime = (timeString) => {
-        if (!timeString) return '';
+    // const formatTime = (timeString) => {
+    //     if (!timeString) return '';
 
-        // แยกเอาเฉพาะเวลาออกมา
-        const time = timeString.split('T')[1];
-        // แยกชั่วโมงออกมา
-        const hour = time.split(':')[0];
+    //     // แยกเอาเฉพาะเวลาออกมา
+    //     const time = timeString.split('T')[1];
+    //     // แยกชั่วโมงออกมา
+    //     const hour = time.split(':')[0];
 
-        // แสดงในรูปแบบ HH:00
-        return `${hour.padStart(2, '0')}:00`;
-    }
+    //     // แสดงในรูปแบบ HH:00
+    //     return `${hour.padStart(2, '0')}:00`;
+    // }
 
 
     const Increment = async (productId, quantity) => {
@@ -192,7 +192,7 @@ const Store = () => {
                             <p className="text-gray-600 italic">{storeData.storeDetails}</p>
                             <div className="flex items-center space-x-2">
                                 <Clock className="w-4 h-4" />
-                                <span>เวลาทำการ: {formatTime(storeData.timeOpen)} - {formatTime(storeData.timeClose)} น.</span>
+                                <span>เวลาทำการ: {storeData.timeOpen} - {storeData.timeClose} น.</span>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <span className="line-clamp-1">35 กิโลเมตรจากคุณ</span>

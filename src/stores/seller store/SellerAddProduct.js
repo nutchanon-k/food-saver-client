@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getAllergenAPI, getCategoriesAPI, uploadProductAPI } from "../../API/sellerAPI/ManageProductAPI";
+import { EditProductAPI, getAllergenAPI, getCategoriesAPI, uploadProductAPI } from "../../API/sellerAPI/ManageProductAPI";
 
 
 
@@ -25,6 +25,15 @@ const useSellerAddProduct = create((set, get) => ({
     console.log(body)
     try{
       const resp = await uploadProductAPI(body)
+      return resp
+    }catch(err){
+      console.log(err)
+    }
+  },
+  EditProductData : async(id,body)=>{
+    console.log(body)
+    try{
+      const resp = await EditProductAPI(id,body)
       return resp
     }catch(err){
       console.log(err)
