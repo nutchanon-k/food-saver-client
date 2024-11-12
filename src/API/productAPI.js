@@ -38,3 +38,7 @@ export const getAllergensAPI = async () => {
 export const getCategoriesAPI = async () => {
   return await axiosInstance.get("/categories");
 };
+
+export const getPopulatProductAPI = async () => {
+  return await axiosInstance.get("/products/popular");
+};
