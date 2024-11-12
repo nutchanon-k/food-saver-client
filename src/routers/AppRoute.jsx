@@ -53,7 +53,6 @@ const guestRouter = createBrowserRouter([
   { path: "MerchantRegister", element: <MerchantRegister /> },
   { path: "forgetPassword/:token", element: <ForgetPassword /> },
   { path: "send-email-forgetPassword", element: <SendEmailForgetPassword /> },
-  
   { path: "createStore", element: <CreateStore /> },
   { path: "*", element: <LandingPage /> },
 ]);
@@ -94,7 +93,7 @@ const buyerRouter = createBrowserRouter([
       // {path: "manage-user", element: <ManageUser />},
       // {path: "manage-charity", element: <ManageCharity />},
       // {path: "manage-store", element: <ManageStore/>},
-      // {path: "*", element: <NotFound  />},
+      {path: "*", element: <HomePage  />},
     ],
 
   },
@@ -127,7 +126,7 @@ const sellerRouter = createBrowserRouter([
 ]);
 
 const finalRouter = (role, isAuthenticate , user) => {
-  // console.log(isAuthenticate,"app router")
+
   if (!isAuthenticate) return guestRouter;
 
   if (role === "SELLER" && user.store == null) {
@@ -160,17 +159,6 @@ export default function AppRoute() {
     };
     loadUser();
   }, []);
-
-  // console.log(user, "router")
-  // console.log(isAuthenticated, "routerxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-  // console.log(user?.role, "role")
-
-
-
-  // console.log('Current User:', user);
-  // console.log('Store ID:', user?.store);
-  // console.log('Is Authenticated:', isAuthenticated);
-  // console.log('User Role:', user?.role);
 
 
   const router = finalRouter(user?.role, isAuthenticated , user);

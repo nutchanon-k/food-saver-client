@@ -18,6 +18,7 @@ const useUserStore = create(persist((set, get) => ({
     token: "",
     allUser: [],
     isAuthenticated: false,
+    
     setToken : (token) => {
       set({token:token})
     },
@@ -33,8 +34,10 @@ const useUserStore = create(persist((set, get) => ({
     hdlLogin: async (body) => {
       try{
         const result = await loginAPI(body)
-        set({ user: result.data.user ,token: result.data.token, isAuthenticated: true})
-        localStorage.setItem('token', result.data.token);
+        if(result){
+          set({ user: result.data.user ,token: result.data.token, isAuthenticated: true})
+          localStorage.setItem('token', result.data.token);
+        }
         return result.data
       }catch(err){
         Swal.fire({

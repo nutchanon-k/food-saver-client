@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../../stores/userStore';
 import { Eye, EyeOff, Upload } from 'lucide-react';
+import { useGoogleLogin } from '@react-oauth/google';
 
 const UserRegister = () => {
     const navigate = useNavigate();
     const createUser = useUserStore((state) => state.createUser);
+    const actionLoginGoogle = useUserStore((state) => state.actionLoginGoogle);
+   
     
     const [formRegister, setFormRegister] = useState({
         firstName: "",
@@ -102,6 +105,23 @@ const UserRegister = () => {
             alert(error);
         }
     }
+   
+    const hdlLoginGoogle = useGoogleLogin({
+        onSuccess: async (codeResponse) => {
+            try {
+                const res = await actionLoginGoogle(codeResponse);
+                if (res) {
+                    navigate('/');
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        onError: (err) => {
+            console.log(err);
+        },
+    });
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 login-image">
