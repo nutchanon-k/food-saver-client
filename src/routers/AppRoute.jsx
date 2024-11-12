@@ -39,6 +39,7 @@ import ManageOrder from "../pages/seller/ManageOrder";
 import { Inbox } from "lucide-react";
 import CreateStore from "../pages/Auth/CreateStore";
 import UserEditProfile from "../pages/buyer/UserEditProfile";
+import SellerProfile from "../pages/seller/SellerProfile";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
