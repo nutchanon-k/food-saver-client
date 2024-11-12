@@ -7,6 +7,7 @@ import { getSellerOrderAPI } from '../API/orderAPI';
 
 const useOrderStore = create(persist((set, get) => ({
     
+    sellerOrder : null,
 
     getOrderData: async() => {
       try{
@@ -27,6 +28,11 @@ const useOrderStore = create(persist((set, get) => ({
       }catch(err){
         console.log(err)
       }
+    },
+
+    setStateData : (orderData) => {
+      console.log('zustand order',orderData)
+      set({ sellerOrder: orderData })
     }
   
     
