@@ -109,16 +109,16 @@ const MerchantRegister = () => {
 
 
 
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    return ( 
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 login-image">
             <div className="max-w-xl w-full bg-white p-8 rounded-lg shadow-lg">
-                <h1 className="text-2xl font-semibold text-center mb-6">Merchant Register</h1>
+                <h1 className="text-2xl font-semibold text-black text-center mb-6">Merchant Register</h1>
                 <hr className='border-black mb-6' />
 
                 <form onSubmit={hdlSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium mb-1">Name</label>
+                            <label className="block text-sm text-gray-700 font-medium mb-1">Name</label>
                             <input
                                 type="text"
                                 name="firstName"
@@ -131,7 +131,7 @@ const MerchantRegister = () => {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Last Name</label>
+                            <label className="block text-sm text-gray-700 font-medium mb-1">Last Name</label>
                             <input
                                 type="text"
                                 name="lastName"
@@ -146,7 +146,7 @@ const MerchantRegister = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium mb-1">Email</label>
+                            <label className="block text-sm text-gray-700 font-medium mb-1">Email</label>
                             <input
                                 type="email"
                                 name="email"
@@ -159,7 +159,7 @@ const MerchantRegister = () => {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Phone Number</label>
+                            <label className="block text-sm text-gray-700 font-medium mb-1">Phone Number</label>
                             <input
                                 type="tel"
                                 name="phoneNumber"
@@ -173,7 +173,7 @@ const MerchantRegister = () => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-1">Address</label>
+                        <label className="block text-sm text-gray-700 font-medium mb-1">Address</label>
                         <textarea
                             name="address"
                             value={formRegister.address}
@@ -186,7 +186,7 @@ const MerchantRegister = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium mb-1">Password</label>
+                            <label className="block text-sm text-gray-700 font-medium mb-1">Password</label>
                             <div className="relative">
                                 <input
                                     type={showPassword ? "text" : "password"}
@@ -207,7 +207,7 @@ const MerchantRegister = () => {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Confirm Password</label>
+                            <label className="block text-sm text-gray-700 font-medium mb-1">Confirm Password</label>
                             <div className="relative">
                                 <input
                                     type={showConfirmPassword ? "text" : "password"}
@@ -230,12 +230,12 @@ const MerchantRegister = () => {
 
                     <p className="text-sm text-gray-600 text-center mt-4">
                         By clicking Create account, you agree to the system's{" "}
-                        <a href="#" className="text-orange-400 hover:underline">Terms and policies</a>
+                        <a href="#" className="text-blue-400 hover:underline">Terms and policies</a>
                     </p>
 
                     <button
                         type="submit"
-                        className="w-full bg-gray-400 text-white py-2 rounded-lg mt-4 hover:bg-gray-500"
+                        className="w-full btn btn-primary text-white rounded-xl"
                         disabled={!isValid}
                     >
                         Register
@@ -243,19 +243,12 @@ const MerchantRegister = () => {
 
                     <p className="text-center text-sm my-4">or</p>
 
-                    <button
-                        type="button"
-                        className="flex items-center justify-center w-full bg-blue-600 text-white py-2 rounded-lg mt-2"
-                    >
-                        <img src="/api/placeholder/20/20" alt="Google Icon" className="w-5 h-5 mr-2" />
-                        Continue with Google
-                    </button>
 
                     <div className="text-center text-sm">
                         <span className="text-gray-500">Do have an account? </span>
                         <button 
                             // onClick={() => navigate('/login')} 
-                            className="text-orange-400 hover:underline"
+                            className="text-blue-400 hover:underline"
                         >
                             Login
                         </button>

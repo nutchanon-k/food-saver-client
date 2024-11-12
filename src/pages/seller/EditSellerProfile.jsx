@@ -1,16 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { CloseIcon, UploadIcon } from "../../assets/icons/Icons";
+import { useNavigate } from "react-router-dom";
 import useUserStore from "../../stores/userStore";
 import { updateUserAPI } from "../../API/UserApi";
-import { useNavigate } from "react-router-dom";
-import { CloseIcon, UploadIcon } from '../../assets/icons/Icons';
 import Swal from "sweetalert2";
 
-const AdminEditProfile = () => {
+const EditSellerProfile = () => {
     const navigate = useNavigate();
     const user = useUserStore((state) => state.user);
-
-
-
 
     const [formUpdate, setFormUpdate] = useState({
         firstName: "",
@@ -19,13 +16,7 @@ const AdminEditProfile = () => {
         address: "",
         profilePicture: "",
     });
-    const [isValid, setIsValid] = useState(true);
-    const [errors, setErrors] = useState({});
-    const [image, setImage] = useState(null);
-    const [loading, setLoading] = useState(false);
 
-
-    
     useEffect(() => {
         setFormUpdate({
             firstName: user.firstName,
@@ -36,13 +27,15 @@ const AdminEditProfile = () => {
         });
     }, []);
 
-
+    const [isValid, setIsValid] = useState(true);
+    const [errors, setErrors] = useState({});
+    const [image, setImage] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const isValidPhoneNumber = (phoneNumber) => {
         const phoneTest = /^0[0-9]{9}$/;
         return phoneTest.test(phoneNumber);
     };
-
 
     const validateForm = () => {
         const newErrors = {};
@@ -83,8 +76,6 @@ const AdminEditProfile = () => {
         });
     };
 
-
-
     const hdlSubmit = async (e) => {
         try {
             e.preventDefault();
@@ -110,9 +101,8 @@ const AdminEditProfile = () => {
                     title: "สําเร็จ",
                     text: "แก้ไขข้อมูลส่วนตัวเรียบร้อยแล้ว",
                 })
-                
-                navigate("/admin-profile");
 
+                navigate("/seller-profile");
             }
 
         } catch (error) {
@@ -123,9 +113,8 @@ const AdminEditProfile = () => {
         }
     };
 
-
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
             <h1 className="text-xl font-semibold mb-6">My Profile</h1>
             <hr className="border-black mb-4" />
             <div className="flex w-full h-full justify-center">
@@ -135,32 +124,42 @@ const AdminEditProfile = () => {
                         <div className="flex items-center justify-center w-full">
                             <div
                                 className="flex flex-col items-center justify-center w-full border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100 relative p-2"
-                                onClick={() => document.getElementById('input-file').click()}
+                                onClick={() => document.getElementById("input-file").click()}
                             >
                                 <input
                                     type="file"
-                                    id='input-file'
+                                    id="input-file"
                                     className="hidden"
                                     onChange={(e) => setImage(e.target.files[0])}
                                 />
-                                <div className='w-full absolute top-1 right-1 flex justify-end'>
-                                    {formUpdate.profilePicture && <CloseIcon
-                                        className='w-10 h-10 hover:scale-110 active:scale-100 rounded-full cursor-pointer opacity-60'
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            document.getElementById('input-file').value = '';
-                                            setFormUpdate((prevData) => ({ ...prevData, profilePicture: null }));
-                                        }}
-                                    />}
+                                <div className="w-full absolute top-1 right-1 flex justify-end">
+                                    {formUpdate.profilePicture && (
+                                        <CloseIcon
+                                            className="w-10 h-10 hover:scale-110 active:scale-100 rounded-full cursor-pointer opacity-60"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                document.getElementById("input-file").value = "";
+                                                setFormUpdate((prevData) => ({
+                                                    ...prevData,
+                                                    profilePicture: null,
+                                                }));
+                                            }}
+                                        />
+                                    )}
                                 </div>
-                                {formUpdate.profilePicture && <img src={formUpdate.profilePicture} className='w-3/4 h-full object-cover' />}
+                                {formUpdate.profilePicture && (
+                                    <img
+                                        src={formUpdate.profilePicture}
+                                        className="w-3/4 h-full object-cover"
+                                    />
+                                )}
                             </div>
                         </div>
                     ) : (
                         <div className="flex items-center justify-center w-full h-full">
                             <div
                                 className="flex flex-col items-center justify-center w-full h-[250px] border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100 relative p-2"
-                                onClick={() => document.getElementById('input-file').click()}
+                                onClick={() => document.getElementById("input-file").click()}
                             >
                                 {!image && (
                                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -170,23 +169,28 @@ const AdminEditProfile = () => {
                                 )}
                                 <input
                                     type="file"
-                                    id='input-file'
+                                    id="input-file"
                                     className="hidden"
                                     onChange={(e) => setImage(e.target.files[0])}
                                 />
-                                <div className='w-full absolute top-1 right-1 flex justify-end'>
+                                <div className="w-full absolute top-1 right-1 flex justify-end">
                                     {image && (
                                         <CloseIcon
-                                            className='w-10 h-10 hover:scale-110 active:scale-100 rounded-full cursor-pointer opacity-60'
+                                            className="w-10 h-10 hover:scale-110 active:scale-100 rounded-full cursor-pointer opacity-60"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                document.getElementById('input-file').value = '';
+                                                document.getElementById("input-file").value = "";
                                                 setImage(null);
                                             }}
                                         />
                                     )}
                                 </div>
-                                {image && <img src={URL.createObjectURL(image)} className='w-3/4 h-full object-cover' />}
+                                {image && (
+                                    <img
+                                        src={URL.createObjectURL(image)}
+                                        className="w-3/4 h-full object-cover"
+                                    />
+                                )}
                             </div>
                         </div>
                     )}
@@ -211,9 +215,7 @@ const AdminEditProfile = () => {
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
                             />
                             {!isValid && errors.firstName && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.firstName}
-                                </p>
+                                <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
                             )}
                         </div>
                     </div>
@@ -249,9 +251,7 @@ const AdminEditProfile = () => {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
                     />
                     {!isValid && errors.phoneNumber && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.phoneNumber}
-                        </p>
+                        <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
                     )}
                 </div>
 
@@ -273,18 +273,19 @@ const AdminEditProfile = () => {
                 </div>
 
                 <div className="flex flex-col p-4 items-center gap-8 md:flex-row">
-                    {loading ?
-                        <div className='flex justify-center w-full'>
+                    {loading ? (
+                        <div className="flex justify-center w-full">
                             <span className="loading loading-dots loading-lg"></span>
-                        </div> 
-                        :
+                        </div>
+                    ) : (
                         <>
                             <button
                                 type="button"
                                 onClick={() => {
-                                    navigate('/admin-profile')
+                                    navigate("/seller-profile");
                                 }}
-                                className="w-[50%] md:w-full bg-red-500 text-white py-3 px-4 rounded-xl hover:bg-red-600 transition-colors">
+                                className="w-[50%] md:w-full bg-red-500 text-white py-3 px-4 rounded-xl hover:bg-red-600 transition-colors"
+                            >
                                 Back
                             </button>
                             <button
@@ -295,13 +296,11 @@ const AdminEditProfile = () => {
                                 Save
                             </button>
                         </>
-                    }
+                    )}
                 </div>
-            </form >
-        </div >
-    );
-};
+            </form>
+        </div>
+    )
+}
 
-
-
-export default AdminEditProfile
+export default EditSellerProfile

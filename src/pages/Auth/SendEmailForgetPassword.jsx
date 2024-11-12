@@ -36,7 +36,7 @@ const SendEmailForgetPassword = () => {
 
 
   return (
-    <div>
+    <div className='login-image'>
       (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
         <form

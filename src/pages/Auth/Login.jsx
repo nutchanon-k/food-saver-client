@@ -9,6 +9,7 @@ const Login = () => {
 
 
     const navigate = useNavigate();
+    
     const [formLogin, setFormLogin] = useState({
         email: "",
         password: "",
@@ -53,10 +54,12 @@ const Login = () => {
             const data = await hdlLogin(body)
             console.log(data)
             if (data) {
-                navigate('/home');
+
+                navigate('/');
                 window.location.reload();
             }
         } catch (error) {
+            
             alert(error)
         }
     };
@@ -68,13 +71,13 @@ const Login = () => {
                 <div className="bg-white  rounded-xl  p-8 w-full max-w-md">
                     <h1 className="text-2xl font-medium text-black  text-center mb-8">LOG IN</h1>
 
-                    <form className="space-y-6" onSubmit={hdlSubmit}>
+                    <form className="space-y-6" onSubmit={(e)=>hdlSubmit(e)}>
                         <div className="space-y-2">
                             <label className="block text-gray-800 text-sm">Email</label>
                             <input
                                 type="email"
                                 name="email"
-                                onChange={hdlOnChange}
+                                onChange={(e)=> hdlOnChange(e)}
                                 placeholder="Enter your Email"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-100"
                             />
@@ -87,7 +90,7 @@ const Login = () => {
                                     type={isShowPassword ? "text" : "password"}
                                     name="password"
                                     placeholder="Enter password"
-                                    onChange={hdlOnChange}
+                                    onChange={(e) => hdlOnChange(e)}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-100"
                                 />
                                 <button

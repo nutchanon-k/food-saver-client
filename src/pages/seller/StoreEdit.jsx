@@ -5,14 +5,18 @@ import { CloseIcon, UploadIcon } from "../../assets/icons/Icons";
 import { getMeAPI, patchSellerAPI } from "../../API/UserApi";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import moment from 'moment';
+import { p } from "framer-motion/client";
 
-const SellerEdit = () => {
+const StoreEdit = () => {
   const navigate = useNavigate();
   const store = useUserStore((state) => state.user.store);
   const getMe = useUserStore((state) => state.getMe);
 
+
+
   const storeId = store.id;
-  console.log(store);
+  // console.log(store);
   const [formUpdate, setFormUpdate] = useState({
     storeName: "",
     storeAddress: "",
@@ -24,7 +28,7 @@ const SellerEdit = () => {
     longitude: "",
     profilePicture: "",
   });
-  
+
 
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -38,74 +42,74 @@ const SellerEdit = () => {
       storeAddress: store.storeAddress,
       storeDetails: store.storeDetails,
       phoneNumber: store.phoneNumber,
-      timeOpen: store.timeOpen,
-      timeClose: store.timeClose,
+      timeOpen: moment(store?.timeOpen.slice(0, 16)).format('HH:mm'),
+      timeClose: moment(store?.timeClose.slice(0, 16)).format('HH:mm'),
       latitude: store.latitude,
       longitude: store.longitude,
       profilePicture: store.profilePicture,
     });
   }, []);
 
-  // validate
-  // const isValidPhoneNumber = (phoneNumber) => {
-  //   const phoneTest = /^0[0-9]{9}$/;
-  //   return phoneTest.test(phoneNumber);
-  // };
+  //validate
+  const isValidPhoneNumber = (phoneNumber) => {
+    const phoneTest = /^0[0-9]{9}$/;
+    return phoneTest.test(phoneNumber);
+  };
 
-  // const validateForm = () => {
-  //   const newErrors = {};
+  const validateForm = () => {
+    const newErrors = {};
 
-  //   if (!formUpdate.storeName.trim()) {
-  //     newErrors.storeName = "กรุณากรอกชื่อ";
-  //   }
+    if (!formUpdate.storeName.trim()) {
+      newErrors.storeName = "กรุณากรอกชื่อ";
+    }
 
-    // if (!formUpdate.storeDetails.trim()) {
-    //   newErrors.storeDetails = "กรุณากรอกรายละเอียด";
-    // }
+    if (!formUpdate.storeDetails.trim()) {
+      newErrors.storeDetails = "กรุณากรอกรายละเอียด";
+    }
 
-    // if (!formUpdate.phoneNumber) {
-    //   newErrors.phoneNumber = "กรุณากรอกเบอร์โทรศัพท์";
-    // } else if (!isValidPhoneNumber(formUpdate.phoneNumber)) {
-    //   newErrors.phoneNumber = "กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง (0xxxxxxxxx)";
-    // }
+    if (!formUpdate.phoneNumber) {
+      newErrors.phoneNumber = "กรุณากรอกเบอร์โทรศัพท์";
+    } else if (!isValidPhoneNumber(formUpdate.phoneNumber)) {
+      newErrors.phoneNumber = "กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง (0xxxxxxxxx)";
+    }
 
-    // if (!formUpdate.storeAddress.trim()) {
-    //   newErrors.storeAddress = "กรุณากรอกที่อยู่";
-    // }
-    // if (!(formUpdate.latitude || "").trim()) {
-    //   newErrors.latitude = "กรุณากรอกพิกัดละติจูด";
-    // }
-  
-    // if (!(formUpdate.longitude || "").trim()) {
-    //   newErrors.longitude = "กรุณากรอกพิกัดลองจิจูด";
-    // }
+    if (!formUpdate.storeAddress.trim()) {
+      newErrors.storeAddress = "กรุณากรอกที่อยู่";
+    }
+    if (!(formUpdate.latitude)) {
+      newErrors.latitude = "กรุณากรอกพิกัดละติจูด";
+    }
 
-    // setErrors(newErrors);
-    // const isValid = Object.keys(newErrors).length === 0;
+    if (!(formUpdate.longitude)) {
+      newErrors.longitude = "กรุณากรอกพิกัดลองจิจูด";
+    }
 
-    // setIsValid(isValid);
-    // return isValid;
-  // };
+    setErrors(newErrors);
+    const isValid = Object.keys(newErrors).length === 0;
+
+    setIsValid(isValid);
+    return isValid;
+  };
 
   // ฟังก์ชันสำหรับการอัปเดตข้อมูล
-  
+
   const hdlOnChange = (e) => {
     setFormUpdate({
       ...formUpdate,
       [e.target.name]: e.target.value,
     });
-    // setErrors({
-    //   ...errors,
-    //   [e.target.name]: "",
-    // });
+    setErrors({
+      ...errors,
+      [e.target.name]: "",
+    });
   };
 
   const hdlSubmit = async (e) => {
     try {
       e.preventDefault();
-      // if (!validateForm()) {
-      //   return;
-      // }
+      if (!validateForm()) {
+        return;
+      }
       setLoading(true);
 
       const body = new FormData();
@@ -113,13 +117,14 @@ const SellerEdit = () => {
       body.append("storeAddress", String(formUpdate.storeAddress));
       body.append("storeDetails", String(formUpdate.storeDetails));
       body.append("phoneNumber", String(formUpdate.phoneNumber));
-      body.append("timeOpen", String(formUpdate.timeOpen));
-      body.append("timeClose", String(formUpdate.timeClose));
+      body.append("timeOpen", `2023-01-01T${formUpdate.timeOpen}:00`);
+      body.append("timeClose", `2023-01-01T${formUpdate.timeClose}:00`);
       body.append("latitude", String(formUpdate.latitude));
       body.append("longitude", String(formUpdate.longitude));
 
       if (image) {
         body.append("profilePicture", image);
+
       }
       const res = await patchSellerAPI(storeId, body);
       console.log("respon", res);
@@ -131,20 +136,28 @@ const SellerEdit = () => {
           text: "ข้อมูลของคุณอัปเดตเรียบร้อยแล้ว",
           showConfirmButton: false,
         });
+        getMe()
+        navigate("/store-profile");
       }
-      getMe();
+
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      setImage(null);
-      navigate("/sellProfile");
+      
+
     }
   };
-
+  // console.log(formUpdate)
+  // const timeOpen = moment(formUpdate?.timeOpen.slice(0, 16)).format('HH:mm');
+  // const timeClose = moment(formUpdate?.timeClose.slice(0, 16)).format('HH:mm');
+  // console.log(formUpdate.timeOpen.toISOString());
+  // `2023-01-01T${parsedTime.format('HH:mm:ss')}:00`
+  // console.log(convertTimeToISO(formUpdate.timeClose));
+  console.log(`2023-01-01T${formUpdate.timeClose}:00`);
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-8">
+      <div className="w-full max-w-6xl bg-white shadow-md rounded-lg p-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">แก้ไขร้านค้าของคุณ</h2>
         </div>
@@ -234,17 +247,17 @@ const SellerEdit = () => {
             <label className="block text-gray-700">Store Name</label>
             <div>
 
-            <input
-              onChange={hdlOnChange}
-              value={formUpdate.storeName}
-              name="storeName"
-              type="text"
-              className="w-full px-4 py-2 border rounded-md"
-              placeholder="Enter Name"
+              <input
+                onChange={hdlOnChange}
+                value={formUpdate.storeName}
+                name="storeName"
+                type="text"
+                className="w-full px-4 py-2 border rounded-md"
+                placeholder="Enter Name"
               />
-            {/* {!isValid && errors.storeName && (
-              <p className="text-red-500 text-sm mt-1">{errors.storeName}</p>
-            )} */}
+              {!isValid && errors.storeName && (
+                <p className="text-red-500 text-sm mt-1">{errors.storeName}</p>
+              )}
             </div>
           </div>
           <div>
@@ -257,9 +270,9 @@ const SellerEdit = () => {
               className="w-full px-4 py-2 border rounded-md"
               placeholder="Enter Phone Number"
             />
-            {/* {!isValid && errors.phoneNumber && (
+            {!isValid && errors.phoneNumber && (
               <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
-            )} */}
+            )}
           </div>
           <div>
             <label className="block text-gray-700">Address</label>
@@ -271,9 +284,9 @@ const SellerEdit = () => {
               className="w-full px-4 py-2 border rounded-md"
               placeholder="Enter Address"
             />
-            {/* {!isValid && errors.storeAddress && (
+            {!isValid && errors.storeAddress && (
               <p className="text-red-500 text-sm mt-1">{errors.storeAddress}</p>
-            )} */}
+            )}
           </div>
           <div>
             <label className="block text-gray-700">Detail</label>
@@ -285,9 +298,9 @@ const SellerEdit = () => {
               className="w-full px-4 py-2 border rounded-md"
               placeholder="Enter Detail"
             />
-            {/* {!isValid && errors.storeDetails && (
+            {!isValid && errors.storeDetails && (
               <p className="text-red-500 text-sm mt-1">{errors.storeDetails}</p>
-            )} */}
+            )}
           </div>
           <div className="flex  gap-8">
             <div>
@@ -301,9 +314,9 @@ const SellerEdit = () => {
                 max="23:59"
                 className="w-full px-4 py-2 border rounded-md"
               />
-              {/* {!isValid && errors.timeOpen && (
+              {!isValid && errors.timeOpen && (
                 <p className="text-red-500 text-sm mt-1">{errors.timeOpen}</p>
-              )} */}
+              )}
             </div>
             <div>
               <label className="block text-gray-700">Time Close</label>
@@ -329,9 +342,9 @@ const SellerEdit = () => {
                 type="text"
                 className="w-full px-4 py-2 border rounded-md"
               />
-              {/* {!isValid && errors.latitude && (
+              {!isValid && errors.latitude && (
                 <p className="text-red-500 text-sm mt-1">{errors.latitude}</p>
-              )} */}
+              )}
             </div>
             <div>
               <label className="block text-gray-700">Longitude</label>
@@ -343,9 +356,9 @@ const SellerEdit = () => {
                 type="text"
                 className="w-full px-4 py-2 border rounded-md"
               />
-              {/* {!isValid && errors.longitude && (
+              {!isValid && errors.longitude && (
                 <p className="text-red-500 text-sm mt-1">{errors.longitude}</p>
-              )} */}
+              )}
             </div>
           </div>
 
@@ -356,31 +369,29 @@ const SellerEdit = () => {
             </div>
           </div>
 
-          {/* <div className="mt-4">
-            <label className="block text-gray-700 mb-2">Upload Image</label>
-            <div className="border-2 border-dashed border-green-500 p-4 rounded-lg text-center">
-              <input type="" className="hidden" />
-              <p className="text-gray-400">select your or drag and drop</p>
-            </div>
-          </div> */}
-
           <div className="mt-6">
-            <div className="flex justify-between  mt-6">
-              <button
-                type="button"
-                onClick={() => navigate("/sellProfile")}
-                className="w-[250px] px-4 py-2 bg-red-500 text-white rounded-3xl"
-              >
-                Back
-              </button>
-              <button
-                onClick={hdlSubmit}
-                type="submit"
-                className="w-[250px] px-4 py-2 bg-green-500 text-white rounded-3xl text-center"
-              >
-                Save
-              </button>
-            </div>
+            {loading ?
+              <div className='flex justify-center w-full'>
+                <span className="loading loading-dots loading-lg"></span>
+              </div>
+              :
+              <div className="flex justify-between  mt-6">
+                <button
+                  type="button"
+                  onClick={() => navigate("/store-profile")}
+                  className="w-[250px] px-4 py-2 bg-red-500 text-white rounded-3xl"
+                >
+                  Back
+                </button>
+                <button
+                  onClick={hdlSubmit}
+                  type="submit"
+                  className="w-[250px] px-4 py-2 bg-green-500 text-white rounded-3xl text-center"
+                >
+                  Save
+                </button>
+              </div>
+            }
           </div>
         </form>
       </div>
@@ -388,4 +399,4 @@ const SellerEdit = () => {
   );
 };
 
-export default SellerEdit;
+export default StoreEdit;
