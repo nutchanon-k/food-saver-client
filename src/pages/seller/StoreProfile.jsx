@@ -14,7 +14,9 @@ const StoreProfile = () => {
   const navigate = useNavigate();
 
   // console.log(store);
-  useEffect(() => {console.log(store)});
+  useEffect(() => {
+    console.log(store);
+  });
 
   const handleDelete = async (id) => {
     console.log(id);
