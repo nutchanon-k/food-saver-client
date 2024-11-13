@@ -37,7 +37,7 @@ export default function ProductCard({ product }) {
   );
 
   useEffect(() => {
-    console.log(allergensArray, categoriesArray, "---------------------------");
+    // console.log(allergensArray, categoriesArray, "---------------------------");
     cartRef.current = cart;
     const indexInCart = cart.findIndex((item) => item.productId === id);
     if (indexInCart === -1) {

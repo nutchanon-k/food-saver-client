@@ -580,7 +580,7 @@ const ManageStore = () => {
                 <hr className='my-4' />
 
                 <div className='overflow-x-auto'>
-                    <table className="w-full text-left">
+                    <table className="w-full  text-left">
                         <thead>
                             <tr>
                                 <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[100px]">Image</th>

@@ -404,7 +404,7 @@ const ManageUser = () => {
                                 {user?.map(user => (
                                     <tr key={user.id} className="hover:bg-gray-50">
                                         <td className="py-4 pl-4  px-2 text-center">
-                                            <img src={user.profilePicture} alt="User Avatar" className="w-12 h-12 rounded-full mx-auto" />
+                                            <img src={user.profilePicture} alt="User Avatar" className="lg:w-24 lg:h-24 sm:w-12 sm:h-12 rounded-full mx-auto" />
                                         </td>
                                         <td className="py-4 px-2 text-center whitespace-nowrap">
                                             {user.firstName} {user.lastName}

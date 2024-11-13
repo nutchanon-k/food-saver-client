@@ -224,11 +224,11 @@ const ManageCharity = () => {
 
   return (
     <>
-      {/*Body*/}
-      <div className="p-6 min-h-screen flex justify-center items-center">
-        <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-6xl min-h-[500px]">
+      {/* Body */}
+      <div className="lg:p-4 sm:p-6 min-h-screen flex justify-center items-center">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 w-full max-w-6xl min-h-[500px]">
           <div className='flex justify-between items-center'>
-            <h2 className="text-3xl font-semibold">Manage Charity</h2>
+            <h2 className="text-2xl sm:text-3xl font-semibold">Manage Charity</h2>
             <button
               type="button"
               onClick={() => {
@@ -240,37 +240,37 @@ const ManageCharity = () => {
               + เพิ่มมูลนิธิ
             </button>
           </div>
-          {/* <div className='divider'></div> */}
           <hr className='my-4' />
-          <div className='min-h-[880px]'>
 
-            <table className="w-full text-left">
+          {/* Table */}
+          <div className="overflow-x-auto ">
+            <table className="w-full text-left border-collapse">
               <thead>
                 <tr>
-                  <th className="pb-2 border-b text-center">รูปภาพ</th>
-                  <th className="pb-2 border-b text-center">ชื่อมูลนิธิ</th>
-                  <th className="pb-2 border-b text-center">ข้อมูลติดต่อ</th>
-                  <th className="pb-2 border-b text-center">ที่อยู่</th>
-                  <th className="pb-2 border-b text-center">แก้ไข</th>
-                  <th className="pb-2 border-b text-center">ลบ</th>
+                  <th className="pb-2 border-b-2 border-gray-200 text-center text-xs sm:text-base px-4 w-[10%]">รูปภาพ</th>
+                  <th className="pb-2 border-b-2 border-gray-200 text-center text-xs sm:text-base px-4 w-[20%]">ชื่อมูลนิธิ</th>
+                  <th className="pb-2 border-b-2 border-gray-200 text-center text-xs sm:text-base px-4 w-[15%]">ข้อมูลติดต่อ</th>
+                  <th className="pb-2 border-b-2 border-gray-200 text-center text-xs sm:text-base px-4 w-[35%]">ที่อยู่</th>
+                  <th className="pb-2 border-b-2 border-gray-200 text-center text-xs sm:text-base px-4 w-[10%]">แก้ไข</th>
+                  <th className="pb-2 border-b-2 border-gray-200 text-center text-xs sm:text-base px-4 w-[10%]">ลบ</th>
                 </tr>
               </thead>
               <tbody>
                 {foundation?.map(foundation => (
-                  <tr key={foundation.id} className="hover:bg-gray-50">
-                    <td className="py-4 flex items-center space-x-4">
-                      <div className="w-24 h-24  flex items-center justify-center overflow-hidden">
-                        <img src={foundation.profilePicture} alt="Foundation Avatar" className="" />
+                  <tr key={foundation.id} className="bg-white hover:bg-gray-50">
+                    <td className="py-4 text-center">
+                      <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full overflow-hidden mx-auto">
+                        <img src={foundation.profilePicture} alt="Foundation Avatar" className="object-cover w-full h-full" />
                       </div>
                     </td>
-                    <td className="py-4 text-center px-4 w-56">
-                      <p className="py-1">{foundation.name}</p>
+                    <td className="py-4 text-center px-4 text-xs sm:text-base font-medium text-gray-700 break-words">
+                      <p>{foundation.name}</p>
                     </td>
-                    <td className="py-4 text-center px-4 w-36">
-                      <p className="py-1">{foundation.contactInfo}</p>
+                    <td className="py-4 text-center px-4 text-xs sm:text-base text-gray-600 break-words">
+                      <p>{foundation.contactInfo}</p>
                     </td>
-                    <td className="py-4 text-center px-4">
-                      <p className="py-1">{foundation.address}</p>
+                    <td className="py-4 text-center px-4 text-xs sm:text-base text-gray-600 break-words">
+                      <p>{foundation.address}</p>
                     </td>
                     <td className="py-4 text-center px-4">
                       <button
@@ -280,14 +280,14 @@ const ManageCharity = () => {
                           setFoundationDataForEdit(foundation);
                           document.getElementById('edit_Foundation_modal').showModal();
                         }}
-                        className=" text-yellow-500 px-4 py-1 rounded-full">
+                        className="text-yellow-500 hover:text-yellow-600">
                         <Pencil />
                       </button>
                     </td>
                     <td className="py-4 text-center px-4">
                       <button
                         onClick={() => handleDelete(foundation.id)}
-                        className=" text-red-500 px-4 py-1 rounded-full">
+                        className="text-red-500 hover:text-red-600">
                         <Trash2 />
                       </button>
                     </td>
@@ -298,32 +298,30 @@ const ManageCharity = () => {
           </div>
 
           {/* Pagination */}
-          <div className='flex justify-center'>
+          <div className='flex justify-center mt-4'>
             <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
           </div>
         </div>
       </div>
 
 
+
+
+
       {/* Modal */}
 
       {/* Create Foundation Modal */}
-      <dialog
-        id="create_Foundation_modal"
-        className="modal"
-        onClose={() => {
-          setIsOpen(false)
-          setErrors({})
-          setImage(null)
-          setFoundationData({
-            name: '',
-            contactInfo: '',
-            address: '',
-          })
-        }}>
-        <form
-          onSubmit={handleSubmit}
-          className="modal-box w-full max-w-4xl">
+      <dialog id="create_Foundation_modal" className="modal" onClose={() => {
+        setIsOpen(false);
+        setErrors({});
+        setImage(null);
+        setFoundationData({
+          name: '',
+          contactInfo: '',
+          address: '',
+        });
+      }}>
+        <form onSubmit={handleSubmit} className="modal-box w-full max-w-4xl">
           <button
             type="button"
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -332,109 +330,76 @@ const ManageCharity = () => {
             ✕
           </button>
           <h3 className="text-2xl font-bold mb-4">เพิ่มมูลนิธิ</h3>
-          <div className="flex flex-col lg:flex-row gap-6">
 
-            {/* File Upload Section */}
-            {/* Upload Image */}
-            <div className="col-span-2 form-control w-1/2 h-full ">
-              <label className="label">
-                <span className="block text-gray-700 font-medium mb-2">เพิ่มรุปภาพ</span>
-              </label>
-              <div className="flex items-center justify-center w-full h-full">
-                <div
-                  className="flex flex-col items-center justify-center w-full h-[250px] border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100 relative p-2"
-                  onClick={() => document.getElementById('input-file').click()}
-                >
-                  {!image && (
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <UploadIcon className="w-10 h-10 mb-3 text-gray-400" />
-                      <p className="text-sm text-gray-400">Click to upload</p>
-                    </div>
-                  )}
-                  <input
-                    type="file"
-                    id='input-file'
-                    className="hidden"
-                    onChange={(e) => setImage(e.target.files[0])}
-                  />
-                  <div className='w-full absolute top-1 right-1 flex justify-end'>
-                    {image && (
-                      <CloseIcon
-                        className='w-10 h-10 hover:scale-110 active:scale-100 rounded-full cursor-pointer opacity-60'
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          document.getElementById('input-file').value = '';
-                          setImage(null);
-                        }}
-                      />
-                    )}
+          {/* Form Content */}
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Upload Section */}
+            <div className="w-full lg:w-1/2">
+              <label className="block text-gray-700 font-medium mb-2">เพิ่มรูปภาพ</label>
+              <div className="border-2 border-dashed rounded-lg h-[250px] p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100"
+                onClick={() => document.getElementById('input-file').click()}>
+                <input
+                  type="file"
+                  id='input-file'
+                  className="hidden"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+                {image ? (
+                  <img src={URL.createObjectURL(image)} className='w-full max-w-xs object-cover rounded' alt="Upload Preview" />
+                ) : (
+                  <div className="text-gray-400 text-center">
+                    <UploadIcon className="w-10 h-10 mx-auto mb-3" />
+                    <p>Click to upload</p>
                   </div>
-                  {image && <img src={URL.createObjectURL(image)} className='w-1/2 h-full object-cover' />}
-                </div>
+                )}
               </div>
             </div>
 
-            {/* Input Fields Section */}
-            <div className="w-full lg:w-1/2">
-              <label className="block text-gray-700 font-medium mb-2">ชื่อมูลนิธิ</label>
-              <input
-                type="text"
-                name='name'
-                value={foundationData.name}
-                placeholder="กรุณากรอกชื่อมูลนิธิ"
-                className="input input-bordered w-full mb-4"
-                onChange={handleChange}
-              />
-              {errors.name && <p className="text-red-500 text-sm mb-4">{errors.name}</p>}
-
-              <label className="block text-gray-700 font-medium mb-2">ข้อมูลติดต่อมูลนิธิ</label>
-              <input
-                type="text"
-                name='contactInfo'
-                value={foundationData.contactInfo}
-                placeholder="กรุณากรอกข้อมูลติดต่อ"
-                className="input input-bordered w-full mb-4"
-                onChange={handleChange}
-              />
-              {errors.contactInfo && <p className="text-red-500 text-sm mb-4">{errors.contactInfo}</p>}
-
-
-              <label className="block text-gray-700 font-medium mb-2">ที่อยู่มูลนิธิ</label>
-              <textarea
-                placeholder="กรุณากรอกที่อยู่มูลนิธิ"
-                name='address'
-                value={foundationData.address}
-                className="textarea textarea-bordered w-full mb-4"
-                onChange={handleChange}
-              />
-              {errors.address && <p className="text-red-500 text-sm mb-4">{errors.address}</p>}
-
-
+            {/* Text Fields */}
+            <div className="w-full lg:w-1/2 space-y-4">
+              <div>
+                <label className="text-gray-700 font-medium">ชื่อมูลนิธิ</label>
+                <input
+                  type="text"
+                  name='name'
+                  value={foundationData.name}
+                  placeholder="กรุณากรอกชื่อมูลนิธิ"
+                  className="input input-bordered w-full"
+                  onChange={handleChange}
+                />
+                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+              </div>
+              <div>
+                <label className="text-gray-700 font-medium">ข้อมูลติดต่อมูลนิธิ</label>
+                <input
+                  type="text"
+                  name='contactInfo'
+                  value={foundationData.contactInfo}
+                  placeholder="กรุณากรอกข้อมูลติดต่อ"
+                  className="input input-bordered w-full"
+                  onChange={handleChange}
+                />
+                {errors.contactInfo && <p className="text-red-500 text-sm mt-1">{errors.contactInfo}</p>}
+              </div>
+              <div>
+                <label className="text-gray-700 font-medium">ที่อยู่มูลนิธิ</label>
+                <textarea
+                  name='address'
+                  value={foundationData.address}
+                  placeholder="กรุณากรอกที่อยู่มูลนิธิ"
+                  className="textarea textarea-bordered w-full"
+                  onChange={handleChange}
+                />
+                {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+              </div>
             </div>
           </div>
 
           {/* Buttons */}
-          {loading ?
-            <div className='flex justify-center'>
-              <span className="loading loading-dots loading-lg"></span>
-            </div>
-            :
-            <div className="flex justify-between mt-6">
-              <button
-                type="button"
-                onClick={() => document.getElementById('create_Foundation_modal').close()}
-                className="btn bg-red-500 text-white w-36">
-                ยกเลิก
-              </button>
-              <button
-                type="submit"
-                className="btn
-              bg-green-500
-              text-white w-36">
-                เพิ่มมูลนิธิ
-              </button>
-            </div>
-          }
+          <div className="flex justify-end space-x-4 mt-6">
+            <button type="button" onClick={() => document.getElementById('create_Foundation_modal').close()} className="btn btn-secondary">ยกเลิก</button>
+            <button type="submit" className="btn btn-primary">เพิ่มมูลนิธิ</button>
+          </div>
         </form>
       </dialog>
 
@@ -464,7 +429,7 @@ const ManageCharity = () => {
 
             {/* File Upload Section */}
             {/* Upload Image */}
-            <div className="col-span-2 form-control w-1/2 h-full ">
+            <div className="col-span-2 form-control lg:w-1/2  sm:w-full h-full ">
               <label className="label">
                 <span className="block text-gray-700 font-medium mb-2">เพิ่มรุปภาพ</span>
               </label>
