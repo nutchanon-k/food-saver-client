@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useMapStore from "../../stores/mapStore";
 import StoreCard from "../card/StoreCard";
 import SearchBar from "./SearchBar";
 import ProductCard from "../card/ProductCard";
-import { LocateFixed } from "lucide-react";
+import { ArrowDownNarrowWide, LocateFixed } from "lucide-react";
 import useCartStore from "../../stores/cartItemStore";
 import FilterComponent from "../buyer/FilterComponent";
 
@@ -14,6 +14,11 @@ export default function StoreList() {
   const getCart = useCartStore((state) => state.getCart);
   const cart = useCartStore((state) => state.cart);
   const filter = useMapStore((state) => state.filter);
+  const sortStoreByDistance = useMapStore((state) => state.sortStoreByDistance);
+  const sortStoreByAvalilability = useMapStore(
+    (state) => state.sortStoreByAvalilability
+  );
+  const [sortBy, setSortBy] = useState("distance");
 
   useEffect(() => {
     console.log(stores);
@@ -25,25 +30,74 @@ export default function StoreList() {
     console.log(activeMarker);
   }, [activeMarker]);
 
+  const hdlSortStore = (feild) => {
+    console.log("feild", feild);
+    if (feild === "distance") {
+      setSortBy("distance");
+      sortStoreByDistance();
+    } else if (feild === "available") {
+      setSortBy("available");
+      sortStoreByAvalilability();
+    }
+  };
+
   return (
     <>
       <div className="h-full">
         <div className="w-full">
           {/* Header section */}
-          <div className="p-2 px-4 md:p-4 bg-white justify-end md:justify-between gap-2 flex md:flex-col">
-            <h1 className="text-lg md:text-2xl font-bold">Browse store</h1>
-            <div className="items-center gap-2 w-fit flex">
-              <div className="z-50 w-full flex items-center justify-between">
-                <h1 className="text-sm">{stores.length} stores available within {filter.radius} km</h1>
-                <div>
-                  <button
-                    onClick={initialPosition}
-                    className="btn rounded-full min-h-0 h-fit p-1"
-                  >
-                    <LocateFixed size={19} />
-                  </button>
-                  <FilterComponent />
+          <div>
+            <div className="p-2 px-4 md:p-4 bg-white justify-end md:justify-between gap-2 flex md:flex-col">
+              <h1 className="text-lg md:text-3xl font-bold">ค้นหาร้านอาหาร</h1>
+              <div className="items-center gap-2 w-fit flex">
+                <div className="z-50 w-full flex items-center justify-between">
+                  <div className="text-sm flex-1">
+                    <h1>
+                      มีร้านอาหาร{" "}
+                      <span className="text-primary font-bold">
+                        {stores.length} 
+                        ร้าน
+                      </span>{" "}
+                      ให้คุณเลือกซื้อในระยะ
+                      <span className="text-primary font-bold">
+                        {filter.radius} 
+                        กม.
+                      </span>{" "}
+                    </h1>
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div className="flex items-center p-2 pt-0">
+              <details className="dropdown flex-1">
+                <summary className="btn rounded-full min-h-0 h-fit p-2 m-1 flex items-center gap-2 border border-primary bg-transparent">
+                  <ArrowDownNarrowWide size={19} />
+                  <span className="text-primary font-bold">
+                    เรียงลำดับตาม:{" "}
+                    {sortBy === "distance" ? "ระยะทาง" : "จำนวนอาหารที่เหลือ"}
+                  </span>
+                </summary>
+                <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-full p-2 shadow">
+                  <li onClick={() => hdlSortStore("distance")}>
+                    <a className={`${sortBy === "distance" ? "active" : ""}`}>
+                      ระยะทาง
+                    </a>
+                  </li>
+                  <li onClick={() => hdlSortStore("available")}>
+                    <a className={`${sortBy === "available" ? "active" : ""}`}>
+                      จำนวนอาหารที่เหลือ
+                    </a>
+                  </li>
+                </ul>
+              </details>
+              <div className="">
+                <button
+                  onClick={initialPosition}
+                  className="btn rounded-full min-h-0 h-fit p-1"
+                >
+                  <LocateFixed size={19} />
+                </button>
+                <FilterComponent />
               </div>
             </div>
             <hr className="invisible md:visible" />

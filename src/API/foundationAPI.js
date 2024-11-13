@@ -28,9 +28,9 @@ export const getFoundationByQueryAPI = async (page, name = '', limit = 10) => {
     }
 }
 
-// export const getFoundationByQueryAPI =async (page, searchText) => {
-//     return await axiosInstance.get(`/foundations?page=${page}&limit=10&search=${searchText}&sortBy=id&sortOrder=desc`);
-// }
+export const getFoundationAPI =async (page, searchText) => {
+    return await axiosInstance.get(`/foundations?page=${page}&limit=10&search=${searchText}&sortBy=id&sortOrder=desc`);
+}
 
 
 export const createFoundationAPI = async (body) => {

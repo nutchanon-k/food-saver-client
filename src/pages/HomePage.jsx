@@ -1,13 +1,23 @@
-import React, { useEffect } from 'react';
-import useProductStore from '../stores/useProductStore';
-import useStoreStore from '../stores/Store';
-import { MapPin, User } from 'lucide-react';
-import useFoundationStore from '../stores/FoundationStore';
-import useMapStore from '../stores/mapStore';
-import useCategoryStore from '../stores/CategoryStore';
+import React, { useEffect, useState } from "react";
+import useProductStore from "../stores/useProductStore";
+import useStoreStore from "../stores/Store";
+import { ChevronRight, MapPin, User } from "lucide-react";
+import useFoundationStore from "../stores/FoundationStore";
+import useMapStore from "../stores/mapStore";
+import useCategoryStore from "../stores/CategoryStore";
+import { useNavigateService } from "../routers/navigateService";
 
-import Banner from '../assets/pictures/HomePagePromo.png';
-import Map from '../assets/pictures/HomePageMap.png';
+import Banner from "../assets/pictures/HomePagePromo.png";
+import Map from "../assets/pictures/HomePageMap.png";
+import { useNavigate } from "react-router-dom";
+import StoreCardHomePage from "../components/buyer/StoreCardHomePage";
+import RecommendedCard from "../components/Card2/RecommendedCard";
+import SearchFilterPage from "../components/Card2/SearchFilterPage";
+import ProductAdd from "../components/seller/ProductAdd";
+import PromoCard from "../components/Card2/PromoCard";
+import ModalFoodDetail from "../components/seller/ModalFoodDetail";
+import ModalFood from "../components/seller/ModalFood";
+import DonationCard from "../components/card/DonationCard";
 
 /**
  * Header Component
@@ -15,7 +25,9 @@ import Map from '../assets/pictures/HomePageMap.png';
 const Header = () => {
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between px-4 md:px-6 py-2 md:py-4 bg-white shadow-md">
-      <div className="logo text-xl md:text-2xl font-extrabold text-green-600">Food Saver</div>
+      <div className="logo text-xl md:text-2xl font-extrabold text-green-600">
+        Food Saver
+      </div>
       <div className="location hidden lg:flex items-center">
         <MapPin className="text-green-600 mr-2" aria-hidden="true" />
         <p className="text-gray-700 text-sm">
@@ -34,7 +46,7 @@ const Header = () => {
  */
 const HeroSection = () => {
   return (
-    <section className="hero-section px-4 md:px-8 py-8 md:py-16 bg-green-50 flex items-center justify-center">
+    <section className="hero-section bg-green-50 flex items-center justify-center">
       <div className="hero-image w-full h-full">
         <img
           src={Banner}
@@ -53,21 +65,28 @@ const HeroSection = () => {
 const CategoryItem = ({ id, name, imageUrl, onSelect }) => {
   return (
     <div
-      className="category-item flex flex-col items-center mx-2 cursor-pointer hover:text-green-600"
+      className="category-item flex flex-col items-center mx-1 cursor-pointer hover:text-green-600"
       onClick={() => onSelect(id)}
     >
-      <div className="icon bg-green-100 p-2 md:p-4 rounded-full shadow-md hover:bg-green-200">
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={name}
-            className="h-12 w-12 md:h-16 md:w-16 object-cover rounded-full"
-          />
-        ) : (
-          <span className="material-icons text-green-800 text-2xl md:text-3xl">img</span>
-        )}
+      <div className="icon p-1.5 rounded-full hover:rotate-3 active:scale-95 duration-200 hover:drop-shadow-md hover:opacity-90 hover:scale-110 transition-all">
+        <div className="w-12 h-12 md:w-16 md:h-16 overflow-hidden rounded-full scrollbar-none">
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <img
+              className="w-full h-full object-cover"
+              src="https://static.vecteezy.com/system/resources/thumbnails/013/995/943/small_2x/3d-rendering-of-fried-chicken-fast-food-icon-png.png"
+            />
+          )}
+        </div>
       </div>
-      <p className="text-gray-800 mt-2 font-medium text-sm md:text-base">{name}</p>
+      <p className="text-gray-800 mt-1 font-medium text-xs md:text-sm md:block">
+        {name}
+      </p>
     </div>
   );
 };
@@ -76,18 +95,30 @@ const CategoryItem = ({ id, name, imageUrl, onSelect }) => {
  * CategoriesSection Component
  */
 const CategoriesSection = () => {
-  const { categories, fetchCategories, selectCategory, loading, error } = useCategoryStore();
+  const { categories, fetchCategories, selectCategory, loading, error } =
+    useCategoryStore();
+  const [isScrolled, setIsScrolled] = useState(false); // Move this up
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetchCategories(1, '', 23);
+        await fetchCategories(1, "", 23);
       } catch (error) {
-        console.error('Failed to fetch categories:', error);
+        console.error("Failed to fetch categories:", error);
       }
     };
     fetchData();
   }, [fetchCategories]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 64);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   if (loading && categories.length === 0) {
     return <p className="p-4 md:p-8 text-center">Loading Categories...</p>;
@@ -96,7 +127,7 @@ const CategoriesSection = () => {
   if (error) {
     return (
       <p className="p-4 md:p-8 text-center text-red-500">
-        Error: {error || 'Failed to load categories.'}
+        Error: {error || "Failed to load categories."}
       </p>
     );
   }
@@ -106,8 +137,8 @@ const CategoriesSection = () => {
   }
 
   return (
-    <section className="categories-section p-4 md:p-8 bg-white">
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
+    <section className="categories-section p-2 py-3 border rounded-xl bg-white md:sticky top-0 z-40 -mx-2 md:mx-0">
+      <div className="flex space-x-2 md:space-x-6 overflow-x-auto scrollbar-none border p-1 rounded-lg pb-2 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
         {categories.map((category) => (
           <CategoryItem
             key={category.id}
@@ -118,6 +149,7 @@ const CategoriesSection = () => {
           />
         ))}
       </div>
+      <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
     </section>
   );
 };
@@ -138,7 +170,8 @@ const CategoryProducts = () => {
   if (!selectedCategory) return null;
 
   const categoryName =
-    categories.find((cat) => cat.id === selectedCategory)?.name || 'Selected Category';
+    categories.find((cat) => cat.id === selectedCategory)?.name ||
+    "Selected Category";
 
   return (
     <section className="category-products-section p-4 md:p-8 bg-white">
@@ -147,7 +180,7 @@ const CategoryProducts = () => {
           Products in "{categoryName}"
         </h2>
         <button
-          className="bg-green-600 text-white px-3 md:px-4 py-1 md:py-2 rounded hover:bg-green-700"
+          className="bg-green-600 rounded-full transition-all text-white px-3 md:px-4 py-1 md:py-2 hover:bg-green-700"
           onClick={resetSelectedCategory}
         >
           Back
@@ -157,34 +190,16 @@ const CategoryProducts = () => {
         <p className="p-4 md:p-8 text-center">Loading Products...</p>
       ) : error ? (
         <p className="p-4 md:p-8 text-center text-red-500">
-          Error: {error || 'Failed to load products.'}
+          Error: {error || "Failed to load products."}
         </p>
       ) : products.length === 0 ? (
-        <p className="p-4 md:p-8 text-center">No Products Found in this Category.</p>
+        <p className="p-4 md:p-8 text-center">
+          No Products Found in this Category.
+        </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {products.map((product) => (
-            <div
-              key={product.id}
-              className="product-card bg-white p-4 border rounded-lg shadow-md"
-            >
-              <img
-                src={product.imageUrl}
-                alt={product.name}
-                className="h-40 w-full object-cover rounded"
-                loading="lazy"
-              />
-              <div className="mt-4">
-                <h3 className="text-lg font-bold text-gray-800">{product.name}</h3>
-                <p className="text-gray-600 mt-2 text-sm">{product.description}</p>
-                <p className="text-green-700 mt-2 font-bold">
-                  Sale Price: ${product.salePrice}
-                </p>
-                <button className="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
-                  Visit Store
-                </button>
-              </div>
-            </div>
+            <ModalFood product={product} key={product.id} />
           ))}
         </div>
       )}
@@ -196,18 +211,32 @@ const CategoryProducts = () => {
  * ProductShowcase Component
  */
 const ProductShowcase = () => {
-  const { products, fetchProducts, loading, error } = useProductStore();
+  const { products, fetchProducts, loading, error, fetchPopularProduct } =
+    useProductStore();
+  const [popularProducts, setPopularProducts] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       await fetchProducts(1, 5);
+  //     } catch (error) {
+  //       console.error("Failed to fetch products:", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [fetchProducts]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetchProducts(1, 5);
+        const popularProducts = await fetchPopularProduct();
+        setPopularProducts(popularProducts);
       } catch (error) {
-        console.error('Failed to fetch products:', error);
+        console.error("Failed to fetch popular products:", error);
       }
     };
     fetchData();
-  }, [fetchProducts]);
+  }, [fetchPopularProduct]);
 
   if (loading && products.length === 0) {
     return <p className="p-4 md:p-8 text-center">Loading Best Sellers...</p>;
@@ -216,34 +245,17 @@ const ProductShowcase = () => {
   if (error) {
     return (
       <p className="p-4 md:p-8 text-center text-red-500">
-        Error: {error || 'Failed to load best sellers.'}
+        Error: {error || "Failed to load best sellers."}
       </p>
     );
   }
 
   return (
-    <section className="product-showcase p-4 md:p-8 bg-white">
-      <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">Best Sellers</h2>
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
-        {products.slice(0, 5).map((product) => (
-          <div
-            key={product.id}
-            className="product-card bg-white p-4 border rounded-lg shadow-md min-w-[200px]"
-          >
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className="h-32 md:h-40 w-full object-cover rounded"
-              loading="lazy"
-            />
-            <div className="mt-4">
-              <h3 className="text-md md:text-lg font-bold text-gray-800">{product.name}</h3>
-              <p className="text-gray-600 mt-2 text-sm">{product.description}</p>
-              <p className="text-green-700 mt-2 font-bold">Sale Price: ${product.salePrice}</p>
-              <button className="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
-                Visit Store
-              </button>
-            </div>
+    <section className="product-showcase  py-2 px-1">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden no-scrollbar border p-2 rounded-lg pb-4 mask-fade-bottom">
+        {popularProducts.slice(0, 5).map((product) => (
+          <div className="flex-shrink-0" key={product.id}>
+            <ModalFood product={product} />
           </div>
         ))}
       </div>
@@ -255,10 +267,12 @@ const ProductShowcase = () => {
  * MapSection Component
  */
 const MapSection = () => {
+  const { navigateToMap } = useNavigateService();
   return (
-    <section className="map-section px-4 md:px-8 py-8 md:py-16 bg-green-50 flex items-center justify-center">
+    <section className="map-section bg-green-50 flex items-center justify-center">
       <div className="map-image w-full h-full">
         <img
+          onClick={navigateToMap}
           src={Map}
           alt="Map showing nearby restaurants"
           className="rounded-lg shadow-lg w-full h-full object-cover"
@@ -274,13 +288,14 @@ const MapSection = () => {
  */
 const NewRestaurants = () => {
   const { stores, fetchStores, loading, error } = useStoreStore();
+  const { navigateToStore } = useNavigateService();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         await fetchStores(1, {}, 5);
       } catch (error) {
-        console.error('Failed to fetch stores:', error);
+        console.error("Failed to fetch stores:", error);
       }
     };
     fetchData();
@@ -293,37 +308,17 @@ const NewRestaurants = () => {
   if (error) {
     return (
       <p className="p-4 md:p-8 text-center text-red-500">
-        Error: {error || 'Failed to load new restaurants.'}
+        Error: {error || "Failed to load new restaurants."}
       </p>
     );
   }
-
+  
   return (
-    <section className="new-restaurants-section p-4 md:p-8 bg-white">
-      <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">New Restaurants</h2>
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
+    <section className="new-restaurants-section bg-white">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden scrollbar-none border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
         {stores.slice(0, 5).map((store) => (
-          <div
-            key={store.id}
-            className="restaurant-card p-4 border rounded-lg shadow-md min-w-[200px]"
-          >
-            <img
-              src={store.profilePicture}
-              alt={store.storeName}
-              className="h-32 md:h-40 w-full object-cover rounded"
-              loading="lazy"
-            />
-            <div className="mt-4">
-              <h3 className="text-md md:text-lg font-bold text-gray-800">{store.storeName}</h3>
-              <p className="text-gray-600 mt-2 text-sm">
-                Promo: {store.promoDetails || 'No promo available'}
-              </p>
-              <p className="text-green-700 mt-2 font-medium">{store.distance || 'N/A'}</p>
-              <button className="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
-                Visit Store
-              </button>
-            </div>
-          </div>
+          <RecommendedCard store={store} key={store.id} />
+          // <StoreCardHomePage store={store} key={store.id}/>
         ))}
       </div>
     </section>
@@ -341,7 +336,7 @@ const ProductSpecial = () => {
       try {
         await fetchProducts(2, 10);
       } catch (error) {
-        console.error('Failed to fetch products:', error);
+        console.error("Failed to fetch products:", error);
       }
     };
     fetchData();
@@ -354,15 +349,17 @@ const ProductSpecial = () => {
   if (error) {
     return (
       <p className="p-4 md:p-8 text-center text-red-500">
-        Error: {error || 'Failed to load special offers.'}
+        Error: {error || "Failed to load special offers."}
       </p>
     );
   }
 
   return (
     <section className="product-special p-4 md:p-8 bg-white">
-      <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">Special Offer</h2>
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
+      <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">
+        Special Offer
+      </h2>
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden no-scrollbar border p-2 rounded-lg pb-4">
         {products.slice(5, 10).map((product) => (
           <div
             key={product.id}
@@ -380,8 +377,12 @@ const ProductSpecial = () => {
               </span>
             </div>
             <div className="mt-4">
-              <h3 className="text-md md:text-lg font-bold text-gray-800">{product.name}</h3>
-              <p className="text-gray-600 mt-2 text-sm">{product.description}</p>
+              <h3 className="text-md md:text-lg font-bold text-gray-800">
+                {product.name}
+              </h3>
+              <p className="text-gray-600 mt-2 text-sm">
+                {product.description}
+              </p>
               <p className="text-green-700 mt-2 font-bold">
                 Sale Price: ${product.salePrice}
               </p>
@@ -407,7 +408,7 @@ const TopRestaurants = () => {
       try {
         await fetchStores(2, {}, 17);
       } catch (error) {
-        console.error('Failed to fetch top restaurants:', error);
+        console.error("Failed to fetch top restaurants:", error);
       }
     };
     fetchData();
@@ -420,27 +421,16 @@ const TopRestaurants = () => {
   if (error) {
     return (
       <p className="p-4 md:p-8 text-center text-red-500">
-        Error: {error || 'Failed to load top restaurants.'}
+        Error: {error || "Failed to load top restaurants."}
       </p>
     );
   }
 
   return (
-    <section className="top-restaurants-section p-4 md:p-8 bg-white">
-      <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">Top Restaurants</h2>
-      <div className="flex space-x-2 md:space-x-4 overflow-x-auto">
+    <section className="top-restaurants-section ">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden no-scrollbar border p-2 rounded-lg pb-4">
         {stores.slice(10, 17).map((store) => (
-          <div
-            key={store.id}
-            className="restaurant-card p-2 border rounded-lg shadow-md min-w-[100px] w-[100px] h-[100px] md:min-w-[150px] md:w-[150px] md:h-[150px]"
-          >
-            <img
-              src={store.profilePicture}
-              alt={store.storeName}
-              className="h-full w-full object-cover rounded-md"
-              loading="lazy"
-            />
-          </div>
+          <RecommendedCard store={store} key={store.id} />
         ))}
       </div>
     </section>
@@ -451,14 +441,15 @@ const TopRestaurants = () => {
  * DonationSection Component
  */
 const DonationSection = () => {
-  const { foundations, fetchFoundations, loading, error } = useFoundationStore();
+  const { foundations, fetchFoundations, loading, error } =
+    useFoundationStore();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetchFoundations(1, '', 10);
+        await fetchFoundations(1, "", 10);
       } catch (error) {
-        console.error('Failed to fetch foundations:', error);
+        console.error("Failed to fetch foundations:", error);
       }
     };
     fetchData();
@@ -471,7 +462,7 @@ const DonationSection = () => {
   if (error) {
     return (
       <p className="p-4 md:p-8 text-center text-red-500">
-        Error: {error || 'Failed to load foundations.'}
+        Error: {error || "Failed to load foundations."}
       </p>
     );
   }
@@ -481,28 +472,62 @@ const DonationSection = () => {
   }
 
   return (
-    <section className="donation-section p-4 md:p-8 bg-white">
-      <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">Donate Food</h2>
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
+    <section className="donation-section">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden border scrollbar-none p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
         {foundations.map((foundation) => (
+          <DonationCard foundation={foundation} key={foundation.id} />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const PopularStore = () => {
+  const { fetchPopularStore, loading, error } = useStoreStore();
+  const [stores, setStores] = useState([]);
+  const { navigateToStore } = useNavigateService();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetchPopularStore();
+        setStores(res);
+      } catch (error) {
+        console.error("Failed to fetch popular stores:", error);
+      }
+    };
+    fetchData();
+  }, [fetchPopularStore]);
+
+  if (loading && stores.length === 0) {
+    return <p className="p-4 md:p-8 text-center">Loading Popular Stores...</p>;
+  }
+
+  if (error) {
+    return (
+      <p className="p-4 md:p-8 text-center text-red-500">
+        Error: {error || "Failed to load popular stores."}
+      </p>
+    );
+  }
+
+  return (
+    <section className="popular-stores-section">
+      <div className="flex overflow-x-scroll scrollbar-none gap-3 md:gap-6 h-fit p-2 rounded-lg pb-4 scrollbar-none">
+        {stores.slice(0, 10).map((store) => (
           <div
-            key={foundation.id}
-            className="foundation-card flex-shrink-0 w-48 md:w-64 p-4 bg-white rounded-lg shadow-md"
+            onClick={() => navigateToStore(store.id)}
+            key={store.id}
+            className="cursor-pointer snap-start flex-shrink-0 w-[28%] md:w-[10%] aspect-square text-center"
           >
             <img
-              src={foundation.profilePicture}
-              alt={foundation.name}
-              className="h-24 md:h-32 w-full object-cover rounded-md"
-              loading="lazy"
+              src={store.profilePicture}
+              alt={store.storeName}
+              className="h-full w-full object-cover rounded-lg aspect-square shadow-md hover:shadow-lg transition-shadow"
             />
-            <div className="mt-2">
-              <h3 className="text-md md:text-lg font-bold text-gray-800">
-                {foundation.name}
-              </h3>
-              <p className="text-sm text-gray-600 mt-1">
-                {foundation.contactInfo || 'No contact info available'}
-              </p>
-            </div>
+            <span className="block mt-2 text-xs md:text-sm font-medium text-gray-700 truncate">
+              {store.storeName}
+            </span>
           </div>
         ))}
       </div>
@@ -514,7 +539,8 @@ const DonationSection = () => {
  * NearbyStoresSection Component
  */
 const NearbyStoresSection = () => {
-  const { stores, getStoreArray, userLocation, getUserLocation } = useMapStore();
+  const { stores, getStoreArray, userLocation, getUserLocation } =
+    useMapStore();
 
   useEffect(() => {
     const fetchLocationAndStores = async () => {
@@ -528,7 +554,7 @@ const NearbyStoresSection = () => {
           });
         }
       } catch (error) {
-        console.error('Failed to fetch nearby stores:', error);
+        console.error("Failed to fetch nearby stores:", error);
       }
     };
     fetchLocationAndStores();
@@ -539,37 +565,10 @@ const NearbyStoresSection = () => {
   }
 
   return (
-    <section className="nearby-stores-section p-4 md:p-8 bg-white">
-      <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">Nearby Stores</h2>
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
+    <section className="nearby-stores-section pb-2 ">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden scrollbar-none border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
         {stores.map((store) => (
-          <div
-            key={store.id}
-            className="store-card flex-shrink-0 w-48 md:w-64 p-4 bg-white rounded-lg shadow-md"
-          >
-            <img
-              src={store.profilePicture}
-              alt={store.storeName}
-              className="h-24 md:h-32 w-full object-cover rounded-md"
-              loading="lazy"
-            />
-            <div className="mt-2">
-              <h3 className="text-md md:text-lg font-bold text-gray-800">
-                {store.storeName}
-              </h3>
-              <p className="text-sm text-gray-600 mt-1">
-                {store.storeAddress || 'No address available'}
-              </p>
-              <p className="text-green-700 mt-2 font-medium">
-                {store.distance
-                  ? `${(store.distance * 1.609344).toFixed(2)} km`
-                  : 'N/A'}
-              </p>
-              <button className="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
-                Visit Store
-              </button>
-            </div>
-          </div>
+          <RecommendedCard store={store} key={store.id} />
         ))}
       </div>
     </section>
@@ -587,7 +586,7 @@ const RecommendedSection = () => {
       try {
         await fetchProducts(3, 15);
       } catch (error) {
-        console.error('Failed to fetch products:', error);
+        console.error("Failed to fetch products:", error);
       }
     };
     fetchData();
@@ -600,16 +599,13 @@ const RecommendedSection = () => {
   if (error) {
     return (
       <p className="p-4 md:p-8 text-center text-red-500">
-        Error: {error || 'Failed to load recommendations.'}
+        Error: {error || "Failed to load recommendations."}
       </p>
     );
   }
 
   return (
-    <section className="recommended-section p-4 md:p-8 bg-white">
-      <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">
-        Recommended For You
-      </h2>
+    <section className="recommended-section p-4 bg-white">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
         {products.slice(10, 15).map((product) => (
           <div
@@ -628,7 +624,9 @@ const RecommendedSection = () => {
               </span>
             </div>
             <div className="mt-4">
-              <h3 className="text-md md:text-lg font-bold text-gray-800">{product.name}</h3>
+              <h3 className="text-md md:text-lg font-bold text-gray-800">
+                {product.name}
+              </h3>
             </div>
             <button className="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
               Visit Store
@@ -645,28 +643,96 @@ const RecommendedSection = () => {
  */
 const HomePage = () => {
   const { selectedCategory } = useCategoryStore();
+  const { navigateToMap } = useNavigateService();
 
   return (
-    <div className="font-sans">
-      <Header />
-      <HeroSection />
-      {!selectedCategory ? (
-        <>
+    <>
+      <div className="max-w-[1024px] mx-auto bg-gray-100 ">
+        <div>
+          <HeroSection />
+        </div>
+        <div className="md:p-4 p-2">
           <CategoriesSection />
-          <ProductShowcase />
-          <MapSection />
-          <NewRestaurants />
-          <ProductSpecial />
-          <TopRestaurants />
-          <DonationSection />
-          <NearbyStoresSection />
-          <RecommendedSection />
-        </>
-      ) : (
-        <CategoryProducts />
-      )}
-      <footer className="p-4 md:p-8 text-center text-gray-500">© 2023 Food Saver</footer>
-    </div>
+          {!selectedCategory ? (
+            <div className="space-y-3 md:space-y-6">
+              {/* Best Sellers Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">สินค้าขายดี</h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <ProductShowcase />
+              </div>
+              <MapSection />
+
+              {/* New Hot Stores Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">
+                    ร้านใหม่มาแรง
+                  </h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <NewRestaurants />
+              </div>
+
+              {/* Recommended Stores Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">
+                    ร้านค้าแนะนำ
+                  </h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <TopRestaurants />
+              </div>
+
+              {/* Nearby Stores Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">
+                    ร้านอร่อยใกล้คุณ
+                  </h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <NearbyStoresSection />
+              </div>
+
+              {/* Popular Stores Section */}
+              <div className="p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">
+                    ร้านอาหารยอดฮิต
+                  </h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <PopularStore />
+              </div>
+
+              {/* All Stores Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">ร้านทั้งหมด</h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <TopRestaurants />
+              </div>
+
+              {/* Donation Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">ร้านทั้งหมด</h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <DonationSection />
+              </div>
+            </div>
+          ) : (
+            <CategoryProducts />
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 

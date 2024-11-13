@@ -1,7 +1,7 @@
 
 import { create } from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
-import { createFoundationAPI, deleteFoundationAPI, getFoundationByQueryAPI, updateFoundationAPI } from '../API/foundationAPI';
+import { createFoundationAPI, deleteFoundationAPI, getFoundationAPI, getFoundationByQueryAPI, updateFoundationAPI } from '../API/foundationAPI';
 
 const useFoundationStore = create((set) => ({
     foundations: [],
@@ -32,6 +32,16 @@ const useFoundationStore = create((set) => ({
     },
 
     resetFoundations: () => set({ foundations: [], page: 1, hasMore: true, error: null }),
+
+
+    getFoundationQuery : async (page, searchText) => {
+        try {
+            const result = await getFoundationAPI(page, searchText)
+            return result.data
+        } catch (error) {
+            console.log(error)
+        }
+    },
 
 
     createFoundation: async (body) => {

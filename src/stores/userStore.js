@@ -2,11 +2,20 @@
 import {create} from 'zustand'
 import { createJSONStorage, persist } from "zustand/middleware";
 import { getCartDataAPI } from '../API/cartItemAPI';
-import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI } from "../API/UserApi";
-import { all } from 'axios';
+import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI, patchSellerAPI, loginGoogle, createStoreAPI, forgetPasswordAPI, resetPasswordAPI } from "../API/UserApi";
+import axios, { all } from 'axios';
+import Swal from 'sweetalert2';
 
 
 
+
+
+// import axios from "axios";
+// import { create } from "zustand";
+// import { createJSONStorage, persist } from "zustand/middleware";
+// import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI } from "../API/UserApi";
+// import { auth } from "../firebase"; 
+// import { signInWithCustomToken,onAuthStateChanged  } from "firebase/auth";
 
 
 
@@ -15,6 +24,11 @@ const useUserStore = create(persist((set, get) => ({
     token: "",
     allUser: [],
     isAuthenticated: false,
+    // firebaseToken: "", 
+    
+    setToken : (token) => {
+      set({token:token})
+    },
     // maintenanceMembers: [],
     // locationData: [],
     // departmentData: [],
@@ -23,22 +37,75 @@ const useUserStore = create(persist((set, get) => ({
     // searchText : '',
   
     
-  
     hdlLogin: async (body) => {
       try{
         const result = await loginAPI(body)
-        set({ user: result.data.user ,token: result.data.token, isAuthenticated: true})
-        localStorage.setItem('token', result.data.token);
+        if(result){
+          set({ user: result.data.user ,token: result.data.token, isAuthenticated: true})
+          localStorage.setItem('token', result.data.token);
+        }
         return result.data
       }catch(err){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message,
+        })
         console.log(err)
+        
       }
     },
-    resetPassword : async (body) => {
+
+  //   hdlLogin: async (body) => {
+  //     try {
+  //         // Step 1: Log in to backend and get both backend token and Firebase custom token
+  //         const result = await loginAPI(body);
+  //         const { token, firebaseToken, user } = result.data;
+
+  //         // Step 2: Store backend token for API requests
+  //         set({ user, token, isAuthenticated: true });
+  //         localStorage.setItem("token", token);
+
+  //         // Step 3: Authenticate with Firebase using Firebase custom token
+  //         await signInWithCustomToken(auth, firebaseToken);
+  //         console.log("Authenticated with Firebase successfully!");
+
+  //         onAuthStateChanged(auth, (user) => {
+  //           if (user) {
+  //             console.log("Firebase authenticated user:", user);
+  //           } else {
+  //             console.log("Firebase authentication failed.");
+  //           }
+  //         });
+
+  //         // Step 4: Return user data to proceed with further actions in the frontend
+  //         return result.data;
+  //     } catch (err) {
+  //         console.log("Login error:", err);
+  //     }
+  // },
+
+    actionLoginGoogle: async (codeResponse) => {
+      const res = await axios.get(
+        `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${codeResponse.access_token}`,
+        {
+          headers: {
+            Authorization: `Bearer ${codeResponse.access_token}`,
+          },
+        }
+      );
+      // console.log(res.data);
+      const result = await loginGoogle(res.data);
+      console.log(result, "Check result");
+      localStorage.setItem('token', result.data.token);
+      set({ user: result.data.user ,token: result.data.token, isAuthenticated: true})
+      return res.data;
+    },
+    resetPassword : async (token, body) => {
       try{
-        const result = await resetApi(body)
+        const result = await resetPasswordAPI(token, body)
         console.log(result.data)
-        localStorage.setItem('token', result.data.token);
+        // localStorage.setItem('token', result.data.token);
       }catch(err){
         console.log(err)
       }
@@ -109,69 +176,10 @@ const useUserStore = create(persist((set, get) => ({
       }catch(error){
         console.log(error)
       }
-    }
+    },
   
-    // hdlLogout: () => {
-    //   set({ 
-    //     user: null, 
-    //     token: "",
-    //     maintenanceMembers: [],
-    //     locationData: [],
-    //     departmentData: [],
-    //     allUser : [],
-    //     currentUser : null 
-    //   })
-    //     localStorage.removeItem("accessToken");
-    //     localStorage.removeItem("token");
-        
-        
-    // },
 
-    // createUser : async (token, body) => {
-    //   try{
-    //     const result = await createUserAPI(token, body)
-       
-    //     return result
-    //   }catch(error){
-    //     console.log(error)
-        
-    //   }
-    // },
-  
-    // getAllUser : async (token) => {
-    //   try{
-    //     const result = await getUserAPI(token)
-    //     set({allUser : result.data.data})
-    //     return result
-    //   }catch(error){
-    //     console.log(error)
-    //   }
-    // },
-  
-    // deleteUser : async (token, userId) => {
-    //   try{
-    //     const result = await deleteUserAPI(token , userId)
-       
-    //     return result
-    //   }catch(error){
-    //     console.log(error)
-       
-    //   }
-    // },
-  
-    // resetCurrentUser : () => {
-    //   set({currentUser : null})
-    // },
-  
-    // updateUser : async (token, body, userId) => {
-    //   try{
-    //     console.log(body)
-    //     const result = await updateUserAPI(token, body, userId)
-    //     return result
-    //   }catch(error){
-    //     console.log(error)
-    //   }
-    // },
+      
 
 
   
@@ -185,19 +193,14 @@ const useUserStore = create(persist((set, get) => ({
 //     }
 //   },
   
-//     getForgetPassword : async (body) => {
-//       try{
-//         const result = await forgetPasswordAPI(body)
-//         return result
-//       }catch(error){
-//         Swal.fire({
-//           icon: "error",
-//           title: "Error",
-//           text: `${error.response.data.message}`,
-//         });
-//         console.log(error)
-//       }
-//     },
+    getForgetPassword : async (body) => {
+      try{
+        const result = await forgetPasswordAPI(body)
+        return result
+      }catch(error){
+        console.log(error)
+      }
+    },
   
 //     getResetPassword : async (token,body) => {
 //       try{
@@ -213,6 +216,39 @@ const useUserStore = create(persist((set, get) => ({
 //       }
 //     },
   
+                              // seller store
+//______________________________________________________________________________________//
+
+  patchSellerProfile : async (body,storeId) => {
+    try {
+      const data = await patchSellerAPI(body,storeId)
+      console.log(data)
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  createSellerStore : async (body) => {
+
+    try{
+      console.log(body)
+      const resp = await createStoreAPI(body)
+    
+      set({
+        user: resp.data,
+        isAuthenticated: true
+      });
+
+    console.log('Store creation response:', resp.data);
+      return resp.data
+
+
+    }catch(err){
+      console.log(err)
+      throw err
+    }
+  }
+
     
   }),{
     name: "userStore",

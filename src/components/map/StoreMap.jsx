@@ -25,13 +25,16 @@ export default function StoreMap() {
   const setZoom = useMapStore((state) => state.setZoom);
   const center = useMapStore((state) => state.center);
   const setCenter = useMapStore((state) => state.setCenter);
+  const filter = useMapStore((state) => state.filter);
+  const setFilter = useMapStore((state) => state.setFilter);
 
   const handleMapClick = (event) => {
     const lat = event.detail.latLng.lat;
     const lng = event.detail.latLng.lng;
     setMapCenter({ lat, lng });
+    console.log(filter);
     getStoreArray({
-      radius: 2,
+      radius: filter.radius,
       latitude: lat,
       longitude: lng,
       products: true,
@@ -53,7 +56,7 @@ export default function StoreMap() {
       setMapCenter({ lat: userLocation.lat, lng: userLocation.lng });
       initialPosition();
     }
-  }, [userLocation, initialPosition,getStoreArray,setMapCenter]);  
+  }, [userLocation, initialPosition, getStoreArray, setMapCenter]);
 
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}>
@@ -98,17 +101,6 @@ export default function StoreMap() {
           }}
         >
           <Marker position={mapCenter.lat ? mapCenter : defaultPosition} />
-          <Circle
-            center={mapCenter.lat ? mapCenter : defaultPosition}
-            radius={2000} // 2km radius in meters
-            options={{
-              fillColor: "#4CAF50",
-              fillOpacity: 0.1,
-              strokeColor: "#4CAF50",
-              strokeOpacity: 0.5,
-              strokeWeight: 1,
-            }}
-          />
           <Markers points={stores} />
           {activeMarker && (
             <InfoWindow

@@ -1,177 +1,196 @@
-import { ChevronRight, Clock, Heart, Info, Minus, Plus, ShoppingCart } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import useStoreForUser from '../stores/StoreforUser'
-import useCartStore from '../stores/cartStore'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import {
+  ChevronRight,
+  Clock,
+  Heart,
+  Info,
+  Minus,
+  Plus,
+  ShoppingCart,
+} from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import Lottie from "lottie-react";
+import loadingAnimation from "../assets/icons/FoodLoading.json";
+import useStoreForUser from "../stores/StoreforUser";
+import useCartStore from "../stores/cartStore";
 
 const Store = () => {
-    const { storeId } = useParams();
-    const navigate = useNavigate()
-    // const storeId = '1' //mock storeId
-    const [storeData, setStoreData] = useState([])
-    const [cartData, setCartData] = useState([])
-    const getStoreData = useStoreForUser((state) => state.getStoreData)
-    const addCartData = useCartStore((state) => state.addCartData)
-    const ChangeQuantityItem = useCartStore((state) => state.ChangeQuantityItem)
-    const getCartData = useCartStore((state) => state.getCartData)
+  const { storeId } = useParams();
+  const navigate = useNavigate();
+  const [storeData, setStoreData] = useState(null); // Changed to null for loading state
+  const [cartData, setCartData] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
+  const [liked, setLiked] = useState(false); // Heart animation toggle
+  const getStoreData = useStoreForUser((state) => state.getStoreData);
+  const addCartData = useCartStore((state) => state.addCartData);
+  const ChangeQuantityItem = useCartStore((state) => state.ChangeQuantityItem);
+  const getCartData = useCartStore((state) => state.getCartData);
+  const DeleteCartItem = useCartStore((state) => state.DeleteCartItem);
+  const [warning, setWarning] = useState(null); // To hold the product ID for which the warning is shown
 
-    useEffect(() => {
-        StoreData()
-        CartData()
+  useEffect(() => {
+    StoreData();
+    CartData();
+  }, [storeId]);
 
-    }, [])
-    const CartData = async () => {
-        try {
-            console.log('Fetching cart data...')
-            const result = await getCartData()
-            // เพิ่ม check และดึงข้อมูลจาก result.data
-            if (result?.data) {
-                setCartData(result.data)  // เก็บเฉพาะส่วน data
-                console.log('Cart data:', result.data)
-            }
-        } catch (error) {
-            console.error('Error:', error)
-        }
+  const CartData = async () => {
+    try {
+      const result = await getCartData();
+      if (result?.data) {
+        setCartData(result.data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
+  };
 
-    const StoreData = async () => {
-        try {
-            console.log('Fetching store data...')
-            const result = await getStoreData(storeId)
-            if (result?.data) {
-                const targetStore = result.data.find(store => store.id === parseInt(storeId))
-                if (targetStore) {
-                    setStoreData(targetStore)
-                    console.log('Data set to state:', targetStore)
-                }
-            }
-        } catch (error) {
-            console.error('Error:', error)
-        }
+  const StoreData = async () => {
+    try {
+      const result = await getStoreData(storeId);
+      if (result?.data) {
+        const targetStore = result.data.find(
+          (store) => store.id === parseInt(storeId)
+        );
+        if (targetStore) setStoreData(targetStore);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setTimeout(() => setLoading(false), 2500); // Adds a 1.5-second delay before hiding the loading state;
     }
+  };
 
-    useEffect(() => {
-        console.log(storeData)
-    }, [storeData])
+  const formatTime = (timeString) => {
+    if (!timeString) return "";
+    const hour = timeString.split("T")[1].split(":")[0];
+    return `${hour.padStart(2, "0")}:00`;
+  };
 
-    const formatTime = (timeString) => {
-        if (!timeString) return '';
+  const Increment = async (productId, quantity) => {
+    const cartItem = cartData.find((cart) => cart.productId === productId);
+    const currentQuantity = cartItem ? cartItem.quantity : 0;
 
-        // แยกเอาเฉพาะเวลาออกมา
-        const time = timeString.split('T')[1];
-        // แยกชั่วโมงออกมา
-        const hour = time.split(':')[0];
-
-        // แสดงในรูปแบบ HH:00
-        return `${hour.padStart(2, '0')}:00`;
+    if (currentQuantity < quantity) {
+      if (cartItem) {
+        await ChangeQuantityItem(cartItem.id, currentQuantity + 1);
+        setCartData((prev) =>
+          prev.map((item) =>
+            item.productId === productId
+              ? { ...item, quantity: currentQuantity + 1 }
+              : item
+          )
+        );
+      } else {
+        await addCartData(productId, 1);
+        setCartData((prev) => [...prev, { productId, quantity: 1 }]);
+      }
+      setWarning(null); // Clear any existing warning if increment is successful
+    } else {
+      setWarning(productId); // Set warning for this product
     }
+  };
 
+  const Decrement = async (productId) => {
+    const cartItem = cartData.find((cart) => cart.productId === productId);
+    if (!cartItem) return; // Early return if item not found
 
-    const Increment = async (productId, quantity) => {
-        try {
-            if (Array.isArray(cartData)) {
-                const cartItem = cartData.find(cart => cart.productId === productId);
-                const currentQuantity = cartItem ? cartItem.quantity : 0;
+    if (cartItem.quantity > 1) {
+      // Decrement quantity
+      await ChangeQuantityItem(cartItem.id, cartItem.quantity - 1);
+      setCartData((prev) =>
+        prev.map((item) =>
+          item.productId === productId
+            ? { ...item, quantity: cartItem.quantity - 1 }
+            : item
+        )
+      );
+    } else {
+      // Remove item if quantity is 1
+      await DeleteCartItem(cartItem.id);
+      setCartData((prev) =>
+        prev.filter((item) => item.productId !== productId)
+      );
+    }
+  };
 
-                if (currentQuantity < quantity) {
-                    if (cartItem) {
-                        // ถ้ามีสินค้าในตะกร้าแล้ว ใช้ ChangeQuantityItem
-                        const response = await ChangeQuantityItem(cartItem.id, currentQuantity + 1);
-                    } else {
-                        // ถ้ายังไม่มีสินค้าในตะกร้า ใช้ addCartData
-                        const response = await addCartData(productId, 1);
-                    }
-                    console.log('Cart updated');
-                    CartData(); // รีเฟรชข้อมูลตะกร้า
-                }
-            }
-        } catch (err) {
-            console.error('Error adding to cart:', err);
-        }
-    };
+  const handleLike = () => {
+    setLiked(!liked); // Toggle liked state for heart animation
+  };
 
-    const Decrement = async (productId) => {
-        try {
-            if (Array.isArray(cartData)) {
-                const cartItem = cartData.find(cart => cart.productId === productId);
-
-                if (cartItem && cartItem.quantity >= 0) {
-                    // อัพเดทจำนวนสินค้าในตะกร้า
-                    const response = await ChangeQuantityItem(cartItem.id, cartItem.quantity - 1);
-                    console.log('Cart updated');
-                    CartData(); // รีเฟรชข้อมูลตะกร้า
-                }
-            }
-        } catch (err) {
-            console.error('Error updating cart:', err);
-        }
-    };
-
-    const mapStoreData = storeData.products?.map((item, index) => {
-        const cartItem = Array.isArray(cartData) ?
-            cartData.find(cart => cart.productId === item.id) : null;
-
-        return <div key={item.id} className="hover:bg-gray-50 transition-colors">
-            <div className="flex p-4 border-b">
-                <div className="flex-1 pr-4">
-                    <h3 className="font-medium text-lg">{item.name}</h3>
-                    <p className="text-sm text-gray-500 mt-1 line-clamp-2">{item.description}</p>
-                    <div className="mt-3 space-y-1">
-                        <div className="flex items-center">
-                            <span className="text-gray-500 line-through text-sm">฿{item.originalPrice}</span>
-                            <span className="ml-2 text-red-500 text-lg font-semibold">฿{item.salePrice}</span>
-                        </div>
-                        <div className="flex items-center">
-                            <span className="text-xs text-gray-500">
-                                เหลือ <span className="text-orange-500 font-medium">{item.quantity}</span> ชิ้น
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col items-end">
-                    <div className="relative">
-                        <img
-                            src={item.imageUrl}
-                            alt={item.name}
-                            className="w-24 h-24 rounded-lg object-cover shadow-sm"
-                        />
-                    </div>
-                    <div className="flex items-center space-x-3 mt-3 bg-white rounded-full border px-2 py-1">
-                        <button className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-                            onClick={() => Decrement(item.id)}
-                        >
-                            <Minus className="w-4 h-4 text-gray-600" />
-                        </button>
-                        <span className="w-8 text-center font-medium">{cartItem ? cartItem.quantity : 0}</span>
-                        {/* <span className="w-8 text-center font-medium">{newQuantity[item.id] || 0}</span> */}
-                        <button className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-                            onClick={() => Increment(item.id, item.quantity)}
-                        >
-                            <Plus className="w-4 h-4 text-gray-600" />
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    })
-
-
+  if (loading) {
     return (
-        <div className="max-w-lg mx-auto bg-white min-h-screen pb-20"> {/* เพิ่ม pb-20 เพื่อให้เนื้อหาไม่ถูกปุ่มตะกร้าบัง */}
-            {/* Restaurant Header */}
-            <div className="relative h-48">
-                <img
-                    src={storeData.profilePicture || '/api/placeholder/400/320'}
-                    alt="restaurant cover"
-                    className="w-full h-full object-cover"
-                />
-                <button className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-gray-50">
-                    <Heart className="w-6 h-6 text-gray-600" />
-                </button>
-            </div>
+      <div className="h-screen flex items-center justify-center">
+        <Lottie
+          animationData={loadingAnimation}
+          loop={true}
+          className="w-56 h-56"
+        />
+      </div>
+    );
+  }
 
-            {/* Restaurant Info */}
-            <div className="p-4 border-b">
+  return (
+    <div className="max-w-5xl mx-auto bg-white min-h-screen pb-20">
+      {/* Header Image */}
+      <div className="relative h-64 md:h-72">
+        <img
+          src={storeData?.profilePicture || "/api/placeholder/400/320"}
+          alt="restaurant cover"
+          className="w-full h-full object-cover rounded-b-lg"
+        />
+        <button
+          className={`absolute top-4 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100 transition-transform ${
+            liked ? "scale-125" : ""
+          }`}
+          onClick={handleLike}
+        >
+          <Heart
+            className={`w-6 h-6 ${
+              liked ? "text-red-500 fill-current" : "text-gray-600"
+            }`}
+          />
+        </button>
+      </div>
+
+      {/* Restaurant Info */}
+      <div className="p-4 border-b">
+        <div className="flex flex-col md:flex-row justify-between items-start">
+          <div>
+            <h1 className="text-2xl font-bold">{storeData.storeName}</h1>
+            <p className="text-gray-700">{storeData.storeAddress}</p>
+            <p className="italic text-gray-500">{storeData.storeDetails}</p>
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <Clock className="w-4 h-4" />
+              <span>
+                Open: {formatTime(storeData.timeOpen)} -{" "}
+                {formatTime(storeData.timeClose)}
+              </span>
+            </div>
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <span>35 km away</span>
+              <span>•</span>
+              <span>99+ orders</span>
+            </div>
+            <p className="font-medium">Phone: {storeData.phoneNumber}</p>
+          </div>
+          <button className="btn btn-outline btn-circle mt-4 md:mt-0">
+            <Info className="w-6 h-6 text-gray-600" />
+          </button>
+        </div>
+
+        {/* Status and Rating */}
+        <div className="flex items-center space-x-2 mt-4 text-sm">
+          <span className="badge badge-success text-sm">
+            {storeData.status}
+          </span>
+          <span>•</span>
+          <span className="text-yellow-500 font-medium">
+            4.8 (1.2k reviews)
+          </span>
+        </div>
+      </div>
+      {/* Restaurant Info */}
+      {/* <div className="p-4 border-b">
                 <div className="flex justify-between items-start">
                     <div className="space-y-2">
                         <h1 className="text-xl font-bold">{storeData.storeName}</h1>
@@ -180,7 +199,7 @@ const Store = () => {
                             <p className="text-gray-600 italic">{storeData.storeDetails}</p>
                             <div className="flex items-center space-x-2">
                                 <Clock className="w-4 h-4" />
-                                <span>เวลาทำการ: {formatTime(storeData.timeOpen)} - {formatTime(storeData.timeClose)} น.</span>
+                                <span>เวลาทำการ: {storeData.timeOpen} - {storeData.timeClose} น.</span>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <span className="line-clamp-1">35 กิโลเมตรจากคุณ</span>
@@ -193,51 +212,131 @@ const Store = () => {
                     <button className="p-2 hover:bg-gray-100 rounded-full">
                         <Info className="w-6 h-6 text-gray-600" />
                     </button>
-                </div>
+                </div> */}
 
-                {/* Status and Rating */}
-                <div className="flex items-center space-x-2 mt-4">
-                    <span className="px-2 py-1 bg-green-50 text-green-700 rounded-full text-sm font-medium">
-                        {storeData.status}
+      {/* Menu Items */}
+      <div className="p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {storeData.products?.map((item) => {
+            const cartItem = cartData.find(
+              (cart) => cart.productId === item.id
+            );
+            return (
+              <div
+                key={item.id}
+                className={`relative border rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 ${
+                  item.quantity === 0 ? " cursor-not-allowed" : ""
+                }`}
+              >
+                {/* "Out of Stock" overlay */}
+                {item.quantity === 0 && (
+                  <div className="absolute -bottom-20 inset-0 flex items-center justify-center z-10">
+                    <span className="text-red-500 font-bold text-2xl">
+                      สินค้าหมด
                     </span>
-                    <span>•</span>
-                    <span className="text-sm text-yellow-500 font-medium">4.8 (1.2k)</span>
-                </div>
-            </div>
+                  </div>
+                )}
 
-            {/* Menu Items */}
-            <div>
+                <img
+                  src={item.imageUrl}
+                  alt={item.name}
+                  className="w-full h-48 rounded-lg object-cover"
+                  style={{
+                    filter: item.quantity === 0 ? "grayscale(100%)" : "none", // Add grayscale if out of stock
+                  }}
+                />
+                <div className="flex flex-col justify-between mt-4">
+                  <div>
+                    <h3 className="font-medium text-lg">{item.name}</h3>
+                    <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                      {item.description}
+                    </p>
+                    <div className="flex items-center justify-between mt-3">
+                      <div>
+                        <span className="text-gray-500 line-through text-sm">
+                          ฿{item.originalPrice}
+                        </span>
+                        <span className="ml-2 text-red-500 font-semibold">
+                          ฿{item.salePrice}
+                        </span>
+                        <p className="text-xs text-gray-500 mt-1">
+                          In stock:{" "}
+                          <span
+                            className={`font-medium ${
+                              item.quantity === 0
+                                ? "text-red-500"
+                                : "text-orange-500"
+                            }`}
+                          >
+                            {item.quantity}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="flex items-center">
+                        {/* Decrement button with red hover */}
+                        <button
+                          className="btn btn-sm btn-outline p-2 hover:bg-error hover:text-white"
+                          onClick={() => Decrement(item.id)}
+                          disabled={item.quantity === 0}
+                        >
+                          <Minus className="w-4 h-4" />
+                        </button>
+                        <span className="w-8 text-center font-medium">
+                          {cartItem ? cartItem.quantity : 0}
+                        </span>
 
-
-                {mapStoreData}
-            </div>
-
-            {/* Fixed Cart Button */}
-            {/* Fixed Cart Button */}
-            <div className="fixed bottom-0 left-0 right-0 max-w-lg mx-auto bg-white border-t shadow-lg">
-                <div className="flex items-center justify-between p-4">
-                    <div className="flex items-center space-x-3">
-                        <ShoppingCart className="w-6 h-6 text-blue-600" />
-                        <div>
-                            <p className="text-sm text-gray-600">จำนวนสินค้าในตะกร้า</p>
-                            <p className="font-medium text-blue-600">
-                                {Array.isArray(cartData) ? cartData.reduce((total, item) => total + item.quantity, 0) : 0} ชิ้น
-                            </p>
-                        </div>
+                        {/* Increment button with green hover */}
+                        <button
+                          className="btn btn-sm btn-outline p-2 hover:bg-primary hover:text-white"
+                          onClick={() => Increment(item.id, item.quantity)}
+                          disabled={item.quantity === 0}
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
-                    <button
-                        onClick={() => navigate('/cart')}
-                        className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-all transform hover:scale-105 active:scale-95 shadow-md"
-                    >
-                        <span>ดูตะกร้า</span>
-                        <ChevronRight className="w-5 h-5" />
-                    </button>
+
+                    {/* Warning message if stock is exceeded */}
+                    {warning === item.id && (
+                      <p className="text-xs text-red-500 mt-1">
+                        ⚠️ คุณสั่งสินค้าเกินจำนวนที่มีอยู่ในสต๊อก!
+                      </p>
+                    )}
+                  </div>
                 </div>
-            </div>
+              </div>
+            );
+          })}
         </div>
-    )
-}
+      </div>
 
-export default Store
+      {/* Fixed Cart Button with Floating Badge */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-10">
+        <div className="flex items-center justify-between max-w-5xl mx-auto p-4">
+          <div className="flex items-center space-x-3 relative">
+            <ShoppingCart className="w-6 h-6 text-blue-600" />
+            {/* <span className="absolute -top-2 -right-5 bg-red-500 text-white text-xs rounded-full px-2 py-1 "> */}
+            {/* {cartData.reduce((total, item) => total + item.quantity, 0)} */}
+            {/* </span> */}
+            <div>
+              <p className="text-sm text-gray-600 ">Items in cart</p>
+              <p className="font-medium text-blue-600">
+                {cartData.reduce((total, item) => total + item.quantity, 0)}{" "}
+                items
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => navigate("/cart")}
+            className="btn btn-primary px-6 py-3 text-white"
+          >
+            <span>ตรวจสอบตะกร้าสินค้า</span>
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-
+export default Store;

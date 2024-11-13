@@ -17,9 +17,10 @@ import LandingPage from "../pages/LandingPage";
 import NotFound from "../pages/NotFound";
 import { useEffect } from "react";
 import AdminProfile from "../pages/admin/AdminProfile";
-import ForgetPassword from "../pages/Auth/forgetPassword";
+import ForgetPassword from "../pages/Auth/ForgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
+
 import Store from "../pages/Store";
 import HomePage from "../pages/HomePage";
 import VerifyPayment from "../pages/VerifyPayment";
@@ -28,7 +29,23 @@ import OrderFailed from "../pages/OrderFailed";
 
 import AdminEditProfile from "../pages/admin/AdminEditProfile";
 
+import SellerDashboard from "../pages/seller/SellerDashboard";
 
+import ManageProduct from "../pages/seller/ManageProduct";
+import ManageOrder from "../pages/seller/ManageOrder";
+
+import SendEmailForgetPassword from "../pages/Auth/SendEmailForgetPassword";
+import CreateStore from "../pages/Auth/CreateStore";
+import UserEditProfile from "../pages/buyer/UserEditProfile";
+
+import StoreProfile from "../pages/seller/StoreProfile";
+import StoreEdit from "../pages/seller/StoreEdit";
+import SellerProfile from "../pages/seller/SellerProfile";
+import OrderHistory from "../pages/OrderHistory";
+import ChatPage from "../pages/ChatPage";
+import TestStoreAccess from "../components/TestStoreAccess";
+import EditSellerProfile from "../pages/seller/EditSellerProfile";
+import SellerMap from "../components/seller/SellerMap";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -36,28 +53,25 @@ const guestRouter = createBrowserRouter([
   { path: "selectRegister", element: <SelectRegister /> },
   { path: "UserRegister", element: <UserRegister /> },
   { path: "MerchantRegister", element: <MerchantRegister /> },
-  { path: "forgetPassword", element: <ForgetPassword /> },
+  { path: "forgetPassword/:token", element: <ForgetPassword /> },
+  { path: "send-email-forgetPassword", element: <SendEmailForgetPassword /> },
+  { path: "createStore", element: <CreateStore /> },
   { path: "*", element: <LandingPage /> },
 ]);
-
-
-
-
-
 
 const adminRouter = createBrowserRouter([
   {
     path: "/",
     element: <AdminLayout />,
     children: [
-      { path: '/', element: <Dashboard /> },
+      { path: "/", element: <Dashboard /> },
       { path: "admin-profile", element: <AdminProfile /> },
       { path: "admin-edit-profile", element: <AdminEditProfile /> },
       { path: "manage-user", element: <ManageUser /> },
       { path: "manage-charity", element: <ManageCharity /> },
       { path: "manage-store", element: <ManageStore /> },
-      { path: "*", element: <Dashboard />},
-    ]
+      { path: "*", element: <Dashboard /> },
+    ],
   },
 ]);
 
@@ -66,27 +80,29 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
-      {index: true, element: <MapPage />},
-      { path: "/Home", element: <HomePage /> },
-        {path: "/map",element: <MapPage />},
-        {path:"store/:storeId",element:<Store />},
-        {path:"cart",element:<Cart />},
-        {path:"order",element:<Order/>},
-        { path: "verify", element: <VerifyPayment /> },      
+      { index: true, element: <HomePage /> },
+      
+      { path: "/map", element: <MapPage /> },
+      { path: "store/:storeId", element: <Store /> },
+      { path: "cart", element: <Cart /> },
+      { path: "order", element: <Order /> },
+      { path: "verify", element: <VerifyPayment /> },
       { path: "order-success", element: <OrderSuccess /> },
       { path: "order-failed", element: <OrderFailed /> },
-        // {index: true, element: <Dashboard />},
-        // {path: "manage-user", element: <ManageUser />},
-        // {path: "manage-charity", element: <ManageCharity />},
-        // {path: "manage-store", element: <ManageStore/>},
-        // {path: "*", element: <NotFound  />}, 
-    ]
+      { path: "userProfile", element: <UserProfile /> },
+      { path: "userEdit", element: <UserEditProfile /> },
+      { path: "order-history", element: <OrderHistory/> },
+      { path: "chat/:chatRoomId", element: <ChatPage/> },
+      { path: "test", element: <TestStoreAccess /> },
+      // {index: true, element: <Dashboard />},
+      // {path: "manage-user", element: <ManageUser />},
+      // {path: "manage-charity", element: <ManageCharity />},
+      // {path: "manage-store", element: <ManageStore/>},
+      { path: "*", element: <HomePage /> },
+    ],
+  },
 
-  },
-  {
-    path: "/user",
-    element: <UserProfile />,
-  },
+  { path: "/user", element: <UserProfile /> },
 ]);
 
 const sellerRouter = createBrowserRouter([
@@ -94,24 +110,34 @@ const sellerRouter = createBrowserRouter([
     path: "/",
     element: <SellerLayout />,
     children: [
-        // {index: true, element: <Dashboard />},
-    //     {path: "manage-user", element: <ManageUser />},
-    //     {path: "manage-charity", element: <ManageCharity />},
-    //     {path: "manage-store", element: <ManageStore/>},
-        {path: "*", element: <NotFound  />},
-    ]
+      { index: true, element: <SellerDashboard /> },
+      { path: "user", element: <UserProfile /> },
+      { path: "store-profile", element: <StoreProfile /> },
+      { path: "store-edit", element: <StoreEdit /> },
+      { path: "seller-profile", element: <SellerProfile /> },
+      { path: "seller-edit-profile", element: <EditSellerProfile /> },
+      { path: "manage-product", element: <ManageProduct /> },
+      { path: "manage-order", element: <ManageOrder /> },
+      { path: "chat/:chatRoomId", element: <ChatPage /> },
+      { path: "test", element: <TestStoreAccess /> },
+      { path: "*", element: <NotFound /> },
+    ],
   },
   {
     path: "/user",
     element: <UserProfile />,
   },
+
+  ,
 ]);
 
+const finalRouter = (role, isAuthenticate, user) => {
+  if (!isAuthenticate) return guestRouter;
 
+  if (role === "SELLER" && user.store == null) {
+    return createBrowserRouter([{ path: "*", element: <CreateStore /> }]);
+  }
 
-const finalRouter = (role,isAuthenticate) => {
-  // console.log(isAuthenticate,"app router")
-  if(!isAuthenticate) return guestRouter;
   if (role === "ADMIN") {
     return adminRouter;
   } else if (role === "BUYER") {
@@ -121,27 +147,22 @@ const finalRouter = (role,isAuthenticate) => {
   } else {
     return guestRouter;
   }
-
-}
-
+};
 
 export default function AppRoute() {
-  const getMe = useUserStore(state => state.getMe)
-  const user = useUserStore(state => state.user)
-  const isAuthenticated = useUserStore(state => state.isAuthenticated)
+  const getMe = useUserStore((state) => state.getMe);
+  const user = useUserStore((state) => state.user);
+
+  const isAuthenticated = useUserStore((state) => state.isAuthenticated);
 
   useEffect(() => {
     const loadUser = async () => {
-      await getMe()
-    }
-    loadUser()
-  }, [])
+      await getMe();
+    };
+    loadUser();
+  }, []);
 
-  // console.log(user, "router")
-  // console.log(isAuthenticated, "routerxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-  // console.log(user?.role, "role")
-
-  const router = finalRouter(user?.role, isAuthenticated);
+  const router = finalRouter(user?.role, isAuthenticated, user);
 
   return (
     <div>

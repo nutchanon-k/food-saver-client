@@ -1,49 +1,45 @@
-import React, { useEffect, useState } from 'react'
-import { Search, Bell } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Search, Bell, Menu } from 'lucide-react'; // เพิ่ม Menu icon
 import Avatar from './Avatar';
 import useSearchStore from '../../stores/SearchStore';
 import useUserStore from '../../stores/userStore';
 import { useNavigate } from 'react-router-dom';
 
-
-
-
-const AdminHeader = () => {
-    const navigate = useNavigate()
+const AdminHeader = ({ toggleMobileSidebar }) => {
+    const navigate = useNavigate();
     const user = useUserStore(state => state.user);
-    const searchText = useSearchStore(state => state.searchText)
-    const setSearchText = useSearchStore(state => state.setSearchText)
-    const hdlLogout = useUserStore(state => state.hdlLogout)
+    const searchText = useSearchStore(state => state.searchText);
+    const setSearchText = useSearchStore(state => state.setSearchText);
+    const hdlLogout = useUserStore(state => state.hdlLogout);
 
-    const [text, setText] = useState(searchText)
-
+    const [text, setText] = useState(searchText);
 
     useEffect(() => {
         const delay = setTimeout(() => {
-          setSearchText(text)
-        }, 500)
-        return () => clearTimeout(delay)
-      }, [text])
+            setSearchText(text);
+        }, 500);
+        return () => clearTimeout(delay);
+    }, [text]);
 
-    const handleLogout = async() => {
-        await hdlLogout()
-        
+    const handleLogout = async () => {
+        await hdlLogout();
+        navigate('/');
     };
 
-
-
-    // console.log(searchText)
-
-    // console.log(user)
     return (
         <header className="flex items-center justify-between bg-white px-4 py-4 border-b shadow-sm">
+            {/* Hamburger Menu Icon for Mobile */}
+            <button className="lg:hidden text-gray-500" onClick={toggleMobileSidebar}>
+                <Menu size={24} />
+            </button>
+
             {/* Logo */}
             <div className="flex items-center">
-                <h1 className="text-2xl font-bold text-green-600">Logo</h1>
+                <img src='../../src/assets/pictures/FoodSaver.png' alt="Logo" className="w-24 h-12 mr-2" />
             </div>
 
             {/* Search Bar */}
-            <div className="flex items-center w-1/2 bg-gray-100 rounded-full px-4 py-2 mx-4">
+            <div className="hidden md:flex items-center w-1/2 bg-gray-100 rounded-full px-4 py-2 mx-4">
                 <Search className="text-gray-500 mr-2" />
                 <input
                     type="text"
@@ -55,17 +51,15 @@ const AdminHeader = () => {
             </div>
 
             {/* Notifications and User Info */}
-            <div className="flex items-center space-x-4 ">
-                {/* Notification Icon */}
+            <div className="flex items-center space-x-4">
                 <button className="relative rounded-full hover:bg-gray-100">
                     <Bell className="text-gray-500" />
-                    {/* Notification Badge */}
                     <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 bg-red-500 text-white text-xs rounded-full">3</span>
                 </button>
 
                 {/* User Info */}
                 <div className="flex items-center space-x-2">
-                    <div className="text-right">
+                    <div className="text-right hidden md:block">
                         <p className="text-sm font-semibold">{user?.firstName + " " + user?.lastName}</p>
                         <p className="text-xs font-medium text-gray-500">{user?.role}</p>
                     </div>
@@ -79,16 +73,7 @@ const AdminHeader = () => {
                                 />
                             </div>
                         </div>
-                        <ul
-                            tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                            {/* <li onClick={() => {
-                                setShowChangePassword(true)
-                                document.getElementById('change_password_modal').showModal()
-                            }}
-                            >
-                                <a>Change Password</a>
-                            </li> */}
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             <li onClick={handleLogout}><a>Logout</a></li>
                         </ul>
                     </div>
@@ -98,5 +83,4 @@ const AdminHeader = () => {
     );
 };
 
-
-export default AdminHeader
+export default AdminHeader;
