@@ -467,12 +467,278 @@
 
 
 
+
+
+// ========================================codeเก่า====================================================================
+
+
+// import React, { useEffect, useState } from 'react';
+// import useUserStore from '../../stores/userStore';
+// import Swal from 'sweetalert2';
+// import useSearchStore from '../../stores/SearchStore';
+// import Pagination from '../../components/Pagination';
+// import useStore from '../../stores/Store';
+
+// const ManageStore = () => {
+//     const activateUser = useUserStore(state => state.activateUser);
+//     const searchText = useSearchStore(state => state.searchText);
+//     const getStoreQuery = useStore(state => state.getStoreQuery);
+//     const verifyStore = useStore(state => state.verifyStore);
+
+//     const [currentPage, setCurrentPage] = useState(1);
+//     const [totalPages, setTotalPages] = useState(1);
+//     const [isOpen, setIsOpen] = useState(false);
+//     const [store, setStore] = useState(null);
+//     const [storeData, setStoreData] = useState({});
+//     const [verifyFilter, setVerifyFilter] = useState('');
+
+//     const fetchStore = async (page) => {
+//         try {
+//             const result = await getStoreQuery(page, searchText, verifyFilter);
+//             setTotalPages(result?.totalPage);
+//             setStore(result?.data);
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     };
+
+//     useEffect(() => {
+//         fetchStore(currentPage);
+//     }, [currentPage, searchText, verifyFilter]);
+
+//     useEffect(() => {
+//         setCurrentPage(1);
+//     }, [searchText]);
+
+//     const handlePageChange = (page) => {
+//         setCurrentPage(page);
+//     };
+
+//     const toggleStatus = async (id) => {
+//         let index = store.findIndex((store) => store.id === id);
+//         const isVerified = store[index].isVerify;
+//         const swalWithBootstrapButtons = Swal.mixin({
+//             customClass: {
+//                 confirmButton: "btn btn-success ml-2",
+//                 cancelButton: "btn btn-error mr-2"
+//             },
+//             buttonsStyling: false
+//         });
+
+//         swalWithBootstrapButtons.fire({
+//             title: isVerified ? "Deactivate this store?" : "Verify this store?",
+//             text: isVerified ? "Do you want to deactivate this store!" : "Do you want to verify this store!",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonText: isVerified ? "Yes, deactivate it!" : "Yes, verify it!",
+//             cancelButtonText: "No, cancel!",
+//             reverseButtons: true
+//         }).then(async (result) => {
+//             if (result.isConfirmed) {
+//                 try {
+//                     const updateResult = await verifyStore(id);
+//                     if (updateResult) {
+//                         setStore(
+//                             store.map(store => 
+//                                 store.id === id ? { ...store, isVerify: !store.isVerify } : store
+//                             )
+//                         );
+//                         swalWithBootstrapButtons.fire({
+//                             title: isVerified ? "Deactivated!" : "Verified!",
+//                             text: isVerified ? "Store has been deactivated." : "Store has been verified.",
+//                             icon: "success"
+//                         });
+//                     }
+//                 } catch (error) {
+//                     console.log(error);
+//                 }
+//             } else if (result.dismiss === Swal.DismissReason.cancel) {
+//                 swalWithBootstrapButtons.fire({
+//                     title: "Cancelled",
+//                     text: isVerified ? "Store remains active." : "Store remains unverified.",
+//                     icon: "error"
+//                 });
+//             }
+//         });
+//     };
+
+//     return (
+//         <div className="p-0 sm:p-6 min-h-screen flex justify-center items-center w-full">
+//             <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 w-full max-w-6xl min-h-[500px]">
+//                 <div className='flex flex-col sm:flex-row justify-between items-center'>
+//                     <h2 className="text-2xl sm:text-3xl font-semibold">Manage Store</h2>
+//                     <div className="my-4 sm:my-0">
+//                         <label htmlFor="verifyFilter" className="mr-2">Filter verified:</label>
+//                         <select
+//                             id="verifyFilter"
+//                             value={verifyFilter}
+//                             onChange={(e) => setVerifyFilter(e.target.value)}
+//                             className="py-2 px-4 border rounded"
+//                         >
+//                             <option value="">All</option>
+//                             <option value={true}>Verified</option>
+//                             <option value={false}>Unverified</option>
+//                         </select>
+//                     </div>
+//                 </div>
+
+//                 <hr className='my-4' />
+
+//                 <div className='overflow-x-auto'>
+//                     <table className="w-full text-left">
+//                         <thead>
+//                             <tr>
+//                                 <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4">Image</th>
+//                                 <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4">Store Name</th>
+//                                 <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4">Address</th>
+//                                 <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4">Details</th>
+//                                 <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4">Status</th>
+//                             </tr>
+//                         </thead>
+//                         <tbody>
+//                             {store?.map(store => (
+//                                 <tr key={store.id} className="bg-white hover:bg-gray-50 shadow-sm rounded-lg">
+//                                     <td className="py-4 text-center">
+//                                         <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full overflow-hidden mx-auto">
+//                                             <img src={store.profilePicture} alt="Store Avatar" className="object-cover w-full h-full" />
+//                                         </div>
+//                                     </td>
+//                                     <td className="py-4 text-center w-40 sm:w-56 px-4 text-sm sm:text-base font-medium text-gray-700">
+//                                         <p className="py-1">{store.storeName}</p>
+//                                     </td>
+//                                     <td className="py-4 text-center w-60 sm:w-80 px-4 text-sm sm:text-base text-gray-600">
+//                                         <p className="py-1">{store.storeAddress}</p>
+//                                     </td>
+//                                     <td className="py-4 text-center">
+//                                         <button
+//                                             onClick={() => {
+//                                                 setStoreData(store);
+//                                                 setIsOpen(true);
+//                                                 document.getElementById('store_detail_modal').showModal();
+//                                             }}
+//                                             className="bg-yellow-200 text-yellow-800 px-4 py-1 rounded-full text-sm sm:text-base"
+//                                         >
+//                                             View
+//                                         </button>
+//                                     </td>
+//                                     <td className="py-4 text-center px-4">
+//                                         <div className="flex items-center justify-center gap-2">
+//                                             <label className="flex cursor-pointer gap-2">
+//                                                 <input
+//                                                     type="checkbox"
+//                                                     checked={store.isVerify}
+//                                                     onChange={() => toggleStatus(store.id)}
+//                                                     className="toggle theme-controller"
+//                                                 />
+//                                             </label>
+//                                             <span className={`text-xs sm:text-sm font-medium ${store.isVerify ? 'text-green-600' : 'text-red-500'}`}>
+//                                                 {store.isVerify ? 'Verified' : 'Unverified'}
+//                                             </span>
+//                                         </div>
+//                                     </td>
+//                                 </tr>
+//                             ))}
+//                         </tbody>
+//                     </table>
+//                 </div>
+
+//                 <div className='flex justify-center mt-4'>
+//                     <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+//                 </div>
+//             </div>
+
+//             <dialog id="store_detail_modal" className="modal" onClose={() => setIsOpen(false)}>
+//                 <div className="modal-box w-full max-w-3xl p-6">
+//                     <button
+//                         type="button"
+//                         className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"
+//                         onClick={(e) => e.target.closest('dialog').close()}
+//                     >
+//                         ✕
+//                     </button>
+//                     <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Store Information</h2>
+//                     <div className="flex flex-col sm:flex-row gap-4">
+//                         <figure className="sm:w-1/2">
+//                             <img
+//                                 src={storeData.profilePicture}
+//                                 alt="Store Profile"
+//                                 className="w-48 h-48 sm:w-72 sm:h-72 object-cover rounded-lg shadow-md"
+//                             />
+//                         </figure>
+//                         <div className="sm:w-1/2 flex flex-col space-y-4">
+//                             <p className="text-gray-700 text-sm sm:text-base"><span className="font-semibold">ID:</span> {storeData.id}</p>
+//                             <p className="text-gray-700 text-sm sm:text-base"><span className="font-semibold">Store Name:</span> {storeData.storeName}</p>
+//                             <p className="text-gray-700 text-sm sm:text-base"><span className="font-semibold">Address:</span> {storeData.storeAddress}</p>
+//                             <p className="text-gray-700 text-sm sm:text-base"><span className="font-semibold">Phone:</span> {storeData.phoneNumber}</p>
+//                             <p className="text-gray-700 text-sm sm:text-base"><span className="font-semibold">Details:</span> {storeData.storeDetails}</p>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </dialog>
+//         </div>
+//     );
+// };
+
+// export default ManageStore;
+
+
+// =====================================================================================================================================
+
+
+
+
+
 import React, { useEffect, useState } from 'react';
 import useUserStore from '../../stores/userStore';
 import Swal from 'sweetalert2';
 import useSearchStore from '../../stores/SearchStore';
 import Pagination from '../../components/Pagination';
 import useStore from '../../stores/Store';
+
+// Store Card Component for Mobile View
+const StoreCard = ({ store, onToggleStatus, onViewDetails }) => (
+  <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+    <div className="flex flex-col gap-4">
+      {/* Store Image and Name */}
+      <div className="flex items-center gap-4">
+        <img 
+          src={store.profilePicture} 
+          alt={store.storeName}
+          className="w-24 h-24 rounded-lg object-cover"
+        />
+        <div className="flex-1">
+          <h3 className="font-semibold text-lg">{store.storeName}</h3>
+          <p className="text-sm text-gray-600 line-clamp-2">{store.storeAddress}</p>
+        </div>
+      </div>
+
+      {/* Store Status */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <label className="cursor-pointer">
+            <input
+              type="checkbox"
+              checked={store.isVerify}
+              onChange={() => onToggleStatus(store.id)}
+              className="toggle theme-controller"
+            />
+            <span className={`ml-2 text-sm font-medium ${
+              store.isVerify ? 'text-green-600' : 'text-red-500'
+            }`}>
+              {store.isVerify ? 'Verified' : 'Unverified'}
+            </span>
+          </label>
+        </div>
+        <button
+          onClick={() => onViewDetails(store)}
+          className="bg-yellow-200 text-yellow-800 px-4 py-2 rounded-full hover:bg-yellow-300 transition-colors"
+        >
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
+);
 
 const ManageStore = () => {
     const activateUser = useUserStore(state => state.activateUser);
@@ -557,78 +823,84 @@ const ManageStore = () => {
         });
     };
 
+    const handleViewDetails = (store) => {
+        setStoreData(store);
+        setIsOpen(true);
+        document.getElementById('store_detail_modal').showModal();
+    };
+
     return (
-        <div className="p-0 sm:p-6 min-h-screen flex justify-center items-center w-full">
-            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 w-full max-w-6xl min-h-[500px]">
-                <div className='flex flex-col sm:flex-row justify-between items-center'>
-                    <h2 className="text-2xl sm:text-3xl font-semibold">Manage Store</h2>
-                    <div className="my-4 sm:my-0">
-                        <label htmlFor="verifyFilter" className="mr-2">Filter verified:</label>
-                        <select
-                            id="verifyFilter"
-                            value={verifyFilter}
-                            onChange={(e) => setVerifyFilter(e.target.value)}
-                            className="py-2 px-4 border rounded"
-                        >
-                            <option value="">All</option>
-                            <option value={true}>Verified</option>
-                            <option value={false}>Unverified</option>
-                        </select>
+        <div className="p-4">
+            <div className="bg-white rounded-lg shadow-md">
+                {/* Header Section */}
+                <div className="p-4 md:p-6 border-b border-gray-200">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <h2 className="text-2xl font-bold">Manage Store</h2>
+                        <div className="flex items-center gap-2">
+                            <select
+                                value={verifyFilter}
+                                onChange={(e) => setVerifyFilter(e.target.value)}
+                                className="px-4 py-2 border rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-[#5abd4f]"
+                            >
+                                <option value="">All Stores</option>
+                                <option value={true}>Verified</option>
+                                <option value={false}>Unverified</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <hr className='my-4' />
-
-                <div className='overflow-x-auto'>
-                    <table className="w-full  text-left">
+                {/* Desktop View - Table */}
+                <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full text-left">
                         <thead>
-                            <tr>
-                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[100px]">Image</th>
-                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[250px]">Store Name</th>
-                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[350px]">Address</th>
-                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[150px]">Details</th>
-                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[150px]">Status</th>
+                            <tr className="border-b">
+                                <th className="p-4 text-center">Store Image</th>
+                                <th className="p-4">Store Name</th>
+                                <th className="p-4">Address</th>
+                                <th className="p-4 text-center">Details</th>
+                                <th className="p-4 text-center">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             {store?.map(store => (
-                                <tr key={store.id} className="bg-white hover:bg-gray-50 shadow-sm rounded-lg">
-                                    <td className="py-4 text-center max-w-[100px]">
-                                        <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full overflow-hidden mx-auto">
-                                            <img src={store.profilePicture} alt="Store Avatar" className="object-cover w-full h-full" />
+                                <tr key={store.id} className="hover:bg-gray-50">
+                                    <td className="p-4">
+                                        <div className="flex justify-center">
+                                            <img 
+                                                src={store.profilePicture} 
+                                                alt={store.storeName} 
+                                                className="w-24 h-24 rounded-lg object-cover"
+                                            />
                                         </div>
                                     </td>
-                                    <td className="py-4 text-center px-4 text-sm sm:text-base font-medium text-gray-700 max-w-[250px] break-words">
-                                        <p className="py-1">{store.storeName}</p>
+                                    <td className="p-4 font-medium">{store.storeName}</td>
+                                    <td className="p-4">{store.storeAddress}</td>
+                                    <td className="p-4">
+                                        <div className="flex justify-center">
+                                            <button
+                                                onClick={() => handleViewDetails(store)}
+                                                className="bg-yellow-200 text-yellow-800 px-4 py-2 rounded-full hover:bg-yellow-300 transition-colors"
+                                            >
+                                                View Details
+                                            </button>
+                                        </div>
                                     </td>
-                                    <td className="py-4 text-center px-4 text-sm sm:text-base text-gray-600 max-w-[350px] break-words">
-                                        <p className="py-1">{store.storeAddress}</p>
-                                    </td>
-                                    <td className="py-4 text-center max-w-[150px]">
-                                        <button
-                                            onClick={() => {
-                                                setStoreData(store);
-                                                setIsOpen(true);
-                                                document.getElementById('store_detail_modal').showModal();
-                                            }}
-                                            className="bg-yellow-200 text-yellow-800 px-4 py-1 rounded-full text-sm sm:text-base"
-                                        >
-                                            View
-                                        </button>
-                                    </td>
-                                    <td className="py-4 text-center px-4 max-w-[150px]">
+                                    <td className="p-4">
                                         <div className="flex items-center justify-center gap-2">
-                                            <label className="flex cursor-pointer gap-2">
+                                            <label className="cursor-pointer flex items-center gap-2">
                                                 <input
                                                     type="checkbox"
                                                     checked={store.isVerify}
                                                     onChange={() => toggleStatus(store.id)}
                                                     className="toggle theme-controller"
                                                 />
+                                                <span className={`text-sm font-medium ${
+                                                    store.isVerify ? 'text-green-600' : 'text-red-500'
+                                                }`}>
+                                                    {store.isVerify ? 'Verified' : 'Unverified'}
+                                                </span>
                                             </label>
-                                            <span className={`text-xs sm:text-sm font-medium ${store.isVerify ? 'text-green-600' : 'text-red-500'}`}>
-                                                {store.isVerify ? 'Verified' : 'Unverified'}
-                                            </span>
                                         </div>
                                     </td>
                                 </tr>
@@ -637,35 +909,51 @@ const ManageStore = () => {
                     </table>
                 </div>
 
-                <div className='flex justify-center mt-4'>
-                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                {/* Mobile View - Cards */}
+                <div className="md:hidden">
+                    {store?.map(store => (
+                        <StoreCard
+                            key={store.id}
+                            store={store}
+                            onToggleStatus={toggleStatus}
+                            onViewDetails={handleViewDetails}
+                        />
+                    ))}
+                </div>
+
+                {/* Pagination */}
+                <div className="p-4 border-t border-gray-200">
+                    <Pagination 
+                        currentPage={currentPage} 
+                        totalPages={totalPages} 
+                        onPageChange={handlePageChange}
+                    />
                 </div>
             </div>
 
+            {/* Store Detail Modal */}
             <dialog id="store_detail_modal" className="modal" onClose={() => setIsOpen(false)}>
-                <div className="modal-box w-full max-w-3xl p-6">
+                <div className="modal-box max-w-3xl p-6">
                     <button
                         type="button"
-                        className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"
+                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                         onClick={(e) => e.target.closest('dialog').close()}
                     >
                         ✕
                     </button>
-                    <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">Store Information</h2>
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <figure className="sm:w-1/2">
-                            <img
-                                src={storeData.profilePicture}
-                                alt="Store Profile"
-                                className="w-48 h-48 sm:w-72 sm:h-72 object-cover rounded-lg shadow-md"
-                            />
-                        </figure>
-                        <div className="sm:w-1/2 flex flex-col space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base"><span className="font-semibold">ID:</span> {storeData.id}</p>
-                            <p className="text-gray-700 text-sm sm:text-base"><span className="font-semibold">Store Name:</span> {storeData.storeName}</p>
-                            <p className="text-gray-700 text-sm sm:text-base"><span className="font-semibold">Address:</span> {storeData.storeAddress}</p>
-                            <p className="text-gray-700 text-sm sm:text-base"><span className="font-semibold">Phone:</span> {storeData.phoneNumber}</p>
-                            <p className="text-gray-700 text-sm sm:text-base"><span className="font-semibold">Details:</span> {storeData.storeDetails}</p>
+                    <h2 className="text-2xl font-bold mb-6">Store Information</h2>
+                    <div className="flex flex-col md:flex-row gap-6">
+                        <img
+                            src={storeData.profilePicture}
+                            alt="Store Profile"
+                            className="w-full md:w-1/2 h-64 object-cover rounded-lg"
+                        />
+                        <div className="space-y-4">
+                            <p className="text-gray-700"><span className="font-semibold">ID:</span> {storeData.id}</p>
+                            <p className="text-gray-700"><span className="font-semibold">Store Name:</span> {storeData.storeName}</p>
+                            <p className="text-gray-700"><span className="font-semibold">Address:</span> {storeData.storeAddress}</p>
+                            <p className="text-gray-700"><span className="font-semibold">Phone:</span> {storeData.phoneNumber}</p>
+                            <p className="text-gray-700"><span className="font-semibold">Details:</span> {storeData.storeDetails}</p>
                         </div>
                     </div>
                 </div>
