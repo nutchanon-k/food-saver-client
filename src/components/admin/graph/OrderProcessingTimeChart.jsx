@@ -24,7 +24,7 @@ const OrderProcessingTimeChart = () => {
   }, []);
 
   // กำหนดค่าที่ต้องการสำหรับโปรเกรสบาร์
-  const maxProcessingTime = 1000; // คุณสามารถปรับเปลี่ยนตามความเหมาะสม
+  const maxProcessingTime = 15; // คุณสามารถปรับเปลี่ยนตามความเหมาะสม
   const percentage = Math.min((averageProcessingTime / maxProcessingTime) * 100, 100);
 
   return (

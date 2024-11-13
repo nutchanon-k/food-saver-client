@@ -41,6 +41,9 @@ import UserEditProfile from "../pages/buyer/UserEditProfile";
 import StoreProfile from "../pages/seller/StoreProfile";
 import StoreEdit from "../pages/seller/StoreEdit";
 import SellerProfile from "../pages/seller/SellerProfile";
+import OrderHistory from "../pages/OrderHistory";
+import ChatPage from "../pages/ChatPage";
+import TestStoreAccess from "../components/TestStoreAccess";
 import EditSellerProfile from "../pages/seller/EditSellerProfile";
 import SellerMap from "../components/seller/SellerMap";
 
@@ -77,8 +80,8 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
-      { index: true, element: <MapPage /> },
-      { path: "/Home", element: <HomePage /> },
+      { index: true, element: <HomePage /> },
+      
       { path: "/map", element: <MapPage /> },
       { path: "store/:storeId", element: <Store /> },
       { path: "cart", element: <Cart /> },
@@ -88,7 +91,9 @@ const buyerRouter = createBrowserRouter([
       { path: "order-failed", element: <OrderFailed /> },
       { path: "userProfile", element: <UserProfile /> },
       { path: "userEdit", element: <UserEditProfile /> },
-      { path: "test", element: <SellerMap /> },
+      { path: "order-history", element: <OrderHistory/> },
+      { path: "chat/:chatRoomId", element: <ChatPage/> },
+      { path: "test", element: <TestStoreAccess /> },
       // {index: true, element: <Dashboard />},
       // {path: "manage-user", element: <ManageUser />},
       // {path: "manage-charity", element: <ManageCharity />},
@@ -113,6 +118,8 @@ const sellerRouter = createBrowserRouter([
       { path: "seller-edit-profile", element: <EditSellerProfile /> },
       { path: "manage-product", element: <ManageProduct /> },
       { path: "manage-order", element: <ManageOrder /> },
+      { path: "chat/:chatRoomId", element: <ChatPage /> },
+      { path: "test", element: <TestStoreAccess /> },
       { path: "*", element: <NotFound /> },
     ],
   },

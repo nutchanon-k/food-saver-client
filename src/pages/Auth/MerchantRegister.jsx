@@ -125,7 +125,7 @@ const MerchantRegister = () => {
                                 value={formRegister.firstName}
                                 onChange={hdlOnChange}
                                 placeholder="Enter Name"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="w-full px-3 text-black py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                             {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
                         </div>
@@ -138,7 +138,7 @@ const MerchantRegister = () => {
                                 value={formRegister.lastName}
                                 onChange={hdlOnChange}
                                 placeholder="Enter Last Name"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                             {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
                         </div>
@@ -153,7 +153,7 @@ const MerchantRegister = () => {
                                 value={formRegister.email}
                                 onChange={hdlOnChange}
                                 placeholder="Enter email"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-300  text-black rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                         </div>
@@ -166,7 +166,7 @@ const MerchantRegister = () => {
                                 value={formRegister.phoneNumber}
                                 onChange={hdlOnChange}
                                 placeholder="Enter your Number"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                             {errors.phoneNumber && <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>}
                         </div>
@@ -179,7 +179,7 @@ const MerchantRegister = () => {
                             value={formRegister.address}
                             onChange={hdlOnChange}
                             placeholder="Enter Address"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                         {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
                     </div>
@@ -194,7 +194,7 @@ const MerchantRegister = () => {
                                     value={formRegister.password}
                                     onChange={hdlOnChange}
                                     placeholder="Enter password"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                                 />
                                 <span
                                     onClick={() => setShowPassword(!showPassword)}
@@ -215,7 +215,7 @@ const MerchantRegister = () => {
                                     value={formRegister.confirmPassword}
                                     onChange={hdlOnChange}
                                     placeholder="Confirm Password"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                                 />
                                 <span
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}

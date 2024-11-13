@@ -10,6 +10,12 @@ import Swal from 'sweetalert2';
 
 
 
+// import axios from "axios";
+// import { create } from "zustand";
+// import { createJSONStorage, persist } from "zustand/middleware";
+// import { loginAPI, RegisterAPI, getMeAPI, getAllUserAPI, activateUserAPI } from "../API/UserApi";
+// import { auth } from "../firebase"; 
+// import { signInWithCustomToken,onAuthStateChanged  } from "firebase/auth";
 
 
 
@@ -18,6 +24,7 @@ const useUserStore = create(persist((set, get) => ({
     token: "",
     allUser: [],
     isAuthenticated: false,
+    // firebaseToken: "", 
     
     setToken : (token) => {
       set({token:token})
@@ -30,7 +37,6 @@ const useUserStore = create(persist((set, get) => ({
     // searchText : '',
   
     
-  
     hdlLogin: async (body) => {
       try{
         const result = await loginAPI(body)
@@ -49,6 +55,36 @@ const useUserStore = create(persist((set, get) => ({
         
       }
     },
+
+  //   hdlLogin: async (body) => {
+  //     try {
+  //         // Step 1: Log in to backend and get both backend token and Firebase custom token
+  //         const result = await loginAPI(body);
+  //         const { token, firebaseToken, user } = result.data;
+
+  //         // Step 2: Store backend token for API requests
+  //         set({ user, token, isAuthenticated: true });
+  //         localStorage.setItem("token", token);
+
+  //         // Step 3: Authenticate with Firebase using Firebase custom token
+  //         await signInWithCustomToken(auth, firebaseToken);
+  //         console.log("Authenticated with Firebase successfully!");
+
+  //         onAuthStateChanged(auth, (user) => {
+  //           if (user) {
+  //             console.log("Firebase authenticated user:", user);
+  //           } else {
+  //             console.log("Firebase authentication failed.");
+  //           }
+  //         });
+
+  //         // Step 4: Return user data to proceed with further actions in the frontend
+  //         return result.data;
+  //     } catch (err) {
+  //         console.log("Login error:", err);
+  //     }
+  // },
+
     actionLoginGoogle: async (codeResponse) => {
       const res = await axios.get(
         `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${codeResponse.access_token}`,
