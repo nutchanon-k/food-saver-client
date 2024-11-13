@@ -513,7 +513,7 @@ const PopularStore = () => {
 
   return (
     <section className="popular-stores-section">
-      <div className="flex overflow-x-scroll scrollbar-none gap-3 md:gap-6 h-fit p-2 rounded-lg pb-4 scrollbar-none">
+      <div className="flex overflow-x-scroll gap-3 md:gap-6 h-fit p-2 rounded-lg pb-4 scrollbar-none">
         {stores.slice(0, 10).map((store) => (
           <div
             onClick={() => navigateToStore(store.id)}
