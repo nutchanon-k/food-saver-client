@@ -1,41 +1,26 @@
 import React, { useState } from 'react';
 import {
-    Search,
-    Grid,
-    User,
-    Users,
-    Store,
-    Gift,
-    MessageCircle,
-    Bell,
-    Settings,
-    HelpCircle,
-    LogOut,
-    ChevronLeft,
-    ChevronRight
+    Grid, User, Users, Store, Gift, MessageCircle, Bell, Settings, HelpCircle, LogOut, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import Avatar from './Avatar';
 import useUserStore from '../../stores/userStore';
 
-
-const AdminSidebar = () => {
+const AdminSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar }) => {
     const [isExpanded, setIsExpanded] = useState(true);
-
-
     const user = useUserStore(state => state.user);
 
     const toggleSidebar = () => {
         setIsExpanded(!isExpanded);
     };
 
-    const handleLogout = () => {
-
-        console.log("User logged out");
-
-    };
     return (
-        <div className={`h-full bg-white border-r shadow-lg flex flex-col ${isExpanded ? 'w-72' : 'w-24'} px-2 py-4 transition-all duration-300`}>
+        <div
+            className={`lg:relative fixed z-30 transition-all duration-300
+            ${isMobileSidebarOpen ? 'left-0' : 'lg:left-0 -left-full'} 
+            ${isExpanded ? 'w-72' : 'w-24'} 
+            h-full bg-white border-r shadow-lg flex flex-col px-2 py-4`}
+        >
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                     <div className="avatar flex items-center justify-center">
@@ -59,22 +44,10 @@ const AdminSidebar = () => {
                 </button>
             </div>
 
-            {/* <div className="form-control mb-4">
-                <div className={`flex items-center ${isExpanded ? 'border rounded-lg p-2' : 'px-5 py-2'}`}>
-                    <Search className="text-gray-400" />
-                    {isExpanded && (
-                        <input
-                            type="text"
-                            placeholder="Search"
-                            className="outline-none w-full ml-2 text-sm text-gray-600"
-                        />
-                    )}
-                </div>
-            </div> */}
             <div className="divider -mt-2 "></div>
 
             <ul className="menu flex-grow space-y-2">
-                <li>
+            <li>
                     <NavLink to="/" end className={({ isActive }) => `flex items-center w-full rounded-sm hover:bg-green-50 hover:text-green-600 focus:bg-green-50 focus:text-green-600 ${isExpanded ? 'justify-start' : 'justify-center'} ${isActive ? 'text-green-600 bg-green-50 border-l-4 border-green-600' : ''}`}>
                         <Grid className="mr-2" />
                         {isExpanded && <span>Dashboard</span>}
@@ -132,7 +105,7 @@ const AdminSidebar = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <button onClick={handleLogout} className="flex items-center w-full justify-center md:justify-start text-red-500">
+                    <button onClick={toggleMobileSidebar} className="flex items-center w-full justify-center md:justify-start text-red-500">
                         <LogOut className="mr-2" />
                         {isExpanded && <span>Logout</span>}
                     </button>
@@ -142,5 +115,6 @@ const AdminSidebar = () => {
     );
 };
 
+export default AdminSidebar;
 
-export default AdminSidebar
+

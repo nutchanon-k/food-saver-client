@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -60,25 +61,29 @@ const SalesBySellerChart = () => {
         fetchSalesBySeller();
     }, []);
 
+    // Options สำหรับ responsive Chart.js
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false, // ปิดการคงอัตราส่วนไว้เพื่อให้ปรับขนาดตาม container
+        scales: {
+            y: {
+                beginAtZero: true,
+                suggestedMax: 5000
+            },
+        },
+        plugins: {
+            legend: {
+                display: false, // ซ่อน legend เพื่อความเรียบง่าย
+            },
+        },
+    };
+
     return (
-        <div className="card bg-base-100 shadow-xl p-4 flex flex-col items-center">
-            <h2 className="card-title mb-4 text-3xl p-4">Sales by Seller</h2>
-            <Bar
-                data={chartData}
-                options={{
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            suggestedMax: 5000
-                        },
-                    },
-                    plugins: {
-                        legend: {
-                            display: false, // Hide legend for simplicity
-                        },
-                    },
-                }}
-            />
+        <div className="card bg-base-100 shadow-xl p-4 flex flex-col items-center w-full lg:max-w-6xl mx-auto mb-4">
+            <h2 className="card-title mb-4 text-xl sm:text-2xl p-4 text-center">Sales by Seller</h2>
+            <div className="w-full h-64 sm:h-80 lg:h-[600px]"> {/* ปรับขนาดกราฟให้เต็ม container */}
+                <Bar data={chartData} options={options} />
+            </div>
         </div>
     );
 };

@@ -21,7 +21,6 @@ ChartJS.register(
   Legend
 );
 
-
 const OrdersOverTimeChart = () => {
   const [chartData, setChartData] = useState({
     labels: [],
@@ -33,8 +32,6 @@ const OrdersOverTimeChart = () => {
       try {
         const response = await getOrderOverTimeAPI();
         const data = response.data;
-        // console.log("tttttt", data)
-
 
         const monthMap = {
           'Jan': 1,
@@ -55,9 +52,8 @@ const OrdersOverTimeChart = () => {
           ...item,
           monthNumber: monthMap[item.month.split(' ')[0]]
         }));
-        // console.log('5555',updatedMonthsData);
 
-        updatedMonthsData?.sort((a, b) => a.monthNumber - b.monthNumber);
+        updatedMonthsData.sort((a, b) => a.monthNumber - b.monthNumber);
 
         const labels = updatedMonthsData.map(item => item.month);
         const orders = updatedMonthsData.map(item => item.totalOrders);
@@ -68,8 +64,8 @@ const OrdersOverTimeChart = () => {
             {
               label: 'Orders',
               data: orders,
-              backgroundColor: 'rgba(54, 162, 235, 0.2)', // Change the color here
-              borderColor: 'rgba(54, 162, 235, 1)', // Optional: set border color for each bar
+              backgroundColor: 'rgba(54, 162, 235, 0.2)', 
+              borderColor: 'rgba(54, 162, 235, 1)', 
               borderWidth: 1,
             },
           ],
@@ -82,12 +78,40 @@ const OrdersOverTimeChart = () => {
     fetchOrdersOverTime();
   }, []);
 
+  // Options สำหรับ responsive Chart.js
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false, // ปิดการคงอัตราส่วนไว้เพื่อให้ปรับขนาดตาม container
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Month',
+        },
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Total Orders',
+        },
+      },
+    },
+  };
+
   return (
-    <div className="card bg-base-100 shadow-xl p-4 flex flex-col items-center">
-      <h2 className="card-title mb-4 text-3xl p-4 ">Monthly Order Quantity</h2>
-      <Bar data={chartData} />
+    <div className="card bg-base-100 shadow-xl p-4 flex flex-col items-center w-full lg:max-w-6xl mx-auto mb-4">
+      <h2 className="card-title mb-4 text-xl sm:text-2xl p-4 text-center">Monthly Order Quantity</h2>
+      <div className="w-full h-64 sm:h-80 lg:h-[600px]"> {/* ปรับขนาดกราฟให้เต็ม container */}
+        <Bar data={chartData} options={options} />
+      </div>
     </div>
   );
 };
 
-export default OrdersOverTimeChart
+export default OrdersOverTimeChart;

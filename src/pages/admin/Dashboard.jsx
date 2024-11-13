@@ -8,22 +8,19 @@ import NewUserRegistrationsChart from '../../components/admin/graph/NewUserRegis
 import OrdersByStatusChart from '../../components/admin/graph/OrdersByStatusChart'
 import OrderProcessingTimeChart from '../../components/admin/graph/OrderProcessingTimeChart'
 
+
+
 const Dashboard = () => {
   return (
-    <div className='flex flex-col gap-4 px-6 max-w-[1200px] mx-auto'>
+    <div className="flex flex-col gap-4 px-4 sm:px-6 max-w-[1200px] mx-auto">
       <KPI />
       <OrderProcessingTimeChart />
       <SalesOverTimeChart />
       <OrdersOverTimeChart />
       <SalesByCategoryChart />
       <SalesBySellerChart />
-      {/* <NewUserRegistrationsChart /> */}
-      {/* <OrdersByStatusChart /> */}
-
     </div>
-
   );
 };
 
-
-export default Dashboard
+export default Dashboard;
