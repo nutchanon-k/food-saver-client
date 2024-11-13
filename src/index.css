@@ -1,10 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
-
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Add this custom utility class */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 
 @keyframes fadeIn {
     0% {
@@ -99,4 +107,79 @@
     margin-bottom: 5px;
   }
 
-  
+
+  .login-image {
+    background: url('./assets/pictures/flat-lay-circular-food-frame.jpg') no-repeat center center;
+    background-size: cover;
+    color: white;
+    opacity: 80%;
+  }
+
+  /* CSSTransition fade classes */
+.fade-enter {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  max-height: 1000px; /* Adjust as needed */
+  transition: opacity 300ms ease-in-out, max-height 300ms ease-in-out;
+}
+
+.fade-exit {
+  opacity: 1;
+  max-height: 1000px;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 300ms ease-in-out, max-height 300ms ease-in-out;
+}
+
+
+/* Loader Styles */
+.loader {
+  border-top-color: #5abd4f; /* Custom color matching your theme */
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* CSSTransition fade classes */
+.fade-enter {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  max-height: 1000px; /* Adjust as needed */
+  transition: opacity 300ms ease-in-out, max-height 300ms ease-in-out;
+}
+
+.fade-exit {
+  opacity: 1;
+  max-height: 1000px;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 300ms ease-in-out, max-height 300ms ease-in-out;
+}
+
+/* Badge Styles (if not using a CSS framework that provides them) */
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}

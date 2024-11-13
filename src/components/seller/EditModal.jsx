@@ -167,7 +167,7 @@ const EditModal = ({ onSuccessEdit, product }) => {
     }, [form, image, EditProductData]);
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <div className="max-w-4xl mx-auto p-6 rounded-lg ">
             {/* Header */}
             <h2 className="text-xl font-bold mb-6">แก้ไขสินค้า</h2>
             <hr className="border-gray-300 mb-6" />

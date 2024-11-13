@@ -9,6 +9,9 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   
   // const result = await getMe();
 
+  console.log("isAuthenticated:", isAuthenticated);
+  console.log("user role:", user?.role);
+  console.log("allowedRoles:", allowedRoles);
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
