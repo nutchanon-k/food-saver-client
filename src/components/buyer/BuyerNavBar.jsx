@@ -26,7 +26,7 @@ const BuyerNavBar = () => {
   };
 
   return (
-    <div className="flex items-center w-full justify-between bg-white px-4 py-4 border-b shadow-sm">
+    <div className="z-[100] flex items-center w-full justify-between bg-white px-4 py-4 border-b shadow-sm">
       {/* Logo */}
       <Link to="/home" className="flex items-center">
         <img
@@ -37,12 +37,23 @@ const BuyerNavBar = () => {
       </Link>
 
       {/* Mobile Menu Button */}
-      <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-        <Menu className="h-6 w-6" />
-      </button>
+      <div className="flex md:hidden items-center space-x-4">
+        <button onClick={() => navigate('/cart')} className="relative rounded-full hover:bg-gray-100">
+          <ShoppingCart className="text-gray-500" />
+        </button>
+        <button className="relative rounded-full hover:bg-gray-100">
+          <Bell className="text-gray-500" />
+          <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 bg-red-500 text-white text-xs rounded-full">
+            3
+          </span>
+        </button>
+        <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <Menu className="h-6 w-6" />
+        </button>
+      </div>
 
       {/* Desktop Search Bar */}
-      <div className="hidden md:flex items-center w-1/2 bg-gray-100 rounded-full px-4 py-2 mx-4">
+      {/* <div className="hidden md:flex items-center w-1/2 bg-gray-100 rounded-full px-4 py-2 mx-4">
         <Search className="text-gray-500 mr-2" />
         <input
           type="text"
@@ -51,12 +62,12 @@ const BuyerNavBar = () => {
           className="bg-transparent outline-none w-full text-gray-700 placeholder-gray-500"
           onChange={(e) => setText(e.target.value)}
         />
-      </div>
+      </div> */}
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex items-center space-x-4">
         <button onClick={() => navigate('/cart')} className="relative rounded-full hover:bg-gray-100">
-          <ShoppingCart />
+          <ShoppingCart className="text-gray-500" />
         </button>
         <button className="relative rounded-full hover:bg-gray-100">
           <Bell className="text-gray-500" />
@@ -100,10 +111,10 @@ const BuyerNavBar = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden border-t">
+        <div className="md:hidden absolute top-[76px] left-0 right-0 bg-white border-t">
           <div className="px-4 py-3 space-y-3">
             {/* Mobile Search */}
-            <div className="flex items-center bg-gray-100 rounded-full px-4 py-2">
+            {/* <div className="flex items-center bg-gray-100 rounded-full px-4 py-2">
               <Search className="text-gray-500 mr-2" />
               <input
                 type="text"
@@ -112,7 +123,7 @@ const BuyerNavBar = () => {
                 className="bg-transparent outline-none w-full text-gray-700 placeholder-gray-500"
                 onChange={(e) => setText(e.target.value)}
               />
-            </div>
+            </div> */}
 
             {/* Mobile User Info */}
             <div className="flex items-center justify-between">

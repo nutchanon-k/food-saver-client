@@ -43,13 +43,13 @@ export default function StoreList() {
 
   return (
     <>
-      <div className="h-full">
+      <div className="border-t-2 border-primary md:border-none h-full">
         <div className="w-full">
           {/* Header section */}
           <div>
-            <div className="p-2 px-4 md:p-4 bg-white justify-end md:justify-between gap-2 flex md:flex-col">
-              <h1 className="text-lg md:text-3xl font-bold">ค้นหาร้านอาหาร</h1>
-              <div className="items-center gap-2 w-fit flex">
+            <div className="p-2 px-4 md:p-4 bg-white justify-end md:justify-between gap-0 md:gap-2 flex flex-col md:flex-col">
+              <h1 className="text-2xl md:text-3xl font-bold">ค้นหาร้านอาหาร</h1>
+              <div className="items-center gap-2 w-full flex">
                 <div className="z-50 w-full flex items-center justify-between">
                   <div className="text-sm flex-1">
                     <h1>
@@ -104,7 +104,7 @@ export default function StoreList() {
           </div>
 
           {/* Store list container */}
-          <div className="overflow-y-auto max-h-[calc(100vh-200px)] p-4">
+          <div className="scrollbar-hide overflow-y-auto max-h-[calc(100vh-200px)] p-2 md:p-4">
             <div className="inline-flex md:flex-col gap-4">
               {stores.map((store) => (
                 <div key={store.id} className="w-[280px] md:w-full">
@@ -117,7 +117,7 @@ export default function StoreList() {
       </div>
 
       {activeMarker && (
-        <div className="fixed h-fit top-[64px] flex gap-4 md:gap-0 md:flex-col right-0 md:w-1/4 w-full md:h-[calc(100vh-64px)] my-2 max-w-[800px] p-4 overflow-y-auto shadow-lg z-50">
+        <div className="scrollbar-hide fixed h-fit top-[64px] flex gap-4 md:gap-0 md:flex-col right-0 md:w-1/4 w-full md:h-[calc(100vh-64px)] my-2 max-w-[800px] p-4 overflow-y-auto z-50">
           {activeMarker.products.map((product) => {
             console.log(product);
             return (

@@ -4,6 +4,10 @@ import CheckboxComponent from "./CheckboxComponent";
 import useMapStore from "../../stores/mapStore";
 import { ListFilter } from "lucide-react";
 
+const SelectAllHeader = ({ title, filterName, selectedFilters, data, setSelectedFilters }) => {
+  const isAllSelected = data.length === selectedFilters[filterName].length;
+};
+
 export default function FilterComponent() {
   const getStoreArray = useMapStore((state) => state.getStoreArray);
   const mapCenter = useMapStore((state) => state.mapCenter);
@@ -14,7 +18,7 @@ export default function FilterComponent() {
   const [selectedFilters, setSelectedFilters] = useState({
     allergen: [],
     category: [],
-    radius: 2, // Initialize empty, we'll update this after fetching categories
+    radius: 2,
   });
   const [displayRadius, setDisplayRadius] = useState(20);
 
@@ -32,12 +36,10 @@ export default function FilterComponent() {
     try {
       const result = await getCategoriesAPI();
       setCategories(result.data);
-      // After fetching categories, initialize `selectedFilters.category` to all selected
       const allCategoryIds = result.data.map((category) => category.id);
-
       setSelectedFilters((prev) => ({
         ...prev,
-        category: allCategoryIds, // Set all categories as selected by default
+        category: allCategoryIds,
       }));
       return result.data;
     } catch (err) {
@@ -63,13 +65,11 @@ export default function FilterComponent() {
     setSelectedFilters((prev) => {
       const updatedFilter = prev[filterName];
       if (e.target.checked) {
-        // Add the id to the filter list if it's checked
         return {
           ...prev,
           [filterName]: [...updatedFilter, id],
         };
       } else {
-        // Remove the id from the filter list if it's unchecked
         return {
           ...prev,
           [filterName]: updatedFilter.filter((itemId) => itemId !== id),
@@ -112,17 +112,13 @@ export default function FilterComponent() {
         >
           <ListFilter size={19} />
         </summary>
-        {/* <ul className="menu dropdown-content w-fit bg-base-100 rounded-box z-[1] p-2 shadow">
-          
-        </ul> */}
       </details>
       <dialog id="create-modal" className="modal">
-        <div className="modal-box max-w-[700px] flex flex-col">
-          {/* Fixed Header with Range Bar */}
-          <div className="sticky top-0 bg-base-100 z-10 pb-4 border-b">
+        <div className="modal-box max-w-[700px] flex flex-col p-0">
+          <div className="sticky top-0 bg-base-100 z-10 p-4 border-b">
             <button
               type="button"
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"
               onClick={(e) => {
                 e.target.closest("dialog").close();
               }}
@@ -144,35 +140,48 @@ export default function FilterComponent() {
             </div>
           </div>
 
-          <form
-            className="w-full h-full flex flex-col gap-2"
-            onSubmit={hdlSubmit}
-          >
-            {/* Scrollable Checkboxes */}
-            <div className="overflow-y-auto flex-1 py-4">
-              <div className="flex gap-2">
-                <CheckboxComponent
-                  title="ของที่แพ้"
-                  selectedFilters={selectedFilters}
-                  data={allergens}
-                  filterName="allergen"
-                  hdlSelect={hdlSelect}
-                  setSelectedFilters={setSelectedFilters}
-                />
+          <form className="w-full h-full flex flex-col gap-2" onSubmit={hdlSubmit}>
+            <div className=" overflow-y-auto flex-1 px-4 py-4">
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <SelectAllHeader 
+                    title="ของที่แพ้"
+                    filterName="allergen"
+                    selectedFilters={selectedFilters}
+                    data={allergens}
+                    setSelectedFilters={setSelectedFilters}
+                  />
+                  <CheckboxComponent
+                    title="ของที่แพ้"
+                    selectedFilters={selectedFilters}
+                    data={allergens}
+                    filterName="allergen"
+                    hdlSelect={hdlSelect}
+                    setSelectedFilters={setSelectedFilters}
+                  />
+                </div>
 
-                <CheckboxComponent
-                  title="ประเภทอาหาร"
-                  selectedFilters={selectedFilters}
-                  data={categories}
-                  filterName="category"
-                  hdlSelect={hdlSelect}
-                  setSelectedFilters={setSelectedFilters}
-                />
+                <div className="flex-1">
+                  <SelectAllHeader 
+                    title="ประเภทอาหาร"
+                    filterName="category"
+                    selectedFilters={selectedFilters}
+                    data={categories}
+                    setSelectedFilters={setSelectedFilters}
+                  />
+                  <CheckboxComponent
+                    title="ประเภทอาหาร"
+                    selectedFilters={selectedFilters}
+                    data={categories}
+                    filterName="category"
+                    hdlSelect={hdlSelect}
+                    setSelectedFilters={setSelectedFilters}
+                  />
+                </div>
               </div>
             </div>
 
-            {/* Fixed Footer */}
-            <div className="sticky bottom-0 bg-base-100 pt-2 border-t shadow-lg">
+            <div className="sticky bottom-0 bg-base-100 p-4 border-t shadow-lg">
               <button className="btn btn-primary w-full">ค้นหา</button>
             </div>
           </form>
