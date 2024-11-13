@@ -7,42 +7,85 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
 
+
+// const MostTypeOfOrderChart = ({ data }) => {
+//   // เตรียมข้อมูลสำหรับ Pie Chart
+//   const chartData = {
+//     labels: data.map(item => item.category),
+//     datasets: [
+//       {
+//         data: data.map(item => item.totalOrdered),
+//         backgroundColor: COLORS,
+//         hoverBackgroundColor: COLORS,
+//       },
+//     ],
+//   };
+
+//   // กำหนดตัวเลือกสำหรับ Chart
+//   const options = {
+//     responsive: true,
+//     plugins: {
+//       legend: {
+//         position: 'top', // ตำแหน่งของ Legend
+//       },
+//       tooltip: {
+//         callbacks: {
+//           label: function (context) {
+//             const label = context.label || '';
+//             const value = context.parsed || 0;
+//             return `${label}: ${value} orders`;
+//           },
+//         },
+//       },
+//     },
+//   };
+
+//   return (
+//     <div className="bg-white shadow-md rounded-lg p-6">
+//       <Pie data={chartData} options={options} />
+//     </div>
+//   );
+// };
 const MostTypeOfOrderChart = ({ data }) => {
-  // เตรียมข้อมูลสำหรับ Pie Chart
   const chartData = {
-    labels: data.map(item => item.category),
-    datasets: [
-      {
-        data: data.map(item => item.totalOrdered),
-        backgroundColor: COLORS,
-        hoverBackgroundColor: COLORS,
-      },
-    ],
+      labels: data.map(item => item.category),
+      datasets: [{
+          data: data.map(item => item.totalOrdered),
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+      }]
   };
 
-  // กำหนดตัวเลือกสำหรับ Chart
   const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top', // ตำแหน่งของ Legend
-      },
-      tooltip: {
-        callbacks: {
-          label: function (context) {
-            const label = context.label || '';
-            const value = context.parsed || 0;
-            return `${label}: ${value} orders`;
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+          legend: {
+              position: 'bottom',
+              labels: {
+                  boxWidth: 12,
+                  padding: 15,
+                  font: {
+                      size: 12
+                  }
+              }
           },
-        },
-      },
-    },
+          tooltip: {
+              callbacks: {
+                  label: function(context) {
+                      const label = context.label || '';
+                      const value = context.parsed || 0;
+                      return `${label}: ${value} orders`;
+                  }
+              }
+          }
+      }
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
-      <Pie data={chartData} options={options} />
-    </div>
+      <div className="w-full max-w-[300px] mx-auto">
+          <Pie data={chartData} options={options} />
+      </div>
   );
 };
 

@@ -174,213 +174,185 @@ const ProductAdd = ({ onSuccessAdd }) => {
     console.log(form);
   }, [form]);
 
+  // / Custom Input Component for reusability
+  const InputField = ({ label, name, type = "text", value, onChange, placeholder, options }) => {
+    if (type === "select") {
+      return (
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-1">{label}</label>
+          <select
+            name={name}
+            value={value}
+            onChange={onChange}
+            className="w-full border rounded-lg p-2 focus:outline-none focus:border-[#5abd4f]"
+            defaultValue=""
+          >
+            <option value="" disabled>{placeholder}</option>
+            {options?.map((item, index) => (
+              <option key={index} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      );
+    }
+
+    return (
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-1">{label}</label>
+        <input
+          type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className="w-full border rounded-lg p-2 focus:outline-none focus:border-[#5abd4f]"
+        />
+      </div>
+    );
+  };
 
   return (
-    <div>
-      <div className="flex items-center justify-center">
-        <form onSubmit={hdlUploadProduct} className="bg-white p-8 rounded-lg  w-full max-w-4xl">
-          <h2 className="text-xl font-bold mb-6">เพิ่มสินค้า</h2>
-          <div className="grid grid-cols-2 gap-6">
-
-
-            {showImage ?
-
-              (
-                <div
-                  className="w-full h-[300px] flex flex-col items-center justify-center border-2 border-dashed border-[#5abd4f] rounded-lg p-6 cursor-pointer group transition-all hover:border-[#4a9e40] hover:shadow-lg relative bg-white"
-                  onClick={openInput}
-                >
-                  {/* Container สำหรับรูปภาพ */}
-                  <div className="relative w-full h-full flex items-center justify-center mb-4 cursor-pointer">
-                    <img
-                      src={imagePreview}
-                      alt="uploadImage"
-                      className="max-w-full max-h-[200px] object-contain rounded-lg shadow-sm transition-transform group-hover:scale-[1.02]"
-                    />
-                    {/* Overlay เมื่อ hover */}
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                      <span className="bg-white/90 text-gray-700 px-4 py-2 rounded-full text-sm font-medium shadow-lg">
-                        คลิกเพื่อเปลี่ยนรูป
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Input file */}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    name="image"
-                    id="inputFile"
-                    className="hidden"
-                    onChange={hdlUploadFile}
+    <div className="w-full max-w-4xl mx-auto p-4">
+      <form onSubmit={hdlUploadProduct} className="bg-white rounded-lg w-full">
+        <h2 className="text-xl font-bold mb-6">เพิ่มสินค้า</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Image Upload Section */}
+          <div className="w-full">
+            <div
+              className={`w-full aspect-square md:aspect-video max-h-[300px] flex flex-col items-center justify-center border-2 border-dashed border-[#5abd4f] rounded-lg p-4 cursor-pointer group transition-all hover:border-[#4a9e40] hover:shadow-lg relative bg-white ${
+                !showImage ? 'hover:bg-gray-50' : ''
+              }`}
+              onClick={openInput}
+            >
+              {showImage ? (
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="max-w-full max-h-full object-contain rounded-lg"
                   />
-
-                  {/* ข้อความด้านล่าง */}
-                  <div className="flex items-center gap-2 text-gray-500 mt-2 group-hover:text-[#4a9e40] transition-colors">
-                    <CloudUpload className="w-5 h-5" />
-                    <p className="text-sm font-medium">Browse Files to upload</p>
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                    <span className="bg-white/90 text-gray-700 px-4 py-2 rounded-full text-sm font-medium shadow-lg">
+                      คลิกเพื่อเปลี่ยนรูป
+                    </span>
                   </div>
-
-                  {/* แสดงชื่อไฟล์ถ้ามี */}
-                  {imagePreview && (
-                    <p className="text-xs text-gray-400 mt-4  max-w-[200px] ">
-                      {form.imageUrl?.name}
-                    </p>
-                  )}
                 </div>
               ) : (
-
-                <div
-                  className="border-2 border-dashed cursor-pointer border-[#5abd4f] rounded-lg p-6 flex flex-col items-center justify-center"
-                  onClick={openInput}
-                >
-                  <input
-                    type="file"
-                    accept="image/*"
-                    name="image"
-                    id="inputFile"
-                    className="hidden"
-                    onChange={hdlUploadFile}
-                  />
+                <>
                   <CloudUpload className="text-[#5abd4f] text-4xl mb-4" />
-                  <p className="text-gray-500">Browse Files to upload</p>
-                </div>
-              )
-
-            }
-
-
-
-
-
-            <div>
-              <div className="mb-4">
-                <label className="block text-gray-700">ชื่อสินค้า</label>
-                <input
-                  onChange={hdlOnChange}
-                  value={form.name}
-                  name="name"
-                  type="text"
-                  placeholder="กรุณากรอกชื่อสินค้า"
-                  className="w-full border rounded-lg p-2 mt-1"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">รายละเอียดสินค้า</label>
-                <textarea
-                  onChange={hdlOnChange}
-                  value={form.description}
-                  name="description"
-                  placeholder="กรุณากรอกรายละเอียดสินค้า"
-                  className="w-full border rounded-lg p-2 mt-1"
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">ประเภทอาหาร</label>
-                <select
-                  onChange={hdlOnChange}
-                  value={form.categoryId}
-                  name="categoryId"
-                  className="w-full border rounded-lg p-2 mt-1"
-                  defaultValue={""}
-                >
-                  <option value="" disabled>กรุณาเลือกประเภทอาหาร</option>
-                  {/* <option>กรุณาเลือกประเภทอาหาร</option> */}
-                  {categories?.data?.map((item, index) => (
-                    <option key={index} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">มีส่วนผสมของ</label>
-                <select
-                  onChange={hdlOnChange}
-                  name="allergenId"
-                  value={form.allergenId}
-                  className="w-full border rounded-lg p-2 mt-1"
-                  defaultValue={""}
-                  placeholder="กรุณาเลือกส่วนประกอบสำหรับแพ้อาหาร"
-                >
-                  <option value="" disabled>กรุณาเลือกส่วนประกอบสำหรับแพ้อาหาร</option>
-                  {/* <option>กรุณาเลือกอาหารแพ้อาหาร</option> */}
-                  {allergen?.data?.data?.map((item, index) => (
-                    <option key={index} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div className="grid grid-cols-4 gap-6 w-[820px]">
-              <div className="mb-4">
-                <label className="block text-gray-700">ราคาปกติ</label>
-                <input
-                  onChange={hdlOnChange}
-                  name="originalPrice"
-                  value={form.originalPrice}
-                  type="number"
-                  placeholder="฿฿"
-                  className="w-full border rounded-lg p-2 mt-1"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">ราคาพิเศษ</label>
-                <input
-                  onChange={hdlOnChange}
-                  name="salePrice"
-                  value={form.salePrice}
-                  type="number"
-                  placeholder="฿฿"
-                  className="w-full border rounded-lg p-2 mt-1"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">วันหมดอายุ</label>
-                <div className="relative">
-                  <input
-                    onChange={hdlOnChange}
-                    name="expirationDate"
-                    type="date"
-                    value={form.expirationDate}
-                    placeholder="01/11/2567"
-                    className="w-full border rounded-lg p-2 mt-1"
-                  />
-                  <i className="fas fa-calendar-alt absolute right-3 top-3 text-gray-400"></i>
-                </div>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">จำนวน</label>
-                <input
-                  onChange={hdlOnChange}
-                  name="quantity"
-                  type="number"
-                  value={form.quantity}
-                  placeholder=""
-                  className="w-full border rounded-lg p-2 mt-1"
-                />
-              </div>
+                  <p className="text-gray-500 text-center">คลิกเพื่อเลือกรูปภาพ</p>
+                </>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                id="inputFile"
+                className="hidden"
+                onChange={hdlUploadFile}
+              />
             </div>
           </div>
-          <div className="flex justify-center mt-6">
-            {loading ? (
-              <div className="flex justify-center w-full">
-                <span className="loading loading-dots loading-lg"></span>
-              </div>
-            ) : (
-              <>
 
-                <button
-                  type="submit"
-                  className="bg-[#5abd4f] text-white font-semibold py-2 px-6 rounded-3xl">
-                  เพิ่มสินค้า
-                </button>
-              </>
-            )}
+          {/* Product Details Section */}
+          <div className="space-y-4">
+            <InputField
+              label="ชื่อสินค้า"
+              name="name"
+              value={form.name}
+              onChange={hdlOnChange}
+              placeholder="กรุณากรอกชื่อสินค้า"
+            />
+
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-1">รายละเอียดสินค้า</label>
+              <textarea
+                name="description"
+                value={form.description}
+                onChange={hdlOnChange}
+                placeholder="กรุณากรอกรายละเอียดสินค้า"
+                className="w-full border rounded-lg p-2 min-h-[100px] focus:outline-none focus:border-[#5abd4f]"
+              />
+            </div>
+
+            <InputField
+              label="ประเภทอาหาร"
+              name="categoryId"
+              type="select"
+              value={form.categoryId}
+              onChange={hdlOnChange}
+              placeholder="กรุณาเลือกประเภทอาหาร"
+              options={categories?.data}
+            />
+
+            <InputField
+              label="มีส่วนผสมของ"
+              name="allergenId"
+              type="select"
+              value={form.allergenId}
+              onChange={hdlOnChange}
+              placeholder="กรุณาเลือกส่วนประกอบสำหรับแพ้อาหาร"
+              options={allergen?.data?.data}
+            />
           </div>
-        </form>
-      </div>
+        </div>
+
+        {/* Price and Quantity Section */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+          <InputField
+            label="ราคาปกติ"
+            name="originalPrice"
+            type="number"
+            value={form.originalPrice}
+            onChange={hdlOnChange}
+            placeholder="฿฿"
+          />
+
+          <InputField
+            label="ราคาพิเศษ"
+            name="salePrice"
+            type="number"
+            value={form.salePrice}
+            onChange={hdlOnChange}
+            placeholder="฿฿"
+          />
+
+          <InputField
+            label="วันหมดอายุ"
+            name="expirationDate"
+            type="date"
+            value={form.expirationDate}
+            onChange={hdlOnChange}
+          />
+
+          <InputField
+            label="จำนวน"
+            name="quantity"
+            type="number"
+            value={form.quantity}
+            onChange={hdlOnChange}
+            placeholder="0"
+          />
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex justify-center mt-6">
+          {loading ? (
+            <div className="flex justify-center w-full">
+              <span className="loading loading-dots loading-lg"></span>
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="bg-[#5abd4f] text-white font-semibold py-2 px-6 rounded-full hover:bg-[#4a9e40] transition-colors duration-200"
+            >
+              เพิ่มสินค้า
+            </button>
+          )}
+        </div>
+      </form>
     </div>
   );
 };
