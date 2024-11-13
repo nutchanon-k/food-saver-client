@@ -23,7 +23,8 @@ export default {
         "primary" : "#5abd4f", // green
         "secondary" : "#ff5722",//orange
         "neutral" : "#000000",  //black(text color)
-        "base-100" : "#ffffff"  //white bg color
+        "base-100" : "#ffffff",  //white bg color
+        "error": "#ff0000" , // red
       }
     }],
     fontFamily: {

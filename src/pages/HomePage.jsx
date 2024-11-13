@@ -312,7 +312,7 @@ const NewRestaurants = () => {
       </p>
     );
   }
-
+  
   return (
     <section className="new-restaurants-section bg-white">
       <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden scrollbar-none border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">

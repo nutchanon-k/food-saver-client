@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, MapPin, Phone } from 'lucide-react';
-import { useNavigate } from 'react-router-dom'; 
+import { ChevronLeft, MapPin, Phone, Store } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import useCartStore from '../stores/cartStore';
-import usePaymentStore from '../stores/PaymentStore'; // New store for payment
-import { placeOrderAPI } from '../API/placeOrderAPI'; // New API file
+import { placeOrderAPI } from '../API/placeOrderAPI';
 import useUserStore from '../stores/userStore';
 
-
-const Order = () => {
-  const navigate = useNavigate(); 
+const ConfirmOrder = () => {
+  const navigate = useNavigate();
   const getCartData = useCartStore((state) => state.getCartData);
-  const clearCart = useCartStore((state) => state.clearCart);
   const [orderDataFromCart, setOrderDataFromCart] = useState([]);
-  const [paymentMethod, setPaymentMethod] = useState('CREDIT_CARD'); // Default payment method
+  const [paymentMethod, setPaymentMethod] = useState('CREDIT_CARD');
+  const [isLoading, setIsLoading] = useState(false);
   const user = useUserStore((state) => state.user);
 
-  // Fetch cart data
   useEffect(() => {
     const fetchCartData = async () => {
       try {
@@ -25,35 +22,21 @@ const Order = () => {
         console.log(err);
       }
     };
-
     fetchCartData();
   }, [getCartData]);
 
-  // Calculate totals
   const calculateTotals = () => {
-    const originalTotal = orderDataFromCart.data?.reduce((sum, item) => {
-      return sum + item.product.originalPrice * item.quantity;
-    }, 0);
+    const originalTotal = orderDataFromCart.data?.reduce((sum, item) => sum + item.product.originalPrice * item.quantity, 0);
+    const discount = orderDataFromCart.data?.reduce((sum, item) => sum + (item.product.originalPrice - item.product.salePrice) * item.quantity, 0);
+    const finalTotal = originalTotal - discount;
 
-    const discount = orderDataFromCart.data?.reduce((sum, item) => {
-      return sum + (item.product.originalPrice - item.product.salePrice) * item.quantity;
-    }, 0);
-
-    const finalTotal = orderDataFromCart.data?.reduce((sum, item) => {
-      return sum + item.product.salePrice * item.quantity;
-    }, 0);
-
-    return {
-      original: originalTotal,
-      discount: discount,
-      final: finalTotal,
-    };
+    return { original: originalTotal, discount, final: finalTotal };
   };
 
   const totals = calculateTotals();
 
-  // Handle order submission
   const handleSubmit = async () => {
+    setIsLoading(true);
     try {
       const orderItems = orderDataFromCart.data?.map((item) => ({
         productId: item.product.id,
@@ -62,163 +45,135 @@ const Order = () => {
         name: item.product.name,
       }));
 
-      const orderData = {
-        paymentMethod,
-        orderItems,
-      };
-
+      const orderData = { paymentMethod, orderItems };
       const response = await placeOrderAPI(orderData);
-
-      // Redirect to Stripe Checkout
       window.location.href = response.session_url;
     } catch (error) {
       console.error('Error placing order:', error.message || error);
-      // Handle error appropriately, e.g., show a notification
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="px-4 py-4 flex items-center bg-white">
-        <button className="p-2" onClick={() => navigate(-1)}>
+    <div className="max-w-md mx-auto p-4 sm:p-6 lg:max-w-[850px]">
+      <div className="flex items-center mb-4">
+        <button onClick={() => navigate(-1)} className="p-2">
           <ChevronLeft className="w-6 h-6 text-gray-600" />
         </button>
-        <h1 className="text-xl font-medium flex-1 ml-2">Order Confirm</h1>
+        <h1 className="text-2xl font-bold flex-1 text-center">Order Confirm</h1>
       </div>
 
-      {/* Map Preview */}
-      <div className="h-40 bg-gray-200">
-        {/* Map placeholder */}
-      </div>
-
-      {/* Delivery Address */}
-      <div className="bg-white p-4 space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-start space-x-2">
-            <MapPin className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
+      {/* Map and Restaurant Info */}
+      <div className="bg-white shadow-md rounded-lg overflow-hidden mb-4">
+        <img src="https://i.postimg.cc/nr8YdhTm/image-116.png" alt="Map location" className="w-full" />
+        <div className="p-4">
+          <div className="flex items-start mb-4">
+            <MapPin className="text-green-500 w-6 h-6 mr-2" />
             <div>
-              <p className="text-gray-700">35 ถนนสารวจรังสรรค์ ก. พญาไท...</p>
-              <div className="flex items-center text-gray-500 mt-1">
-                <Phone className="w-4 h-4 mr-1" />
-                <span>099-999-9999</span>
-              </div>
-              <p className="text-gray-500">รับอาหารได้ที่เวลา: 18:00 น.</p>
+              <p className="font-semibold">Pick-up Address:</p>
+              <p className="text-gray-600">35 อาคารวรรณสรณ์ ถ. พญาไท แขวงถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400</p>
+              <p className="font-semibold mt-2">Phone: <span className="text-gray-600">099-999-9999</span></p>
+              <p className="font-semibold mt-2">Pick-up until: <span className="text-gray-600">19:00</span></p>
             </div>
           </div>
-          <ChevronRight className="w-5 h-5 text-gray-400" />
-        </div>
-      </div>
 
-      {/* Order Items */}
-      <div className="mt-4 bg-white p-4">
-        <div className="space-y-4">
-          {orderDataFromCart?.data?.map((item, index) => (
-            <div key={index} className="flex items-center space-x-3">
-              <img
-                src={item.product.imageUrl}
-                alt={`${item.product.name}`}
-                className="w-16 h-16 rounded-lg object-cover"
-              />
-              <div className="flex-1">
-                <h3 className="font-medium">{item.product.name}</h3>
-                <div className="flex items-center mt-2">
-                  <div className="flex items-center space-x-1 bg-gray-100 rounded-lg px-2 py-1">
-                    <span className="text-gray-500 text-sm">Quantity: {item.quantity}</span>
-                  </div>
+          {/* Order Items */}
+          <div className="border-t border-gray-200">
+            {orderDataFromCart?.data?.map((item, index) => (
+              <div key={index} className="flex items-center justify-between p-4 border-b border-gray-200">
+                <div className="flex items-center">
+                  <div className="bg-green-500 text-white text-sm font-bold px-2 py-1 rounded-full mr-2">{item.quantity}x</div>
+                  <img src={item.product.imageUrl} alt={item.product.name} className="w-16 h-16 rounded mr-4 object-cover" />
+                  <span className="font-semibold">{item.product.name}</span>
                 </div>
+                <span className="font-semibold text-gray-700">฿{(item.product.salePrice * item.quantity).toLocaleString()}</span>
               </div>
-              <div className="flex flex-col items-end space-y-1">
-                <div className="flex flex-col items-end">
-                  <span className="text-sm text-gray-500 line-through">
-                    ฿{item.product.originalPrice.toLocaleString()}
-                  </span>
-                  <span className="text-red-600 font-medium">
-                    ฿{item.product.salePrice.toLocaleString()}
-                  </span>
-                </div>
-                <span className="text-sm text-gray-500">
-                  Total: ฿{(item.product.salePrice * item.quantity).toLocaleString()}
-                </span>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Checkout Details */}
-      <div className="mt-4 bg-white p-4">
-        <h2 className="font-medium mb-4">Checkout Details</h2>
-        <div className="space-y-3">
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Original price:</span>
-            <div className="flex flex-col items-end">
-              <span className="line-through text-gray-500">
-                ฿{totals.original?.toLocaleString()}
-              </span>
-            </div>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Discount:</span>
-            <span className="text-green-600">-฿{totals.discount?.toLocaleString()}</span>
-          </div>
-          <div className="border-t pt-3 flex justify-between font-medium">
-            <span>Total payment</span>
-            <span className="text-orange-500 text-lg">฿{totals.final?.toLocaleString()}</span>
-          </div>
+      <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+        <h2 className="text-xl font-bold mb-4">Checkout Details</h2>
+        <div className="flex justify-between mb-2">
+          <span className="font-semibold">Original price:</span>
+          <span className="line-through text-gray-500">฿{totals.original?.toLocaleString()}</span>
+        </div>
+        <div className="flex justify-between mb-2">
+          <span className="font-semibold">Discount:</span>
+          <span className="text-green-600">-฿{totals.discount?.toLocaleString()}</span>
+        </div>
+        <div className="flex justify-between border-t pt-3">
+          <span className="font-bold">Total payment</span>
+          <span className="text-[#ff5722] text-2xl font-bold">฿{totals.final?.toLocaleString()}</span>
         </div>
       </div>
 
       {/* Payment Method */}
-      <div className="mt-4 bg-white p-4">
-        <h3 className="font-medium mb-2">Payment Method</h3>
-        <div className="flex flex-col space-y-2">
-          <label className="flex items-center">
+      <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+        <h3 className="text-xl font-bold mb-2">Payment Method</h3>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text font-semibold">Credit Card</span>
             <input
               type="radio"
               name="paymentMethod"
               value="CREDIT_CARD"
               checked={paymentMethod === 'CREDIT_CARD'}
               onChange={(e) => setPaymentMethod(e.target.value)}
-              className="form-radio text-green-500"
+              className="radio checked:bg-green-500 ml-2"
             />
-            <span className="ml-2">Credit Card</span>
           </label>
-          <label className="flex items-center">
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text font-semibold">PromptPay</span>
             <input
               type="radio"
               name="paymentMethod"
               value="PROMPTPAY"
               checked={paymentMethod === 'PROMPTPAY'}
               onChange={(e) => setPaymentMethod(e.target.value)}
-              className="form-radio text-green-500"
+              className="radio checked:bg-blue-500 ml-2"
             />
-            <span className="ml-2">PromptPay</span>
           </label>
         </div>
       </div>
 
-      {/* Order Details */}
-      <div className="mt-4 bg-white p-4 space-y-2">
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Receiver</span>
-          <span>
-            {user?.firstName} {user?.lastName}
-          </span>
+      {/* Order Summary */}
+      <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+        <div className="flex justify-between mb-2">
+          <span className="font-bold">Order code</span>
+          <span>D0000001</span>
+        </div>
+        <div className="flex justify-between mb-2">
+          <span className="font-bold">Receiver</span>
+          <span>{user?.firstName} {user?.lastName}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="font-bold">Phone number</span>
+          <span>{user?.phone}</span>
         </div>
       </div>
 
-      {/* Confirm Button */}
-      <div className="p-4">
+      {/* Confirm Button with Loading */}
+      <div className="relative">
         <button
           onClick={handleSubmit}
-          className="w-full bg-green-500 text-white py-3 rounded-lg font-medium"
+          className="bg-[#5abd4f] text-white text-lg font-bold py-3 rounded-3xl w-full shadow-lg hover:bg-green-600 transition disabled:opacity-50"
+          disabled={isLoading}
         >
-          Confirm Order
+          {isLoading ? (
+            <span className="loading loading-dots loading-lg"></span>
+          ) : (
+            'Confirm Order'
+          )}
         </button>
       </div>
     </div>
   );
 };
 
-export default Order;
+export default ConfirmOrder;
