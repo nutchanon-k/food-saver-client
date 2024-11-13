@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import useUserStore from '../../stores/userStore'
-import { useGoogleLogin } from '@react-oauth/google';
+// import { useGoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
     const hdlLogin = useUserStore((state) => state.hdlLogin);
@@ -25,22 +25,22 @@ const Login = () => {
     };
 
 
-    const hdlLoginGoogle = useGoogleLogin({
-        onSuccess: async (codeResponse) => {
-            try {
-                const res = await actionLoginGoogle(codeResponse);
-                if (res) {
-                    navigate('/');
-                    window.location.reload();
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        },
-        onError: (err) => {
-            console.log(err);
-        },
-    });
+    // const hdlLoginGoogle = useGoogleLogin({
+    //     onSuccess: async (codeResponse) => {
+    //         try {
+    //             const res = await actionLoginGoogle(codeResponse);
+    //             if (res) {
+    //                 navigate('/');
+    //                 window.location.reload();
+    //             }
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     },
+    //     onError: (err) => {
+    //         console.log(err);
+    //     },
+    // });
 
 
     const hdlSubmit = async (e) => {
