@@ -149,12 +149,13 @@ const StoreEdit = () => {
 
     }
   };
-  // console.log(formUpdate)
+  console.log(formUpdate)
   // const timeOpen = moment(formUpdate?.timeOpen.slice(0, 16)).format('HH:mm');
   // const timeClose = moment(formUpdate?.timeClose.slice(0, 16)).format('HH:mm');
   // console.log(formUpdate.timeOpen.toISOString());
   // `2023-01-01T${parsedTime.format('HH:mm:ss')}:00`
   // console.log(convertTimeToISO(formUpdate.timeClose));
+  console.log(`2023-01-01T${formUpdate.timeOpen}:00`);
   console.log(`2023-01-01T${formUpdate.timeClose}:00`);
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -366,7 +367,8 @@ const StoreEdit = () => {
           <div className="mt-4">
             <label className="block text-gray-700 mb-2">Map Location</label>
             <div className="w-full h-[300px] bg-gray-100 border rounded-md flex items-center justify-center">
-              <SellerMap setState={setFormUpdate} latitude={formUpdate.latitude} longitude={formUpdate.longitude} canEdit={true} />
+              <SellerMap state={formUpdate} setState={setFormUpdate} latitude={formUpdate.latitude} longitude={formUpdate.longitude} canEdit={true} />
+
             </div>
           </div>
 
