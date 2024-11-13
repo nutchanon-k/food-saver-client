@@ -17,6 +17,7 @@ const AdminLayout = () => {
 
             {/* Main Content */}
             <div className="flex flex-grow overflow-hidden">
+                
                 {/* Sidebar */}
                 <AdminSidebar 
                     isMobileSidebarOpen={isMobileSidebarOpen} 
