@@ -1,10 +1,13 @@
 import React from "react";
 import useMapStore from "../../stores/mapStore";
+import { Link } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function StoreCard({ store }) {
   const activeMarker = useMapStore((state) => state.activeMarker);
   const setActiveMarker = useMapStore((state) => state.setActiveMarker); 
   const isActive = activeMarker && activeMarker.id === store.id;
+  const navigate = useNavigate();
 
   if (!store || store.latitude === undefined || store.longitude === undefined) {
     return null; // or a loading placeholder
@@ -32,9 +35,9 @@ export default function StoreCard({ store }) {
         </div>
       </figure>
       <div className="card-body !p-2 flex-1 md:w-full">
-        <h2 className="text-sm md:text-lg font-semibold line-clamp-1 hover:text-primary cursor-pointer transition-all">
+        <h1 onClick={() => navigate(`/store/${store.id}`)} className="text-sm md:text-lg font-semibold line-clamp-1 hover:text-primary cursor-pointer transition-all">
           {store.storeName}
-        </h2>
+        </h1>
         <div className="flex justify-between mt-auto">
           <p className="text-xs md:text-sm text-gray-600">
             {store.distance.toFixed(2)} km | {store.products.reduce((total, product) => total + product.quantity, 0)} Available

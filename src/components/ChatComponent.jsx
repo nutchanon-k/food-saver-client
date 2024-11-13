@@ -1,6 +1,6 @@
 // src/components/ChatComponent.jsx
 import React, { useEffect, useState, useRef } from 'react';
-import { firestore } from '../firebase';
+// import { firestore } from '../firebase';
 import { collection, addDoc, query, onSnapshot, orderBy, serverTimestamp } from 'firebase/firestore';
 
 const ChatComponent = ({ chatRoomId, buyerId, sellerId }) => {
