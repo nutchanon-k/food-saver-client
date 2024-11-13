@@ -16,7 +16,7 @@ const MerchantRegister = () => {
         confirmPassword: "",
         role: "SELLER",
         phoneNumber: "",
-        address: ""
+        address: "",
     });
 
     const [isValid, setIsValid] = useState(true);

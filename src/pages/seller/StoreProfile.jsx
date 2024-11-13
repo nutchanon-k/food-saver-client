@@ -2,26 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { CloudUpload } from "lucide-react";
 import useUserStore from "../../stores/userStore";
 import { getMeAPI, patchSellerAPI, deleteStoreAPI } from "../../API/UserApi";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import moment from 'moment';
-
+import moment from "moment";
+import SellerMap from "../../components/seller/SellerMap";
 
 const StoreProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const store = useUserStore((state) => state.user.store);
-  
+
   const navigate = useNavigate();
 
   // console.log(store);
-  useEffect(() => {
-    
-  })
-
-  
+  useEffect(() => {console.log(store)});
 
   const handleDelete = async (id) => {
-    
     console.log(id);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -41,16 +36,15 @@ const StoreProfile = () => {
         reverseButtons: true,
       })
       .then(async (result) => {
-        console.log("delete",result);
+        console.log("delete", result);
         if (result.isConfirmed) {
           try {
             const result = await deleteStoreAPI(id);
-            if(result){
-              localStorage.removeItem("token","userStore");
+            if (result) {
+              localStorage.removeItem("token", "userStore");
               navigate("/");
-              window.location.reload(); 
+              window.location.reload();
             }
-
           } catch (error) {
             console.log(error);
           }
@@ -71,8 +65,8 @@ const StoreProfile = () => {
         }
       });
   };
-  const timeOpen = moment(store?.timeOpen.slice(0, 19)).format('HH:mm:ss');
-  const timeClose = moment(store?.timeClose.slice(0, 19)).format('HH:mm:ss');
+  const timeOpen = moment(store?.timeOpen.slice(0, 19)).format("HH:mm:ss");
+  const timeClose = moment(store?.timeClose.slice(0, 19)).format("HH:mm:ss");
 
   return (
     <div className="flex justify-center  items-center min-h-screen bg-gray-100">
@@ -151,8 +145,12 @@ const StoreProfile = () => {
 
           <div className="mt-4">
             <label className="block text-gray-700 mb-2">Map Location</label>
-            <div className="w-full h-40 bg-gray-100 border rounded-md flex items-center justify-center">
-              <p className="text-gray-400">Map Placeholder</p>
+            <div className="w-full h-[300px] bg-gray-100 border rounded-md flex items-center justify-center">
+              <SellerMap
+                latitude={store.latitude}
+                longitude={store.longitude}
+                canEdit={false}
+              />
             </div>
           </div>
 
@@ -177,6 +175,5 @@ const StoreProfile = () => {
     </div>
   );
 };
-
 
 export default StoreProfile;

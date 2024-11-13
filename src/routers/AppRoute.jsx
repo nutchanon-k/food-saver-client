@@ -21,7 +21,6 @@ import ForgetPassword from "../pages/Auth/ForgetPassword";
 import Cart from "../pages/Cart";
 import Order from "../pages/Order";
 
-
 import Store from "../pages/Store";
 import HomePage from "../pages/HomePage";
 import VerifyPayment from "../pages/VerifyPayment";
@@ -29,7 +28,6 @@ import OrderSuccess from "../pages/OrderSuccess";
 import OrderFailed from "../pages/OrderFailed";
 
 import AdminEditProfile from "../pages/admin/AdminEditProfile";
-
 
 import SellerDashboard from "../pages/seller/SellerDashboard";
 
@@ -44,6 +42,7 @@ import StoreProfile from "../pages/seller/StoreProfile";
 import StoreEdit from "../pages/seller/StoreEdit";
 import SellerProfile from "../pages/seller/SellerProfile";
 import EditSellerProfile from "../pages/seller/EditSellerProfile";
+import SellerMap from "../components/seller/SellerMap";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -87,18 +86,18 @@ const buyerRouter = createBrowserRouter([
       { path: "verify", element: <VerifyPayment /> },
       { path: "order-success", element: <OrderSuccess /> },
       { path: "order-failed", element: <OrderFailed /> },
-      { path: "userProfile", element: <UserProfile />},
+      { path: "userProfile", element: <UserProfile /> },
       { path: "userEdit", element: <UserEditProfile /> },
+      { path: "test", element: <SellerMap /> },
       // {index: true, element: <Dashboard />},
       // {path: "manage-user", element: <ManageUser />},
       // {path: "manage-charity", element: <ManageCharity />},
       // {path: "manage-store", element: <ManageStore/>},
-      {path: "*", element: <HomePage  />},
+      { path: "*", element: <HomePage /> },
     ],
-
   },
-  
-  { path: "/user",element: <UserProfile />},
+
+  { path: "/user", element: <UserProfile /> },
 ]);
 
 const sellerRouter = createBrowserRouter([
@@ -125,16 +124,12 @@ const sellerRouter = createBrowserRouter([
   ,
 ]);
 
-const finalRouter = (role, isAuthenticate , user) => {
-
+const finalRouter = (role, isAuthenticate, user) => {
   if (!isAuthenticate) return guestRouter;
 
   if (role === "SELLER" && user.store == null) {
-    return createBrowserRouter([
-      { path: "*", element: <CreateStore /> }
-    ]);
+    return createBrowserRouter([{ path: "*", element: <CreateStore /> }]);
   }
-
 
   if (role === "ADMIN") {
     return adminRouter;
@@ -160,8 +155,7 @@ export default function AppRoute() {
     loadUser();
   }, []);
 
-
-  const router = finalRouter(user?.role, isAuthenticated , user);
+  const router = finalRouter(user?.role, isAuthenticated, user);
 
   return (
     <div>

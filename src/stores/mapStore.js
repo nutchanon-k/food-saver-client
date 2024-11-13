@@ -5,6 +5,10 @@ const useMapStore = create((set, get) => ({
   mapCenter: {},
   searchStore: {},
   stores: [],
+  storeLocation: {},
+  setStoreLocation: (storeLocation) => {
+    set({ storeLocation });
+  },
   userLocation: { lat: null, lng: null }, // Initialize lat and lng with null
   filter: {
     latitude: 0, // Initializing with a value or null if appropriate
@@ -115,13 +119,19 @@ const useMapStore = create((set, get) => ({
     const { stores } = get();
     // Create a new array instead of mutating the existing one
     const sortedStores = [...stores].sort((a, b) => {
-      const availabilityA = a.products.reduce((acc,product) => acc + product.quantity, 0);
-      const availabilityB = b.products.reduce((acc,product) => acc + product.quantity, 0);
+      const availabilityA = a.products.reduce(
+        (acc, product) => acc + product.quantity,
+        0
+      );
+      const availabilityB = b.products.reduce(
+        (acc, product) => acc + product.quantity,
+        0
+      );
       return availabilityA - availabilityB;
     });
     // Set the new array to trigger re-render
     set({ stores: sortedStores });
-  }
+  },
 }));
 
 export default useMapStore;
