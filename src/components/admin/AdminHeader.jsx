@@ -52,10 +52,10 @@ const AdminHeader = ({ toggleMobileSidebar }) => {
 
             {/* Notifications and User Info */}
             <div className="flex items-center space-x-4">
-                <button className="relative rounded-full hover:bg-gray-100">
+                {/* <button className="relative rounded-full hover:bg-gray-100">
                     <Bell className="text-gray-500" />
                     <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 bg-red-500 text-white text-xs rounded-full">3</span>
-                </button>
+                </button> */}
 
                 {/* User Info */}
                 <div className="flex items-center space-x-2">
@@ -75,6 +75,7 @@ const AdminHeader = ({ toggleMobileSidebar }) => {
                         </div>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             <li onClick={handleLogout}><a>Logout</a></li>
+                            <li onClick={()=>navigate('/admin-profile')}><a>Profile</a></li>
                         </ul>
                     </div>
                 </div>

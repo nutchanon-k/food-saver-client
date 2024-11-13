@@ -515,7 +515,6 @@ const StoreEdit = () => {
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-6 md:px-6 md:py-8">
       <div className="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-4 md:p-8">

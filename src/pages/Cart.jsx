@@ -80,6 +80,7 @@ const Cart = () => {
     try {
       await DeleteCartItem(itemId);
       const newCart = await getCartData(token);
+      console.log(newCart)
       if (newCart && newCart.data) {
         setResultGetCartData(newCart);
       } else {
@@ -88,6 +89,8 @@ const Cart = () => {
     } catch (err) {
       console.error('Error deleting item:', err);
       setResultGetCartData(null); // Reset to trigger empty state on failure
+    } finally {
+      CurrentCart(token);; // Always set loading to false once fetch is complete
     }
   };
 
@@ -99,6 +102,7 @@ const Cart = () => {
     if (deleteModal) {
       await hdlDeleteCartItem(deleteModal);
       setDeleteModal(null);
+      
     }
   };
 

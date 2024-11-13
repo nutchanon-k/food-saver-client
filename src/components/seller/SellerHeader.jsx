@@ -61,7 +61,7 @@ const SellerHeader = ({ toggleMobileSidebar }) => {
 
                 {/* User Info */}
                 <div className="flex items-center space-x-2">
-                    <div className="hidden md:flex flex-col items-end">
+                    <div className="hidden md:flex flex-col gap-2 items-end">
                         <p className="text-sm font-semibold leading-none">{user?.firstName} {user?.lastName}</p>
                         <p className="text-xs font-medium text-gray-500 leading-none">{user?.role}</p>
                     </div>

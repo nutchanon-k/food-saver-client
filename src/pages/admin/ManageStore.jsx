@@ -800,7 +800,7 @@ const ManageStore = () => {
                     const updateResult = await verifyStore(id);
                     if (updateResult) {
                         setStore(
-                            store.map(store => 
+                            store.map(store =>
                                 store.id === id ? { ...store, isVerify: !store.isVerify } : store
                             )
                         );
@@ -959,6 +959,8 @@ const ManageStore = () => {
                 </div>
             </dialog>
         </div>
+
+
     );
 };
 
