@@ -48,7 +48,7 @@ const SellerDashboard = () => {
 
                     {/* KPI Section */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <KPICard title="Total Revenue" value={`฿${kpi.totalRevenue.toLocaleString()}`} />
+                        <KPICard title="Total Revenue" value={`฿ ${new Intl.NumberFormat('en-US').format(kpi.totalRevenue)}`} />
                         <KPICard title="Total Dish Ordered" value={kpi.totalDishOrdered.toLocaleString()} />
                         <KPICard title="Total Customer" value={kpi.totalCustomer.toLocaleString()} />
                     </div>

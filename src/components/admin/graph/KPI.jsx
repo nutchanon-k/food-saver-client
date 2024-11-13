@@ -31,13 +31,13 @@ const KPI = () => {
     const kpiData = [
         {
             title: 'Total Revenue',
-            value: `฿${kpis.totalRevenue.toLocaleString()}`,
+            value:  `฿${new Intl.NumberFormat('en-US').format(kpis.totalRevenue)}`,
             icon: <DollarSign className="w-6 h-6 text-blue-500" />,
             iconBgColor: 'bg-blue-100',
         },
         {
             title: 'Total Orders',
-            value: kpis.totalOrders,
+            value: `${new Intl.NumberFormat('en-US').format(kpis.totalOrders)}`,
             icon: <ShoppingCart className="w-6 h-6 text-green-500" />,
             iconBgColor: 'bg-green-100',
         },

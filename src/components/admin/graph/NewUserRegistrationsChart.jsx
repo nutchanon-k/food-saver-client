@@ -59,8 +59,8 @@ const NewUserRegistrationsChart = () => {
     }, []);
 
     return (
-        <div className="card bg-base-100 shadow-xl p-4">
-            <h2 className="card-title mb-4">New User Registrations Over Time</h2>
+        <div className="card bg-base-100 shadow-xl p-4 flex flex-col items-center">
+            <h2 className="card-title mb-4 text-3xl p-4">New User Registrations Over Time</h2>
             <Line data={chartData} />
         </div>
     );

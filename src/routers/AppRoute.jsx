@@ -77,8 +77,8 @@ const buyerRouter = createBrowserRouter([
     path: "/",
     element: <BuyerLayout />,
     children: [
-      { index: true, element: <MapPage /> },
-      { path: "/Home", element: <HomePage /> },
+      { index: true, element: <HomePage /> },
+      
       { path: "/map", element: <MapPage /> },
       { path: "store/:storeId", element: <Store /> },
       { path: "cart", element: <Cart /> },
