@@ -16,7 +16,7 @@ const ConfirmOrder = () => {
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        const result = await getCartData();
+        const result = await getCartData(user.id);
         setOrderDataFromCart(result);
       } catch (err) {
         console.log(err);
@@ -54,7 +54,8 @@ const ConfirmOrder = () => {
       setIsLoading(false);
     }
   };
-
+  // console.log(orderDataFromCart?.data[0].id)
+  const rand = Math.floor(Math.random() * 1000);
   return (
     <div className="max-w-md mx-auto p-4 sm:p-6 lg:max-w-[850px]">
       <div className="flex items-center mb-4">
@@ -144,10 +145,7 @@ const ConfirmOrder = () => {
 
       {/* Order Summary */}
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
-        <div className="flex justify-between mb-2">
-          <span className="font-bold">Order code</span>
-          <span>D0000001</span>
-        </div>
+
         <div className="flex justify-between mb-2">
           <span className="font-bold">Receiver</span>
           <span>{user?.firstName} {user?.lastName}</span>

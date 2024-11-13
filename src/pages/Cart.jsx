@@ -17,6 +17,7 @@ const Cart = () => {
   const [isTimeUpModalOpen, setIsTimeUpModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(null); // For delete confirmation
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     const loadCart = async () => {
@@ -46,7 +47,7 @@ const Cart = () => {
 
   const CurrentCart = async (token) => {
     try {
-      const response = await getCartData(token);
+      const response = await getCartData(user.id);
       if (response && response.data) {
         setResultGetCartData(response);
       } else {
@@ -79,7 +80,7 @@ const Cart = () => {
   const hdlDeleteCartItem = async (itemId) => {
     try {
       await DeleteCartItem(itemId);
-      const newCart = await getCartData(token);
+      const newCart = await getCartData(user.id);
       console.log(newCart)
       if (newCart && newCart.data) {
         setResultGetCartData(newCart);
@@ -90,7 +91,7 @@ const Cart = () => {
       console.error('Error deleting item:', err);
       setResultGetCartData(null); // Reset to trigger empty state on failure
     } finally {
-      CurrentCart(token);; // Always set loading to false once fetch is complete
+      CurrentCart(user.id);; // Always set loading to false once fetch is complete
     }
   };
 
@@ -172,7 +173,7 @@ const Cart = () => {
           <div className="flex justify-center">
             <span className="loading loading-dots loading-lg"></span>
           </div>
-        ) : !resultGetCartData?.data || resultGetCartData.data.length === 0 ? (
+        ) : !resultGetCartData?.data || resultGetCartData?.data?.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-8">
             <Lottie
               animationData={emptyCartAnimation}
