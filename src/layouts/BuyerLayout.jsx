@@ -14,7 +14,7 @@ const BuyerLayout = () => {
       </div>
 
       {/* Main content area */}
-      <div className="flex-1 overflow-auto">
+      <div className=" flex-1 overflow-auto">
         <Outlet />
       </div>
     </div>

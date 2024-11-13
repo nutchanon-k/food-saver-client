@@ -17,6 +17,7 @@ import ProductAdd from "../components/seller/ProductAdd";
 import PromoCard from "../components/Card2/PromoCard";
 import ModalFoodDetail from "../components/seller/ModalFoodDetail";
 import ModalFood from "../components/seller/ModalFood";
+import DonationCard from "../components/card/DonationCard";
 
 /**
  * Header Component
@@ -45,7 +46,7 @@ const Header = () => {
  */
 const HeroSection = () => {
   return (
-    <section className="hero-section  bg-green-50 flex items-center justify-center">
+    <section className="hero-section bg-green-50 flex items-center justify-center">
       <div className="hero-image w-full h-full">
         <img
           src={Banner}
@@ -64,26 +65,28 @@ const HeroSection = () => {
 const CategoryItem = ({ id, name, imageUrl, onSelect }) => {
   return (
     <div
-      className="category-item flex flex-col items-center mx-2 cursor-pointer hover:text-green-600"
+      className="category-item flex flex-col items-center mx-1 cursor-pointer hover:text-green-600"
       onClick={() => onSelect(id)}
     >
-      <div className="icon p-2.5 md:w-14 rounded-full hover:rotate-3 active:scale-95 duration-200 hover:drop-shadow-md hover:opacity-90 hover:scale-110 transition-all ">
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={name}
-            className="h-10 w-10 md:h-14 md:w-14 object-cover rounded-full"
-          />
-        ) : (
-          <img
-            className="w-14 scale-[2] aspect-square"
-            src="https://static.vecteezy.com/system/resources/thumbnails/013/995/943/small_2x/3d-rendering-of-fried-chicken-fast-food-icon-png.png"
-          /> // <span className=" mt-2 font-medium text-xs text-center truncate max-w-[60px] text-base-400">
-          //   {name}
-          // </span>
-        )}
+      <div className="icon p-1.5 rounded-full hover:rotate-3 active:scale-95 duration-200 hover:drop-shadow-md hover:opacity-90 hover:scale-110 transition-all">
+        <div className="w-12 h-12 md:w-16 md:h-16 overflow-hidden rounded-full scrollbar-none">
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <img
+              className="w-full h-full object-cover"
+              src="https://static.vecteezy.com/system/resources/thumbnails/013/995/943/small_2x/3d-rendering-of-fried-chicken-fast-food-icon-png.png"
+            />
+          )}
+        </div>
       </div>
-      <p className="text-gray-800 mt-2 font-medium text-sm">{name}</p>
+      <p className="text-gray-800 mt-1 font-medium text-xs md:text-sm md:block">
+        {name}
+      </p>
     </div>
   );
 };
@@ -134,8 +137,8 @@ const CategoriesSection = () => {
   }
 
   return (
-    <section className="categories-section p-4 py-4 border rounded-xl bg-white sticky top-0 z-40">
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
+    <section className="categories-section p-2 py-3 border rounded-xl bg-white md:sticky top-0 z-40 -mx-2 md:mx-0">
+      <div className="flex space-x-2 md:space-x-6 overflow-x-auto scrollbar-none border p-1 rounded-lg pb-2 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
         {categories.map((category) => (
           <CategoryItem
             key={category.id}
@@ -146,7 +149,7 @@ const CategoriesSection = () => {
           />
         ))}
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
     </section>
   );
 };
@@ -249,9 +252,11 @@ const ProductShowcase = () => {
 
   return (
     <section className="product-showcase  py-2 px-1">
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden no-scrollbar border p-2 rounded-lg pb-4 mask-fade-bottom">
         {popularProducts.slice(0, 5).map((product) => (
-          <ModalFood product={product} key={product.id} />
+          <div className="flex-shrink-0" key={product.id}>
+            <ModalFood product={product} />
+          </div>
         ))}
       </div>
     </section>
@@ -310,7 +315,7 @@ const NewRestaurants = () => {
 
   return (
     <section className="new-restaurants-section bg-white">
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden scrollbar-none border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
         {stores.slice(0, 5).map((store) => (
           <RecommendedCard store={store} key={store.id} />
           // <StoreCardHomePage store={store} key={store.id}/>
@@ -354,7 +359,7 @@ const ProductSpecial = () => {
       <h2 className="text-2xl md:text-3xl font-bold text-green-800 mb-4">
         Special Offer
       </h2>
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden no-scrollbar border p-2 rounded-lg pb-4">
         {products.slice(5, 10).map((product) => (
           <div
             key={product.id}
@@ -423,7 +428,7 @@ const TopRestaurants = () => {
 
   return (
     <section className="top-restaurants-section ">
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden no-scrollbar border p-2 rounded-lg pb-4">
         {stores.slice(10, 17).map((store) => (
           <RecommendedCard store={store} key={store.id} />
         ))}
@@ -467,28 +472,10 @@ const DonationSection = () => {
   }
 
   return (
-    <section className="donation-section p-4 md:p-8 bg-white">
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
+    <section className="donation-section">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden border scrollbar-none p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
         {foundations.map((foundation) => (
-          <div
-            key={foundation.id}
-            className="foundation-card flex-shrink-0 w-48 md:w-64 p-4 bg-white rounded-lg shadow-md"
-          >
-            <img
-              src={foundation.profilePicture}
-              alt={foundation.name}
-              className="h-24 md:h-32 w-full object-cover rounded-md"
-              loading="lazy"
-            />
-            <div className="mt-2">
-              <h3 className="text-md md:text-lg font-bold text-gray-800">
-                {foundation.name}
-              </h3>
-              <p className="text-sm text-gray-600 mt-1">
-                {foundation.contactInfo || "No contact info available"}
-              </p>
-            </div>
-          </div>
+          <DonationCard foundation={foundation} key={foundation.id} />
         ))}
       </div>
     </section>
@@ -525,20 +512,20 @@ const PopularStore = () => {
   }
 
   return (
-    <section className="popular-stores-section ">
-      <div className="flex space-x-4 md:space-x-6 h-fit p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
+    <section className="popular-stores-section">
+      <div className="flex overflow-x-scroll scrollbar-none gap-3 md:gap-6 h-fit p-2 rounded-lg pb-4 scrollbar-none">
         {stores.slice(0, 10).map((store) => (
           <div
             onClick={() => navigateToStore(store.id)}
             key={store.id}
-            className="cursor-pointer flex-shrink-0 w-[10%] aspect-square text-center"
+            className="cursor-pointer snap-start flex-shrink-0 w-[28%] md:w-[10%] aspect-square text-center"
           >
             <img
               src={store.profilePicture}
               alt={store.storeName}
-              className="h-full w-full object-cover rounded-lg aspect-square"
+              className="h-full w-full object-cover rounded-lg aspect-square shadow-md hover:shadow-lg transition-shadow"
             />
-            <span className="block mt-2 text-sm font-medium text-gray-700 truncate">
+            <span className="block mt-2 text-xs md:text-sm font-medium text-gray-700 truncate">
               {store.storeName}
             </span>
           </div>
@@ -579,7 +566,7 @@ const NearbyStoresSection = () => {
 
   return (
     <section className="nearby-stores-section pb-2 ">
-      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
+      <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden scrollbar-none border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
         {stores.map((store) => (
           <RecommendedCard store={store} key={store.id} />
         ))}
@@ -660,89 +647,90 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="w-[1024px] mx-auto bg-gray-100 p-4">
-        <HeroSection />
-        <CategoriesSection />
-        {!selectedCategory ? (
-          <div className="">
-            {/* Best Sellers Section */}
-            <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-4 py-6 mb-6">
-              <div className="flex items-center pb-4">
-                <h2 className="text-3xl font-bold">สินค้าขายดี</h2>
-                <ChevronRight color="#b5bbc5" />
+      <div className="max-w-[1024px] mx-auto bg-gray-100 ">
+        <div>
+          <HeroSection />
+        </div>
+        <div className="md:p-4 p-2">
+          <CategoriesSection />
+          {!selectedCategory ? (
+            <div className="space-y-3 md:space-y-6">
+              {/* Best Sellers Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">สินค้าขายดี</h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <ProductShowcase />
               </div>
-              <ProductShowcase />
-            </div>
-
-            {/* Map Section */}
-            <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 mb-6">
               <MapSection />
-            </div>
 
-            {/* New Hot Stores Section */}
-            <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-4 py-6 mb-6">
-              <div className="flex items-center pb-4">
-                <h2 className="text-3xl font-bold">ร้านใหม่มาแรง</h2>
-                <ChevronRight color="#b5bbc5" />
+              {/* New Hot Stores Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">
+                    ร้านใหม่มาแรง
+                  </h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <NewRestaurants />
               </div>
-              <NewRestaurants />
-            </div>
 
-            {/* Recommended Stores Section */}
-            <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-4 py-6 mb-6">
-              <div className="flex items-center pb-4">
-                <h2 className="text-3xl font-bold">ร้านค้าแนะนำ</h2>
-                <ChevronRight color="#b5bbc5" />
+              {/* Recommended Stores Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">
+                    ร้านค้าแนะนำ
+                  </h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <TopRestaurants />
               </div>
-              <TopRestaurants />
-            </div>
 
-            {/* Nearby Stores Section */}
-            <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-4 py-6 mb-6">
-              <div className="flex items-center pb-4">
-                <h2 className="text-3xl font-bold">ร้านอร่อยใกล้คุณ</h2>
-                <ChevronRight color="#b5bbc5" />
+              {/* Nearby Stores Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">
+                    ร้านอร่อยใกล้คุณ
+                  </h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <NearbyStoresSection />
               </div>
-              <NearbyStoresSection />
-            </div>
 
-            {/* Recommended Products Section */}
-            <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-4 py-6 mb-6">
-              <div className="flex items-center pb-4">
-                <h2 className="text-3xl font-bold">สินค้าแนะนำ</h2>
-                <ChevronRight color="#b5bbc5" />
+              {/* Popular Stores Section */}
+              <div className="p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">
+                    ร้านอาหารยอดฮิต
+                  </h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <PopularStore />
               </div>
-              <RecommendedSection />
-            </div>
 
-            <div className="mb-6">
-              <div className="flex items-center pb-4">
-                <h2 className="text-3xl font-bold">ร้านอาหารยอดฮิต</h2>
-                <ChevronRight color="#b5bbc5" />
+              {/* All Stores Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">ร้านทั้งหมด</h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <TopRestaurants />
               </div>
-              <PopularStore />
-            </div>
 
-            {/* All Stores Section */}
-            <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-4 py-6 mb-6">
-              <div className="flex items-center pb-4">
-                <h2 className="text-3xl font-bold">ร้านทั้งหมด</h2>
-                <ChevronRight color="#b5bbc5" />
+              {/* Donation Section */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
+                <div className="flex items-center pb-2 md:pb-4">
+                  <h2 className="text-xl md:text-3xl font-bold">ร้านทั้งหมด</h2>
+                  <ChevronRight color="#b5bbc5" />
+                </div>
+                <DonationSection />
               </div>
-              <TopRestaurants />
             </div>
-
-            <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-4 py-6 mb-6">
-              <div className="flex items-center pb-4">
-                <h2 className="text-3xl font-bold">ร้านทั้งหมด</h2>
-                <ChevronRight color="#b5bbc5" />
-              </div>
-              <DonationSection />
-            </div>
-          </div>
-        ) : (
-          <CategoryProducts />
-        )}
+          ) : (
+            <CategoryProducts />
+          )}
+        </div>
       </div>
     </>
   );

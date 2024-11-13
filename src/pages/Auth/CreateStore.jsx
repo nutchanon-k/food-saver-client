@@ -1,26 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useUserStore from '../../stores/userStore';
-import { Eye, EyeOff, Upload } from 'lucide-react';
-import Swal from 'sweetalert2';
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useUserStore from "../../stores/userStore";
+import { Eye, EyeOff, Upload } from "lucide-react";
+import Swal from "sweetalert2";
+import SellerMap from "../../components/seller/SellerMap";
 
 const CreateStore = () => {
-
   const navigate = useNavigate();
   const createUser = useUserStore((state) => state.createUser);
-  const createSellerStore = useUserStore((state) => state.createSellerStore)
+  const createSellerStore = useUserStore((state) => state.createSellerStore);
   const [formCreateStore, setFormCreateStore] = useState({
-
     // Store Information
     storeName: "",
     storeAddress: "",
     storeDetails: "",
-    phoneNumber: "", 
+    phoneNumber: "",
     timeOpen: "",
     timeClose: "",
     latitude: 0,
     longitude: 0,
-    profilePicture: null // สำหรับเก็บไฟล์รูปภาพ
+    profilePicture: null, // สำหรับเก็บไฟล์รูปภาพ
   });
 
   const [isValid, setIsValid] = useState(true);
@@ -44,7 +43,6 @@ const CreateStore = () => {
 
     if (!formCreateStore.storeDetails.trim()) {
       newErrors.storeDetails = "กรุณากรอกstoreDetails";
-
     }
 
     if (!formCreateStore.phoneNumber.trim()) {
@@ -77,28 +75,28 @@ const CreateStore = () => {
   };
 
   const hdlOnChange = (e) => {
-    console.log(formCreateStore)
-    if (e.target.type === 'file') {
-      setFormCreateStore(prev => ({
+    console.log(formCreateStore);
+    if (e.target.type === "file") {
+      setFormCreateStore((prev) => ({
         ...prev,
-        [e.target.name]: e.target.files[0]
+        [e.target.name]: e.target.files[0],
       }));
       // Clear error for this field if it exists
       if (errors[e.target.name]) {
-        setErrors(prev => {
+        setErrors((prev) => {
           const newErrors = { ...prev };
           delete newErrors[e.target.name];
           return newErrors;
         });
       }
     } else {
-      setFormCreateStore(prev => ({
+      setFormCreateStore((prev) => ({
         ...prev,
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value,
       }));
       // Clear error for this field if it exists
       if (errors[e.target.name]) {
-        setErrors(prev => {
+        setErrors((prev) => {
           const newErrors = { ...prev };
           delete newErrors[e.target.name];
           return newErrors;
@@ -109,9 +107,7 @@ const CreateStore = () => {
 
   useEffect(() => {
     validateForm();
-  }, [formCreateStore])
-
-
+  }, [formCreateStore]);
 
   const hdlSubmit = async (e) => {
     e.preventDefault();
@@ -119,48 +115,45 @@ const CreateStore = () => {
       if (!validateForm()) {
         return;
       }
-      const body = new FormData
-      body.append('storeName', (formCreateStore.storeName))
-      body.append('storeAddress', (formCreateStore.storeAddress))
-      body.append('storeDetails', (formCreateStore.storeDetails))
-      body.append('phoneNumber', (formCreateStore.phoneNumber))
-      body.append('timeOpen', (formCreateStore.timeOpen))
-      body.append('timeClose', (formCreateStore.timeClose))
-      body.append('latitude', (formCreateStore.latitude))
-      body.append('longitude', (formCreateStore.longitude))
-      body.append('profilePicture', (formCreateStore.profilePicture))
-      console.log('Form data:', Object.fromEntries(body))
+      const body = new FormData();
+      body.append("storeName", formCreateStore.storeName);
+      body.append("storeAddress", formCreateStore.storeAddress);
+      body.append("storeDetails", formCreateStore.storeDetails);
+      body.append("phoneNumber", formCreateStore.phoneNumber);
+      body.append("timeOpen", formCreateStore.timeOpen);
+      body.append("timeClose", formCreateStore.timeClose);
+      body.append("latitude", formCreateStore.latitude);
+      body.append("longitude", formCreateStore.longitude);
+      body.append("profilePicture", formCreateStore.profilePicture);
+      console.log("Form data:", Object.fromEntries(body));
       const data = await createSellerStore(body);
-      console.log(data)
-      if (data){
-
+      console.log(data);
+      if (data) {
         Swal.fire({
           icon: "success",
           title: "สําเร็จ",
           text: "สร้างร้านค้าเรียบร้อย",
-      })
-    }
-      
-      navigate('/'); 
-      window.location.reload()
+        });
+      }
 
-      
+      navigate("/");
+      window.location.reload();
     } catch (error) {
       if (error.response?.data?.message) {
         alert(error.response.data.message);
-      } 
+      }
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 login-image">
       <div className="max-w-xl w-full bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-semibold text-center mb-6">Create Store</h1>
+        <h1 className="text-2xl font-semibold text-center mb-6">
+          Create Store
+        </h1>
         <hr className="border-black mb-6" />
 
         <form onSubmit={hdlSubmit} className="space-y-4">
-
-
           {/* Store Information Section */}
           <h2 className="text-xl font-medium mb-4 mt-8">Store Information</h2>
 
@@ -174,11 +167,15 @@ const CreateStore = () => {
               placeholder="Enter Store Name"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
-            {errors.storeName && <p className="text-red-500 text-sm mt-1">{errors.storeName}</p>}
+            {errors.storeName && (
+              <p className="text-red-500 text-sm mt-1">{errors.storeName}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Store Address</label>
+            <label className="block text-sm font-medium mb-1">
+              Store Address
+            </label>
             <textarea
               name="storeAddress"
               value={formCreateStore.storeAddress}
@@ -186,11 +183,15 @@ const CreateStore = () => {
               placeholder="Enter Store Address"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
-            {errors.storeAddress && <p className="text-red-500 text-sm mt-1">{errors.storeAddress}</p>}
+            {errors.storeAddress && (
+              <p className="text-red-500 text-sm mt-1">{errors.storeAddress}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Store Details</label>
+            <label className="block text-sm font-medium mb-1">
+              Store Details
+            </label>
             <textarea
               name="storeDetails"
               value={formCreateStore.storeDetails}
@@ -198,12 +199,16 @@ const CreateStore = () => {
               placeholder="Enter Store Details"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
-            {errors.storeDetails && <p className="text-red-500 text-sm mt-1">{errors.storeDetails}</p>}
+            {errors.storeDetails && (
+              <p className="text-red-500 text-sm mt-1">{errors.storeDetails}</p>
+            )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Store Phone Number</label>
+              <label className="block text-sm font-medium mb-1">
+                Store Phone Number
+              </label>
               <input
                 type="tel"
                 name="phoneNumber"
@@ -212,11 +217,17 @@ const CreateStore = () => {
                 placeholder="Enter Store Phone Number"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-              {errors.phoneNumber && <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>}
+              {errors.phoneNumber && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.phoneNumber}
+                </p>
+              )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Store Profile Picture</label>
+              <label className="block text-sm font-medium mb-1">
+                Store Profile Picture
+              </label>
               <input
                 type="file"
                 name="profilePicture"
@@ -224,13 +235,19 @@ const CreateStore = () => {
                 accept="image/*"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-              {errors.profilePicture && <p className="text-red-500 text-sm mt-1">{errors.profilePicture}</p>}
+              {errors.profilePicture && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.profilePicture}
+                </p>
+              )}
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Opening Time</label>
+              <label className="block text-sm font-medium mb-1">
+                Opening Time
+              </label>
               <input
                 type="time"
                 name="timeOpen"
@@ -238,11 +255,15 @@ const CreateStore = () => {
                 onChange={hdlOnChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-              {errors.timeOpen && <p className="text-red-500 text-sm mt-1">{errors.timeOpen}</p>}
+              {errors.timeOpen && (
+                <p className="text-red-500 text-sm mt-1">{errors.timeOpen}</p>
+              )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Closing Time</label>
+              <label className="block text-sm font-medium mb-1">
+                Closing Time
+              </label>
               <input
                 type="time"
                 name="timeClose"
@@ -250,7 +271,9 @@ const CreateStore = () => {
                 onChange={hdlOnChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-              {errors.timeClose && <p className="text-red-500 text-sm mt-1">{errors.timeClose}</p>}
+              {errors.timeClose && (
+                <p className="text-red-500 text-sm mt-1">{errors.timeClose}</p>
+              )}
             </div>
           </div>
 
@@ -266,11 +289,16 @@ const CreateStore = () => {
                 placeholder="Enter Latitude"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-              {errors.latitude && <p className="text-red-500 text-sm mt-1">{errors.latitude}</p>}
+
+              {errors.latitude && (
+                <p className="text-red-500 text-sm mt-1">{errors.latitude}</p>
+              )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Longitude</label>
+              <label className="block text-sm font-medium mb-1">
+                Longitude
+              </label>
               <input
                 type="number"
                 name="longitude"
@@ -280,14 +308,20 @@ const CreateStore = () => {
                 placeholder="Enter Longitude"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-              {errors.longitude && <p className="text-red-500 text-sm mt-1">{errors.longitude}</p>}
+              {errors.longitude && (
+                <p className="text-red-500 text-sm mt-1">{errors.longitude}</p>
+              )}
+            </div>
+            <div className="w-full col-span-2 h-[400px] border rounded-lg overflow-hidden">
+              <SellerMap setState={setFormCreateStore} canEdit={true}/>
             </div>
           </div>
 
-
           <p className="text-sm text-gray-600 text-center mt-4">
             By clicking Create account, you agree to the system's{" "}
-            <a href="#" className="text-orange-400 hover:underline">Terms and policies</a>
+            <a href="#" className="text-orange-400 hover:underline">
+              Terms and policies
+            </a>
           </p>
 
           <button
@@ -297,20 +331,10 @@ const CreateStore = () => {
           >
             Register
           </button>
-
-
-
-
-
         </form>
       </div>
     </div>
-
   );
 };
 
-
-
-
-
-export default CreateStore
+export default CreateStore;

@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import moment from 'moment';
 import { p } from "framer-motion/client";
+import SellerMap from "../../components/seller/SellerMap";
 
 const StoreEdit = () => {
   const navigate = useNavigate();
@@ -364,8 +365,8 @@ const StoreEdit = () => {
 
           <div className="mt-4">
             <label className="block text-gray-700 mb-2">Map Location</label>
-            <div className="w-full h-40 bg-gray-100 border rounded-md flex items-center justify-center">
-              <p className="text-gray-400">Map Placeholder</p>
+            <div className="w-full h-[300px] bg-gray-100 border rounded-md flex items-center justify-center">
+              <SellerMap setState={setFormUpdate} latitude={formUpdate.latitude} longitude={formUpdate.longitude} canEdit={true} />
             </div>
           </div>
 

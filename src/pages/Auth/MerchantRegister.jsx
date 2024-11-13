@@ -16,7 +16,7 @@ const MerchantRegister = () => {
         confirmPassword: "",
         role: "SELLER",
         phoneNumber: "",
-        address: ""
+        address: "",
     });
 
     const [isValid, setIsValid] = useState(true);
@@ -236,7 +236,7 @@ const MerchantRegister = () => {
                     <button
                         type="submit"
                         className="w-full btn btn-primary text-white rounded-xl"
-                        disabled={!isValid}
+                        // disabled={!isValid}
                     >
                         Register
                     </button>
