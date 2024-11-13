@@ -1,7 +1,7 @@
 // src/components/TestStoreAccess.jsx
 import React, { useEffect } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
-import { firestore } from '../firebase'; // Ensure the import path is correct
+// import { firestore } from '../firebase'; // Ensure the import path is correct
 
 const TestStoreAccess = () => {
   useEffect(() => {

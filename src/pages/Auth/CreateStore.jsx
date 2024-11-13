@@ -22,6 +22,7 @@ const CreateStore = () => {
     profilePicture: null, // สำหรับเก็บไฟล์รูปภาพ
   });
 
+
   const [isValid, setIsValid] = useState(true);
   const [errors, setErrors] = useState({});
 
@@ -313,7 +314,7 @@ const CreateStore = () => {
               )}
             </div>
             <div className="w-full col-span-2 h-[400px] border rounded-lg overflow-hidden">
-              <SellerMap setState={setFormCreateStore} canEdit={true}/>
+              <SellerMap state={formCreateStore} setState={setFormCreateStore} canCreate={true} />
             </div>
           </div>
 
