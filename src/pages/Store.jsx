@@ -13,6 +13,7 @@ import Lottie from "lottie-react";
 import loadingAnimation from "../assets/icons/FoodLoading.json";
 import useStoreForUser from "../stores/StoreforUser";
 import useCartStore from "../stores/cartStore";
+import useUserStore from "../stores/userStore";
 
 const Store = () => {
   const { storeId } = useParams();
@@ -27,6 +28,7 @@ const Store = () => {
   const getCartData = useCartStore((state) => state.getCartData);
   const DeleteCartItem = useCartStore((state) => state.DeleteCartItem);
   const [warning, setWarning] = useState(null); // To hold the product ID for which the warning is shown
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     StoreData();
@@ -35,7 +37,9 @@ const Store = () => {
 
   const CartData = async () => {
     try {
-      const result = await getCartData();
+      // console.log("user id ", user?.id);
+      const result = await getCartData(user?.id);
+      console.log(result, "data in cart");
       if (result?.data) {
         setCartData(result.data);
       }
@@ -71,19 +75,29 @@ const Store = () => {
     const currentQuantity = cartItem ? cartItem.quantity : 0;
 
     if (currentQuantity < quantity) {
-      if (cartItem) {
-        await ChangeQuantityItem(cartItem.id, currentQuantity + 1);
-        setCartData((prev) =>
-          prev.map((item) =>
-            item.productId === productId
-              ? { ...item, quantity: currentQuantity + 1 }
-              : item
-          )
-        );
-      } else {
-        await addCartData(productId, 1);
-        setCartData((prev) => [...prev, { productId, quantity: 1 }]);
-      }
+      // if (cartItem) {
+      //   await ChangeQuantityItem(cartItem.id, currentQuantity + 1);
+      //   setCartData((prev) =>
+      //     prev.map((item) =>
+      //       item.productId === productId
+      //         ? { ...item, quantity: currentQuantity + 1 }
+      //         : item
+      //     )
+      //   );
+      // } else {
+      await addCartData(productId, 1);
+      CartData();
+      // if(!cartItem){
+      //   setCartData((prev) => [...prev, { productId, quantity: 1 }]);
+      // }
+      // setCartData((prev) =>
+      //   prev.map((item) =>
+      //     item.productId === productId
+      //       ? { ...item, quantity: currentQuantity + 1 }
+      //       : item
+      //   )
+      // );
+
       setWarning(null); // Clear any existing warning if increment is successful
     } else {
       setWarning(productId); // Set warning for this product
@@ -139,15 +153,13 @@ const Store = () => {
           className="w-full h-full object-cover rounded-b-lg"
         />
         <button
-          className={`absolute top-4 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100 transition-transform ${
-            liked ? "scale-125" : ""
-          }`}
+          className={`absolute top-4 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100 transition-transform ${liked ? "scale-125" : ""
+            }`}
           onClick={handleLike}
         >
           <Heart
-            className={`w-6 h-6 ${
-              liked ? "text-red-500 fill-current" : "text-gray-600"
-            }`}
+            className={`w-6 h-6 ${liked ? "text-red-500 fill-current" : "text-gray-600"
+              }`}
           />
         </button>
       </div>
@@ -224,9 +236,8 @@ const Store = () => {
             return (
               <div
                 key={item.id}
-                className={`relative border rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 ${
-                  item.quantity === 0 ? " cursor-not-allowed" : ""
-                }`}
+                className={`relative border rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 ${item.quantity === 0 ? " cursor-not-allowed" : ""
+                  }`}
               >
                 {/* "Out of Stock" overlay */}
                 {item.quantity === 0 && (
@@ -262,11 +273,10 @@ const Store = () => {
                         <p className="text-xs text-gray-500 mt-1">
                           In stock:{" "}
                           <span
-                            className={`font-medium ${
-                              item.quantity === 0
-                                ? "text-red-500"
-                                : "text-orange-500"
-                            }`}
+                            className={`font-medium ${item.quantity === 0
+                              ? "text-red-500"
+                              : "text-orange-500"
+                              }`}
                           >
                             {item.quantity}
                           </span>

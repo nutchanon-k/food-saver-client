@@ -16,9 +16,9 @@ const useCartStore = create(
     (set, get) => ({
       ...initialState,
 
-      getCartData: async (token) => {
+      getCartData: async (userId) => {
         try {
-          const result = await getCartDataAPI(token);
+          const result = await getCartDataAPI(userId);
           return result.data;
         } catch (err) {
           console.error('Error fetching cart data:', err);

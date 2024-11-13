@@ -721,7 +721,7 @@ const HomePage = () => {
               {/* Donation Section */}
               <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
                 <div className="flex items-center pb-2 md:pb-4">
-                  <h2 className="text-xl md:text-3xl font-bold">ร้านทั้งหมด</h2>
+                  <h2 className="text-xl md:text-3xl font-bold">มูลนิธิทั้งหมด</h2>
                   <ChevronRight color="#b5bbc5" />
                 </div>
                 <DonationSection />

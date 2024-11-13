@@ -1,7 +1,7 @@
 import axiosInstance from "./Interceptor"
 
-export const getCartDataAPI = async (token) => {
-    return await axiosInstance.get('/cart-items/', token)
+export const getCartDataAPI = async (userId) => {
+    return await axiosInstance.get(`/cart-items?userId=${userId}`)
 }
 
 export const PatchCartItemAPI = async (itemId , quantity) => {

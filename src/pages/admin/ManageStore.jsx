@@ -697,47 +697,56 @@ import useStore from '../../stores/Store';
 
 // Store Card Component for Mobile View
 const StoreCard = ({ store, onToggleStatus, onViewDetails }) => (
-  <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-    <div className="flex flex-col gap-4">
-      {/* Store Image and Name */}
-      <div className="flex items-center gap-4">
-        <img 
-          src={store.profilePicture} 
-          alt={store.storeName}
-          className="w-24 h-24 rounded-lg object-cover"
-        />
-        <div className="flex-1">
-          <h3 className="font-semibold text-lg">{store.storeName}</h3>
-          <p className="text-sm text-gray-600 line-clamp-2">{store.storeAddress}</p>
-        </div>
-      </div>
-
-      {/* Store Status */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <label className="cursor-pointer">
-            <input
-              type="checkbox"
-              checked={store.isVerify}
-              onChange={() => onToggleStatus(store.id)}
-              className="toggle theme-controller"
+    <div className="bg-white rounded-lg shadow-md p-4">
+        {/* Store Header with Image and Basic Info */}
+        <div className="flex items-center gap-4 mb-4 border-b pb-4">
+            <img 
+                src={store.profilePicture} 
+                alt="Store Avatar" 
+                className="w-16 h-16 rounded-full object-cover border-2 border-gray-200"
             />
-            <span className={`ml-2 text-sm font-medium ${
-              store.isVerify ? 'text-green-600' : 'text-red-500'
-            }`}>
-              {store.isVerify ? 'Verified' : 'Unverified'}
-            </span>
-          </label>
+            <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-base">
+                    {store.storeName}
+                </h3>
+                <p className="text-sm text-gray-500 truncate">{store.storeAddress}</p>
+                <p className="text-sm text-gray-600 mt-1">
+                    <span className="inline-block bg-gray-100 px-2 py-0.5 rounded-full">
+                        Store
+                    </span>
+                </p>
+            </div>
         </div>
-        <button
-          onClick={() => onViewDetails(store)}
-          className="bg-yellow-200 text-yellow-800 px-4 py-2 rounded-full hover:bg-yellow-300 transition-colors"
-        >
-          View Details
-        </button>
-      </div>
+
+        {/* Status and Actions Section */}
+        <div className="flex flex-col gap-3">
+            {/* Status Toggle */}
+            <div className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                <span className="text-sm font-medium text-gray-600">Status</span>
+                <div className="flex items-center gap-2">
+                    <input
+                        type="checkbox"
+                        checked={store.isVerify}
+                        onChange={() => onToggleStatus(store.id)}
+                        className="toggle toggle-success"
+                    />
+                    <span className={`text-sm font-medium ${
+                        store.isVerify ? 'text-green-600' : 'text-red-500'
+                    }`}>
+                        {store.isVerify ? 'Verified' : 'Unverified'}
+                    </span>
+                </div>
+            </div>
+
+            {/* View Details Button */}
+            <button
+                onClick={() => onViewDetails(store)}
+                className="w-full bg-yellow-200 text-yellow-800 py-2.5 px-4 rounded-lg hover:bg-yellow-300 transition-colors text-sm font-medium"
+            >
+                View Details
+            </button>
+        </div>
     </div>
-  </div>
 );
 
 const ManageStore = () => {
@@ -910,7 +919,7 @@ const ManageStore = () => {
                 </div>
 
                 {/* Mobile View - Cards */}
-                <div className="md:hidden">
+                <div className="md:hidden flex flex-col gap-4">
                     {store?.map(store => (
                         <StoreCard
                             key={store.id}

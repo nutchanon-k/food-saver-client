@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 const SelectRegister = () => {
   const navigate = useNavigate()
   return (
-    <div className='login-image w-screen h-screen flex items-center justify-center'>
-      <div className=" flex items-center justify-center gap-4">
+    <div className='bg-gray-100 w-screen h-screen flex items-center justify-center login-image'>
+      <div className="max-w-4xl w-full mx-4 sm:mx-0 flex flex-col sm:flex-row items-center justify-center gap-4">
         {/* User Option */}
-        <div className='w-full h-[150px] '>
+        <div className='w-full sm:w-1/2 h-[150px]'>
           <button
             onClick={() => navigate('/UserRegister')}
-            className="w-full p-6 h-full bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200"
+            className="w-full h-full bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200 p-6 flex items-center justify-between"
           >
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -22,18 +22,18 @@ const SelectRegister = () => {
                 <h2 className="text-lg font-medium text-gray-900">Register as User</h2>
                 <p className="text-gray-500">Create an account to explore and shop</p>
               </div>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
             </div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </button>
         </div>
 
         {/* Store Option */}
-        <div className='w-full h-[150px] '>
+        <div className='w-full sm:w-1/2 h-[150px]'>
           <button
             onClick={() => navigate('/MerchantRegister', { state: { type: 'store' } })}
-            className="w-full p-6 h-full bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200"
+            className="w-full h-full bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200 p-6 flex items-center justify-between"
           >
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
@@ -45,10 +45,10 @@ const SelectRegister = () => {
                 <h2 className="text-lg font-medium text-gray-900">Register as Store</h2>
                 <p className="text-gray-500">Start selling your products online</p>
               </div>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
             </div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </button>
         </div>
       </div>

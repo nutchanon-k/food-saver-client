@@ -10,6 +10,9 @@ export default {
         xs: '180px', // Define a custom xs breakpoint for smaller screens
       },
     },
+    fontFamily: {
+      sans: ['Noto Sans Thai', 'sans-serif'], // Replace 'Poppins' with your chosen font
+    },
   },
 
   plugins: [
