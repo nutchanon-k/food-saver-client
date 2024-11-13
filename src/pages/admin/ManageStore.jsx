@@ -534,7 +534,7 @@ const ManageStore = () => {
                     const updateResult = await verifyStore(id);
                     if (updateResult) {
                         setStore(
-                            store.map(store => 
+                            store.map(store =>
                                 store.id === id ? { ...store, isVerify: !store.isVerify } : store
                             )
                         );
@@ -580,31 +580,31 @@ const ManageStore = () => {
                 <hr className='my-4' />
 
                 <div className='overflow-x-auto'>
-                    <table className="w-full text-left">
+                    <table className="w-full  text-left">
                         <thead>
                             <tr>
-                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4">Image</th>
-                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4">Store Name</th>
-                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4">Address</th>
-                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4">Details</th>
-                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4">Status</th>
+                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[100px]">Image</th>
+                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[250px]">Store Name</th>
+                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[350px]">Address</th>
+                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[150px]">Details</th>
+                                <th className="pb-2 border-b-2 border-gray-200 text-center text-sm sm:text-base px-4 max-w-[150px]">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             {store?.map(store => (
                                 <tr key={store.id} className="bg-white hover:bg-gray-50 shadow-sm rounded-lg">
-                                    <td className="py-4 text-center">
+                                    <td className="py-4 text-center max-w-[100px]">
                                         <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full overflow-hidden mx-auto">
                                             <img src={store.profilePicture} alt="Store Avatar" className="object-cover w-full h-full" />
                                         </div>
                                     </td>
-                                    <td className="py-4 text-center w-40 sm:w-56 px-4 text-sm sm:text-base font-medium text-gray-700">
+                                    <td className="py-4 text-center px-4 text-sm sm:text-base font-medium text-gray-700 max-w-[250px] break-words">
                                         <p className="py-1">{store.storeName}</p>
                                     </td>
-                                    <td className="py-4 text-center w-60 sm:w-80 px-4 text-sm sm:text-base text-gray-600">
+                                    <td className="py-4 text-center px-4 text-sm sm:text-base text-gray-600 max-w-[350px] break-words">
                                         <p className="py-1">{store.storeAddress}</p>
                                     </td>
-                                    <td className="py-4 text-center">
+                                    <td className="py-4 text-center max-w-[150px]">
                                         <button
                                             onClick={() => {
                                                 setStoreData(store);
@@ -616,7 +616,7 @@ const ManageStore = () => {
                                             View
                                         </button>
                                     </td>
-                                    <td className="py-4 text-center px-4">
+                                    <td className="py-4 text-center px-4 max-w-[150px]">
                                         <div className="flex items-center justify-center gap-2">
                                             <label className="flex cursor-pointer gap-2">
                                                 <input
@@ -671,6 +671,8 @@ const ManageStore = () => {
                 </div>
             </dialog>
         </div>
+
+
     );
 };
 
