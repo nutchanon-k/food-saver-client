@@ -3,7 +3,7 @@ import axiosInstance from "./Interceptor";
 
 
 export const getOrderAPI = async () => {
-    return axiosInstance.get('/cart-items/')
+    return await axiosInstance.get('/cart-items/')
 }
 
 // Fetch order details by orderId

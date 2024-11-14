@@ -76,6 +76,7 @@ export default useOrderStore;
 // Old code don't know who wrote this seems like it doesn't work
 // const useOrderStore = create(persist((set, get) => ({
     
+    // sellerOrder : null,
 
 //     getOrderData: async() => {
 //       try{

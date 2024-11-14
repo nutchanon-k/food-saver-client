@@ -5,7 +5,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
-import { Pagination } from 'swiper/modules'; 
+import { Pagination } from 'swiper/modules';
 import { Navigation } from 'swiper/modules';
 import { Autoplay } from 'swiper/modules';
 import MainFood from '../assets/pictures/FoodImg_LandingPage.png';
@@ -29,7 +29,7 @@ const LandingPage = () => {
     <div className="App bg-background">
       {/* Header */}
       <header className="flex justify-between items-center p-4 border-b border-gray-200">
-        <h1 className="text-primary text-xl font-semibold">Food Saver</h1>
+        <h1><img className='w-[150px]' src="https://i.postimg.cc/bwdCvfTp/saver.png" alt="" /></h1>
 
         {/* Desktop Navigation */}
         <nav className="space-x-4 hidden md:flex items-center">
@@ -38,7 +38,7 @@ const LandingPage = () => {
           </a>
           <a
             href="/selectRegister"
-            className="bg-primary text-white px-4 py-2 rounded-md font-medium"
+            className="bg-primary text-white px-4 py-2 rounded-3xl font-medium hover:bg-white hover:text-primary hover:border-[#5abd4f] hover:border-2"
           >
             สมัครสมาชิก
           </a>
@@ -69,8 +69,8 @@ const LandingPage = () => {
             เข้าสู่ระบบ
           </a>
           <a
-            href="/UserRegister"
-            className="bg-primary text-white px-4 py-2 rounded-md font-medium"
+            href="/selectRegister"
+            className="bg-primary text-white px-4 py-2 rounded-3xl font-medium hover:bg-white hover:text-primary hover:border-[#5abd4f] hover:border-2"
           >
             สมัครสมาชิก
           </a>
@@ -79,61 +79,50 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section className="py-5 md:py-1">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-6 md:px-12 text-center md:text-left">
+        <div className=" mx-auto flex flex-col md:flex-row justify-between items-center px-4 md:px-12 text-center md:text-left">
           {/* Text Content */}
-          <div className="max-w-md mb-8 md:mb-0 opacity-0 -translate-x-10 animate-slide-in-left">
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4 tracking-wider">
+          <div className="mb-8 animate-slide-in-left px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-800 mb-4 tracking-wider leading-tight">
               อิ่มอร่อยในราคาสุดคุ้ม พร้อมช่วยโลกไปด้วยกัน
             </h2>
-            <p className="text-gray-600 text-base md:text-lg mb-6">
+            <p className="text-sm sm:text-base md:text-lg mb-6 md:mb-4 text-gray-600 max-w-md mx-auto md:mx-0">
               ค้นหาอาหารคุณภาพจากร้านโปรดในราคาประหยัด
               สร้างประสบการณ์ใหม่ที่อิ่มอร่อยและยั่งยืน
               ร่วมลดการสูญเสียอาหารง่าย ๆ เพียงปลายนิ้วสัมผัส!
             </p>
-            <div className="flex justify-center md:justify-start space-x-4">
+            <div className="flex flex-col sm:flex-row justify-center md:justify-start space-y-3 sm:space-y-0 sm:space-x-4">
               {/* Primary Button */}
               <button
-                onClick={() => navigate("/login")} // Navigate to the login page on click
-                className="bg-primary hover:bg-green-400 text-white px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300"
+                onClick={() => navigate("/login")}
+                className="bg-primary text-white px-6 py-3 rounded-3xl shadow-lg transition-transform transform hover:scale-105 duration-300 hover:bg-white hover:text-primary hover:border-[#5abd4f] hover:border-2 w-full sm:w-auto"
               >
                 เริ่มต้นใช้งาน
               </button>
-
               {/* Secondary Link with Icon */}
-              <a
-                href="#video"
-                className="text-green-600 flex items-center hover:text-green-700 hover:underline transition duration-300"
-              >
-                <span>ดูวิดีโอ</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"
-                  />
-                </svg>
-              </a>
+
             </div>
           </div>
 
           {/* Image Section */}
-          {/* Image Section with Pulse Animation */}
-          <div className="w-full md:w-1/2 flex justify-center md:justify-center opacity-0 animate-fade-in">
+          <div className="w-full md:w-1/2 flex justify-center">
             <img
               src={MainFood}
               alt="App preview"
-              className="w-96 h-auto lg:w-[30rem] xl:w-[35rem] animate-pulse-slow"
+              className="w-full h-auto  md:max-w-[400px] animate-pulse-slow px-4 md:px-0"
             />
           </div>
         </div>
       </section>
+
+
+      <div className="flex justify-center mx-auto p-4 mb-8 md:p-8 ">
+        <iframe className='w-[800px] h-[400px] max-md:w-[720px] max-md:h-[360px]' src="https://www.youtube.com/embed/JOGNLNFc8ys?si=Y7nHYjTFiO974tg-"></iframe>
+      </div>
+
+
+
+
+
 
       {/* Benefits Section */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-blue-50 to-white">
@@ -216,7 +205,7 @@ const LandingPage = () => {
                 </svg>
               </div>
             </div>
-            <h3 className="text-xl font-semibold text-green-600 mb-2">
+            <h3 className="text-xl font-semibold text-primary mb-2">
               สะดวก รวดเร็ว ปลอดภัย
             </h3>
             <p className="text-gray-600 text-sm md:text-base">
@@ -226,6 +215,16 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
+
+
+
+
+
+
+
+
+
       {/* Nearby Restaurants Section */}
       <section className="py-12 bg-white">
         {/* Main Header Section */}
@@ -244,38 +243,143 @@ const LandingPage = () => {
           {/* Image Section */}
           <div className="w-full md:w-1/2 flex justify-center mb-8 md:mb-0 relative">
             <img
-              src={Neatby}
+              src='https://i.postimg.cc/TY8pQS8S/Screenshot-2024-11-13-172013.png'
               alt="Map showing nearby restaurants"
-              className="w-72 h-auto rounded-lg shadow-lg"
+              className="w-72 h-auto rounded-lg"
             />
           </div>
 
           {/* Additional Text Section */}
-          <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-            <div className="border-l-4 border-green-500 pl-4">
-              <h3 className="text-xl font-semibold text-green-600 mb-2">
+          <div className="w-full md:w-1/2 md:pl-8 text-center ">
+            <div className="border-l-4 border-primary pl-4">
+              <h3 className="text-2xl font-semibold text-primary mb-2">
                 ค้นหาร้านอาหารใกล้ตัว 🗺️
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-600 mb-4 text-left">
                 <span className="font-bold">
                   ค้นหาได้สะดวกตามตำแหน่งที่คุณอยู่:
                 </span>{" "}
                 เลือกร้านอาหารที่ใกล้ที่สุด เพียงเปิดแผนที่
                 คุณก็จะเห็นร้านค้าในบริเวณใกล้เคียงที่พร้อมให้ข้อเสนอพิเศษ
               </p>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-600 mb-4 text-left">
                 <span className="font-bold">ข้อเสนอที่หลากหลาย:</span>{" "}
                 รับดีลสุดคุ้มจากร้านโปรด ลดค่าใช้จ่ายพร้อมสนับสนุนร้านค้าในชุมชน
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-600 mb-4 text-left">
                 <span className="font-bold">ลดการสูญเสียอาหาร:</span>{" "}
                 เพลิดเพลินกับมื้ออร่อย
                 พร้อมร่วมเป็นส่วนหนึ่งในการลดขยะอาหารไปด้วยกัน
+              </p>
+              <p className="text-gray-600 mb-4 text-left">
+                <span className="font-bold">ลดค่าใช้จ่าย:</span>{" "}
+                การวางแผนการซื้อและการทำอาหารอย่างมีประสิทธิภาพช่วยให้ประหยัดเงิน
+              </p>
+              <p className="text-gray-600 mb-4 text-left">
+                <span className="font-bold">บริจาคอาหาร:</span>{" "}
+                หากมีอาหารเหลือ สามารถบริจาคให้กับองค์กรการกุศล
+              </p>
+              <p className="text-gray-600 mb-4 text-left">
+                <span className="font-bold">ร้านอาหารชื่อดังที่คุณคุ้นเคย:</span>{" "}
+                อาหารสุดคุ้มจากร้านอาหาร ร้านขนมเบเกอรีและโรงแรมชั้นนำ
               </p>
             </div>
           </div>
         </div>
       </section>
+
+
+
+
+      <div className="flex flex-col items-center py-10 w-full">
+        <h1 className="text-4xl font-bold text-gray-800 mb-8">ร้านค้าพันธมิตรร่วมรักษ์โลก</h1>
+        <div className="w-1/2 grid grid-cols-8  gap-4 mb-8 max-md:grid-cols-4 max-md:w-full justify-items-center">
+          <img src="https://i.postimg.cc/q793rZcv/f0ec16-27dcd99bfad24e6bbaa4c595dc642617-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/NMmrj7b7/f0ec16-382255ea75a9443a9af9d9917a12c5db-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/yYB0W5MJ/f0ec16-4f9a9296e1c54d608c2e236644d306a9-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/BQgHFp3m/f0ec16-5f0975d8361148a7993100fba454073c-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/FH6fbnBV/f0ec16-6e4b3bca5dbd4896a7e80ed30e9b3e52-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/RZZfLtV4/f0ec16-8fbfbeecf5454412a422e374e95e3b73-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/7ZtzsLf7/f0ec16-9b0b20c0d75344f488d71250353b4f9f-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/s2BhtRhL/f0ec16-9c927529cf4b4634962c22d55434860a-mv2.png" className='w-20 h-20 shadow-md'></img>
+        </div>
+
+        <div className="w-1/2 grid grid-cols-8  gap-4 mb-8 max-md:hidden max-md:grid-cols-4 max-md:w-full justify-items-center">
+          <img src="https://i.postimg.cc/FzvkddBt/f0ec16-bcf69f18048c4bae88b7cdab95964be8-mv2.jpg" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/BbCLxSrj/f0ec16-bfe0273fa3824379ba9864f32f8a78ea-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/gcyZ9sxG/f0ec16-c5574ebaf4f34064b8f696105a3a830b-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/bNz2qnnk/f0ec16-dccb54fc21694f8d8dd9f58d3a2708d6-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/7YmJhL1c/fe494e-2ebd4c0bde0f4864aea2604b33a5174c-mv2.jpg" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/022rTsgC/fe494e-31c7b178876e4d55923017b2f9208260-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/ZnJ0KkW4/fe494e-35e76d3124a64922a82e11c46fbdc03e-mv2.jpg" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/RF7NBCVg/fe494e-3d9406cae9eb4cd88772894cccbf47bf-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/yYQWBbsC/fe494e-64060b6034084824a5fb8c7253a09697-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/K8jkMyJY/fe494e-6a087ef50f8c4c649d28df9de1f69905-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/RF5NyJ93/fe494e-6b14abb211374382aba2db65071c6188-mv2.jpg" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/PJKJC6DZ/fe494e-72f3d13838b74626adf1d3fc5a4cb945-mv2.jpg" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/kgL4RR2j/fe494e-8179945db2a94d8b9205892c1de44987-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/Jzs0h5zD/fe494e-89128b87b16c40cab990977b0506e503-mv2.jpg" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/Kc5RpYWz/fe494e-891c321f809443c48a8807735e1421d9-mv2.png" className='w-20 h-20 shadow-md'></img>
+          <img src="https://i.postimg.cc/JhBsp5wV/fe494e-8d7794b4fea64dcfb7cb6d68df8b5b26-mv2.png" className='w-20 h-20 shadow-md'></img>
+        </div>
+
+        <a href='http://localhost:5173/MerchantRegister' className="bg-primary hover:bg-white hover:text-primary hover:border-primary hover:border-2 text-white px-8 py-3 rounded-3xl shadow-lg transition-transform transform hover:scale-105 duration-300 font-semibold">เข้าร่วมจำหน่ายกับเรา</a>
+      </div>
+
+
+
+      <div className="flex flex-col items-center justify-center py-10 w-full ">
+        <h1 className="text-4xl font-bold text-gray-800 mb-8">มูลนิธิที่เข้าร่วมกับเรา</h1>
+
+        <div className="w-1/2 grid grid-cols-8 gap-4 mb-8 max-md:grid-cols-4 max-md:w-full justify-items-center ">
+          <img src='https://i.postimg.cc/d3PhdTb3/11.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/NMTMgjKc/112.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/d3jVyNRN/113.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/8cSCsgvr/114.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/XNfJmXMK/115.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/dtJ1Yvvb/116.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/wjvj1V1F/117.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/jdTWSP6k/12.jpg' className='w-20 h-20 shadow-md'></img>
+        </div>
+
+        <div className="w-1/2 grid grid-cols-8 gap-4 mb-8 max-md:hidden max-md:grid-cols-4 max-md:w-full justify-items-center ">
+          <img src='https://i.postimg.cc/L6vs478n/122.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/ZRkbDzVD/125.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/Qdyx1T5D/127.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/VsnrwDtC/13.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/1zVRH3cq/131.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/Y91p5DP2/133.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/rFy8HJNc/135.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/L439v7fN/137.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/rsjqm0cv/139.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/4y6m1xG5/14.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/WzT2T6RG/141.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/rFh82rf4/143.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/zvX9xdZc/147.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/QdHj8dzy/149.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/rw3MKLXF/150.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/cHNWBMLp/153.jpg' className='w-20 h-20 shadow-md'></img>
+          {/* <img src='https://i.postimg.cc/bvn8nFp0/154.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/cHMS9gKr/156.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/v8hy5nFK/157.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/FHs7jvBy/16.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/nLNrbDc2/17.png' className='w-20 h-20 shadow-md'></img> */}
+          {/* <img src='https://i.postimg.cc/SNGn2RDQ/18.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/SKnRvrqj/19.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/JnByGQdS/2n.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/nhRM2Wy6/45th-Anniversary-of-FFC-web.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/SRSpwS8V/FCD-logo.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/rsfLTBNT/fdlogo-sdf.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/Pq1sJpQ2/images-10.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/dt0Y60JV/images-3.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/mgzGx6zx/images-4.png' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/wTbdGdBc/images-8.jpg' className='w-20 h-20 shadow-md'></img>
+          <img src='https://i.postimg.cc/7ZFrqM05/images-9.jpg' className='w-20 h-20 shadow-md'></img> */}
+        </div>
+      </div>
+
+
+
 
       <section className="py-12 flex justify-center items-center bg-gradient-to-b from-blue-50 to-white">
         <Swiper
@@ -296,7 +400,7 @@ const LandingPage = () => {
               {/* Image Section */}
               <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
                 <img
-                  src={testimonial} // Replace with the actual image URL
+                  src='https://i.postimg.cc/g2hBvCKJ/pic-1.png' // Replace with the actual image URL
                   alt="User testimonial"
                   className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
                 />
@@ -313,7 +417,7 @@ const LandingPage = () => {
                   รู้สึกดีที่ได้เป็นส่วนหนึ่งของการเปลี่ยนแปลงนี้!”
                 </p>
                 <p className="text-gray-600 text-sm sm:text-base">
-                  สนุสิา,
+                  แฮรี่,
                   <br />
                   ผู้ใช้งานจริง
                 </p>
@@ -327,7 +431,7 @@ const LandingPage = () => {
               {/* Image Section */}
               <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
                 <img
-                  src={testimonial} // Replace with the actual image URL for the second testimonial
+                  src='https://i.postimg.cc/9ft8kyKH/pic-2.png'// Replace with the actual image URL for the second testimonial
                   alt="User testimonial"
                   className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
                 />
@@ -343,6 +447,93 @@ const LandingPage = () => {
                   รู้สึกดีที่สามารถช่วยลดขยะและเข้าถึงอาหารอร่อยในราคาที่จับต้องได้!”
                 </p>
                 <p className="text-gray-600 text-sm sm:text-base">
+                  พงษ์,
+                  <br />
+                  ผู้ใช้งานจริง
+                </p>
+              </div>
+            </div>
+          </SwiperSlide>
+
+
+          <SwiperSlide>
+            <div className="flex flex-col md:flex-row items-center">
+              {/* Image Section */}
+              <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
+                <img
+                  src='https://i.postimg.cc/Wzt5tC3s/pic-6.png' // Replace with the actual image URL for the second testimonial
+                  alt="User testimonial"
+                  className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
+                />
+              </div>
+
+              {/* Text Section */}
+              <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
+                <h3 className="text-gray-700 font-semibold text-lg mb-2">
+                  เสียงตอบรับจากผู้ใช้จริง
+                </h3>
+                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                  “ทุกคน เราชอบไอเดียของแอปนี้ ร้านอาหารไม่ต้องเทอาหารทิ้ง ลูกค้าก็ได้กินอาหารจากร้านดังๆ ในราคาที่ถูกกว่าครึ่ง และยังได้ช่วยโลกร้อนด้วย”
+                </p>
+                <p className="text-gray-600 text-sm sm:text-base">
+                  ธี,
+                  <br />
+                  ผู้ใช้งานจริง
+                </p>
+              </div>
+            </div>
+          </SwiperSlide>
+
+
+          <SwiperSlide>
+            <div className="flex flex-col md:flex-row items-center">
+              {/* Image Section */}
+              <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
+                <img
+                  src='https://i.postimg.cc/fTmrX4Cb/pic-4.png' // Replace with the actual image URL for the second testimonial
+                  alt="User testimonial"
+                  className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
+                />
+              </div>
+
+              {/* Text Section */}
+              <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
+                <h3 className="text-gray-700 font-semibold text-lg mb-2">
+                  เสียงตอบรับจากผู้ใช้จริง
+                </h3>
+                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                  “คุณสามารถช่วยต่อสู้กับปัญหาขยะอาหารได้ด้วยอาหารจากแอปนี้ ที่ระบุส่วนประกอบที่ดีอย่างชัดเจน เพื่อคนที่มีอาการแพ้อาหารอย่างฉัน”
+                </p>
+                <p className="text-gray-600 text-sm sm:text-base">
+                  ตี๋,
+                  <br />
+                  ผู้ใช้งานจริง
+                </p>
+              </div>
+            </div>
+          </SwiperSlide>
+
+
+          <SwiperSlide>
+            <div className="flex flex-col md:flex-row items-center">
+              {/* Image Section */}
+              <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
+                <img
+                  src='https://i.postimg.cc/Qt84ZHZ9/pic-5.png' // Replace with the actual image URL for the second testimonial
+                  alt="User testimonial"
+                  className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
+                />
+              </div>
+
+              {/* Text Section */}
+              <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
+                <h3 className="text-gray-700 font-semibold text-lg mb-2">
+                  เสียงตอบรับจากผู้ใช้จริง
+                </h3>
+                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                  “มันดีมากๆ ที่เรามีทางเลือกเพื่อโลกใบนี้ แทนการสั่งอาหารจาก Grab หรือการสั่งอาหารกลับบ้าน ด้วยส่วนลดที่มากกว่า”
+                </p>
+                <p className="text-gray-600 text-sm sm:text-base">
                   นันทนา,
                   <br />
                   ผู้ใช้งานจริง
@@ -355,38 +546,122 @@ const LandingPage = () => {
         </Swiper>
       </section>
 
-      {/* Donation Section */}
-      <section className="py-12  flex justify-center items-center">
-        <div className="max-w-5xl flex flex-col md:flex-row items-center ">
-          {/* Image Section */}
-          <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0 relative">
-            <img
-              src={foundation} // Replace this with the actual image URL
-              alt="Donation screen on mobile"
-              className="w-48 sm:w-56 md:w-64 h-auto rounded-lg shadow-lg"
-            />
-            <div className="absolute inset-0 flex items-center justify-center"></div>
-          </div>
 
-          {/* Text Section */}
-          <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
+
+
+      <div className='flex justify-center items-center gap-20 md:flex-row flex-col'>
+
+        <div className="card glass w-96">
+          <figure>
+            <img
+              src="https://i.postimg.cc/kg5jw8xY/1-h-WWewef-MOs-Kjve8b6-O6-Egw-thegem-blog-timeline-large.jpg"
+            />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">Stop Food Waste</h2>
+            <p>How to park your car at your garage?</p>
+            <div className="card-actions justify-end">
+
+            </div>
+          </div>
+        </div>
+        <div className="card glass w-96">
+          <figure>
+            <img
+              src="https://i.postimg.cc/Mpr9LT56/grocery-bag-food-pound-sign.jpg"
+            />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">Stop Food Waste</h2>
+            <p>How to park your car at your garage?</p>
+            <div className="card-actions justify-end">
+
+            </div>
+          </div>
+        </div>
+        <div className="card glass w-96">
+          <figure>
+            <img
+              src="https://static.wixstatic.com/media/cc8baf_52452afa4a724906aa7cef3e22e635aa~mv2.png/v1/fill/w_925,h_520,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/cc8baf_52452afa4a724906aa7cef3e22e635aa~mv2.png"
+            />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">Stop Food Waste</h2>
+            <p>How to park your car at your garage?</p>
+            <div className="card-actions justify-end">
+
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+
+
+
+      <div className="flex justify-center items-center  bg-white">
+        <div className="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <img src={foundation} alt="Donation" className="w-full h-auto rounded-lg shadow-lg" />
+          </div>
+          <div className="flex flex-col justify-center">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
               มอบสิ่งสำคัญให้กับผู้ที่ต้องการ
-            </h2>
-            <p className="text-gray-600 mb-4 text-sm sm:text-base">
+            </h1>
+            <p className="text-lg text-gray-600 mb-4">
               การบริจาคของคุณสามารถเปลี่ยนชีวิตได้
               ช่วยแบ่งปันความสุขและสร้างความเปลี่ยนแปลงให้กับสังคมของเรา
             </p>
-            <p className="text-gray-600 mb-2 text-sm sm:text-base">
+            <p className="text-lg text-gray-600">
               <strong>ยอดบริจาครวม:</strong> แสดงยอดบริจาคที่ได้รับทั้งหมด
             </p>
-            <p className="text-gray-600 text-sm sm:text-base">
-              <strong>วันที่สิ้นสุดการบริจาค:</strong>{" "}
-              แจ้งเตือนวันสุดท้ายของการเปิดรับบริจาคเพื่อให้คุณไม่พลาดโอกาสในการมีส่วนร่วม
+            <p className="text-lg text-gray-600">
+              <strong>วันที่สิ้นสุดการบริจาค:</strong> แจ้งเตือนวันสุดท้ายของการเปิดรับบริจาคเพื่อให้คุณไม่พลาดโอกาสในการมีส่วนร่วม
             </p>
           </div>
         </div>
-      </section>
+      </div>
+
+
+
+
+
+
+      <div className="flex justify-center items-center bg-white">
+        <div className="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="flex flex-col justify-center">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              เริ่มต้นวันนี้เพื่อโลกที่ยั่งยืน
+            </h1>
+            <p className="text-lg text-gray-600 mb-4">
+              การลดปริมาณอาหารเหลือทิ้งเป็นเรื่องง่ายที่ทุกคนสามารถทำได้ การเปลี่ยนแปลงพฤติกรรมเล็กๆ น้อยๆ ของเรา จะส่งผลดีต่อสิ่งแวดล้อมและสังคมในระยะยาว ร่วมกันสร้างโลกใบนี้ให้เป็นที่อยู่ที่ดีขึ้นสำหรับทุกคน
+            </p>
+          </div>
+          <div>
+            <img src='https://www.foodiecoaches.com/wp-content/uploads/2023/06/45-Waste.png' alt="" className="w-full h-auto rounded-lg shadow-lg" />
+          </div>
+        </div>
+      </div>
+
+
+      <div className="flex justify-center items-center  bg-white">
+        <div className="max-w-6xl mx-auto p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <img src='https://lomi.com/cdn/shop/articles/stop-wasting-food.jpg?v=1648398904' alt="" className="w-full h-auto rounded-lg shadow-lg" />
+          </div>
+          <div className="flex flex-col justify-center">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              กอบกู้อาหาร
+            </h1>
+            <p className="text-lg text-gray-600 mb-4">
+              เพราะอาหารทุกๆ 1 กก. ที่ได้รับการกอบกู้ผ่าน Food Saver ถือเป็นการชดเชย การปล่อยก๊าซ CO₂ 2.5 กก. สู่ชั้นบรรยากาศ ซึ่งเป็นวิธีที่ช่วยปกป้องโลก จากเปลี่ยนแปลงสภาพอากาศที่ง่ายที่สุด!
+            </p>
+          </div>
+        </div>
+      </div>
+
+
 
       {/* Footer */}
       <footer className="py-6 px-4 bg-gray-800 text-white w-full">
@@ -410,5 +685,5 @@ const LandingPage = () => {
     </div>
   );
 };
- 
+
 export default LandingPage

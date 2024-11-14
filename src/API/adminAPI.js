@@ -5,7 +5,7 @@ export const getMetricAPI = async () => {
 }
 
 export const getSalesOverTimeAPI = async () => {
-    return await axiosInstance.get('/data/sales-over-time')
+    return await axiosInstance.get('/data/sales-over-time')  
 }
 
 
