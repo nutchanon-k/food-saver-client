@@ -32,13 +32,13 @@ const BuyerNavBar = () => {
         <img
           src="../../src/assets/pictures/FoodSaver.png"
           alt="Logo"
-          className="w-24 h-12 mr-2"
+          className="aspect-auto  h-12 mr-2"
         />
       </Link>
 
       {/* Mobile Menu Button */}
       <div className="flex md:hidden items-center space-x-4">
-        <button onClick={() => navigate('/cart')} className="relative rounded-full hover:bg-gray-100">
+        {/* <button onClick={() => navigate('/cart')} className="relative rounded-full hover:bg-gray-100">
           <ShoppingCart className="text-gray-500" />
         </button>
         <button className="relative rounded-full hover:bg-gray-100">
@@ -46,7 +46,7 @@ const BuyerNavBar = () => {
           <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 bg-red-500 text-white text-xs rounded-full">
             3
           </span>
-        </button>
+        </button> */}
         <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <Menu className="h-6 w-6" />
         </button>
@@ -54,7 +54,7 @@ const BuyerNavBar = () => {
 
       {/* Mobile Menu with Transition */}
       <div
-        className={`absolute top-16 left-0 w-full bg-white shadow-md z-10 md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+        className={`absolute top-16  left-0 w-full bg-white shadow-md z-50 md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
           isMenuOpen ? "max-h-screen" : "max-h-0"
         }`}
       >

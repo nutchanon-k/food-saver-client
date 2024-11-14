@@ -18,7 +18,7 @@ export default function StoreList() {
   const sortStoreByAvalilability = useMapStore(
     (state) => state.sortStoreByAvalilability
   );
-  const [sortBy, setSortBy] = useState("distance");
+  const [sortBy, setSortBy] = useState("");
 
   useEffect(() => {
     console.log(stores);
@@ -74,7 +74,7 @@ export default function StoreList() {
                   <ArrowDownNarrowWide size={19} />
                   <span className="text-primary font-bold">
                     เรียงลำดับตาม:{" "}
-                    {sortBy === "distance" ? "ระยะทาง" : "จำนวนอาหารที่เหลือ"}
+                    {sortBy === "distance" ? "ระยะทาง" : sortBy === 'available' ? "จำนวนอาหารที่เหลือ": '-'}
                   </span>
                 </summary>
                 <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-full p-2 shadow">
@@ -117,7 +117,7 @@ export default function StoreList() {
       </div>
 
       {activeMarker && (
-        <div className="scrollbar-hide fixed h-fit top-[64px] flex gap-4 md:gap-0 md:flex-col right-0 md:w-1/4 w-full md:h-[calc(100vh-64px)] my-2 max-w-[800px] p-4 overflow-y-auto z-50">
+        <div className="scrollbar-hide fixed h-fit top-[64px] flex z-10 gap-4 md:gap-0 md:flex-col right-0 md:w-1/4 w-full md:h-[calc(100vh-64px)] my-2 max-w-[800px] p-4 overflow-y-auto ">
           {activeMarker.products.map((product) => {
             console.log(product);
             return (

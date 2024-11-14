@@ -37,6 +37,10 @@ export default function ProductCard({ product }) {
   );
 
   useEffect(() => {
+    console.log(product)
+  },[])
+
+  useEffect(() => {
     // console.log(allergensArray, categoriesArray, "---------------------------");
     cartRef.current = cart;
     const indexInCart = cart.findIndex((item) => item.productId === id);
@@ -95,7 +99,7 @@ export default function ProductCard({ product }) {
                   onClick={(e) => handleNavigate(e)}
                   className="text-[10px] md:text-md z-10 btn min-h-0 h-7 w-fit md:w-full px-1 rounded-full btn-base-200 text-primary"
                 >
-                  Added <br/> {isInCart}
+                  Added <br /> {isInCart}
                 </button>
               ) : (
                 <button
@@ -125,13 +129,15 @@ export default function ProductCard({ product }) {
 
         <div className="collapse-content flex flex-col w-full gap-1 px-2 py-1">
           <p className="text-xs md:text-sm">{description}</p>
-          {productAllergens.map((el, index) => (
-            <div key={index} className="flex gap-2">
-              <div className="badge badge-warning badge-outline text-[10px]">
-                {el.allergen.name}
+          <div className="flex flex-wrap gap-1">
+            {productAllergens.map((el, index) => (
+              <div key={index} className="flex gap-2">
+                <div className="badge badge-warning badge-outline text-[10px]">
+                  {el.allergen.name}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
