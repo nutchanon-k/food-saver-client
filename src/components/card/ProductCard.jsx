@@ -35,11 +35,6 @@ export default function ProductCard({ product }) {
   const categoriesArray = productCategories.map(
     (category) => category.categoryId
   );
-
-  useEffect(() => {
-    console.log(product)
-  },[])
-
   useEffect(() => {
     // console.log(allergensArray, categoriesArray, "---------------------------");
     cartRef.current = cart;
