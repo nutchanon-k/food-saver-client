@@ -5,6 +5,7 @@ import useCartStore from "../../stores/cartItemStore";
 import { nav } from "framer-motion/client";
 import { useNavigate } from "react-router-dom";
 import useMapStore from "../../stores/mapStore";
+import useUserStore from "../../stores/userStore";
 
 export default function ProductCard({ product }) {
   const {
@@ -24,6 +25,7 @@ export default function ProductCard({ product }) {
   const cart = useCartStore((state) => state.cart);
   const addToCart = useCartStore((state) => state.addToCart);
   const getCart = useCartStore((state) => state.getCart);
+  const user = useUserStore((state) => state.user);
   const [orderQuantity, setorderQuantity] = useState(1);
   const activeMarker = useMapStore((state) => state.activeMarker);
   const filter = useMapStore((state) => state.filter);
@@ -46,6 +48,10 @@ export default function ProductCard({ product }) {
       setorderQuantity(cart[indexInCart].quantity);
     }
   }, [cart, id]);
+
+  useEffect(() => {
+    getCart(user.id)
+  },[getCart])
 
   const handleNavigate = (e) => {
     e.stopPropagation();

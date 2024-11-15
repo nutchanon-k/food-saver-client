@@ -35,7 +35,7 @@ const SellerHeader = ({ toggleMobileSidebar }) => {
 
             {/* Logo */}
             <div className="flex items-center">
-                <img src='../../src/assets/pictures/FoodSaver.png' alt="Logo" className="w-16 h-10 md:w-24 md:h-12 mr-2" />
+                <img src='../../src/assets/pictures/FoodSaver.png' alt="Logo" className="h-full aspect-auto md:w-24 md:h-full mr-2" />
             </div>
 
             {/* Search Bar */}

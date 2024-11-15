@@ -85,12 +85,13 @@ const ForgetPassword = () => {
 
   return (
     <div>
-      (
+      
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 login-image">
         <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
             รีเซ็ตรหัสผ่าน
           </h2>
+          {/* <img src='https://res.cloudinary.com/dr3cahrwr/image/upload/v1731585691/sizzvobuskfzmn2ktztp.png' alt="" /> */}
 
           <div className="space-y-6">
             <div>
@@ -161,7 +162,7 @@ const ForgetPassword = () => {
           </div>
         </div>
       </div>
-      );
+      
     </div>
   )
 }
