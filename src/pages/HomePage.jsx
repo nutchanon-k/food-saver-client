@@ -139,15 +139,17 @@ const CategoriesSection = () => {
   return (
     <section className="categories-section p-2 py-3 border rounded-xl bg-white md:sticky top-0 z-40 -mx-2 md:mx-0">
       <div className="flex space-x-2 md:space-x-6 overflow-x-auto scrollbar-none border p-1 rounded-lg pb-2 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
-        {categories.map((category) => (
-          <CategoryItem
-            key={category.id}
-            id={category.id}
-            name={category.name}
-            imageUrl={category.imageUrl}
-            onSelect={selectCategory}
-          />
-        ))}
+        {categories.map((category) => {
+          return (
+            <CategoryItem
+              key={category.id}
+              id={category.id}
+              name={category.name}
+              imageUrl={category.imageUrl}
+              onSelect={selectCategory}
+            />
+          );
+        })}
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
     </section>
@@ -312,7 +314,7 @@ const NewRestaurants = () => {
       </p>
     );
   }
-  
+
   return (
     <section className="new-restaurants-section bg-white">
       <div className="flex space-x-4 md:space-x-6 overflow-x-auto overflow-y-hidden scrollbar-none border p-2 rounded-lg pb-4 mask-fade-bottom scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100 hover:scrollbar-thumb-green-700">
@@ -436,7 +438,6 @@ const TopRestaurants = () => {
     </section>
   );
 };
-
 /**
  * DonationSection Component
  */
@@ -721,7 +722,9 @@ const HomePage = () => {
               {/* Donation Section */}
               <div className="bg-gradient-to-b from-gray-50 to-white rounded-lg shadow-[0_4px_6px_-1px_rgba(22,163,74,0.1),0_2px_4px_-1px_rgba(22,163,74,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(22,163,74,0.2),0_4px_6px_-2px_rgba(22,163,74,0.1)] transform hover:-translate-y-0.5 transition-all duration-300 p-2 py-3 md:p-4 md:py-6">
                 <div className="flex items-center pb-2 md:pb-4">
-                  <h2 className="text-xl md:text-3xl font-bold">มูลนิธิทั้งหมด</h2>
+                  <h2 className="text-xl md:text-3xl font-bold">
+                    มูลนิธิทั้งหมด
+                  </h2>
                   <ChevronRight color="#b5bbc5" />
                 </div>
                 <DonationSection />

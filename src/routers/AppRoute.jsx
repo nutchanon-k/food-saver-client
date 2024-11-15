@@ -46,6 +46,8 @@ import ChatPage from "../pages/ChatPage";
 import TestStoreAccess from "../components/TestStoreAccess";
 import EditSellerProfile from "../pages/seller/EditSellerProfile";
 import SellerMap from "../components/seller/SellerMap";
+import Inbox from "../pages/seller/Inbox";
+import NotificationsCard from "../pages/seller/NotificationsCard";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -81,7 +83,7 @@ const buyerRouter = createBrowserRouter([
     element: <BuyerLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      
+
       { path: "/map", element: <MapPage /> },
       { path: "store/:storeId", element: <Store /> },
       { path: "cart", element: <Cart /> },
@@ -91,8 +93,8 @@ const buyerRouter = createBrowserRouter([
       { path: "order-failed", element: <OrderFailed /> },
       { path: "userProfile", element: <UserProfile /> },
       { path: "userEdit", element: <UserEditProfile /> },
-      { path: "order-history", element: <OrderHistory/> },
-      { path: "chat/:chatRoomId", element: <ChatPage/> },
+      { path: "order-history", element: <OrderHistory /> },
+      { path: "chat/:chatRoomId", element: <ChatPage /> },
       { path: "test", element: <TestStoreAccess /> },
       // {index: true, element: <Dashboard />},
       // {path: "manage-user", element: <ManageUser />},
@@ -117,6 +119,8 @@ const sellerRouter = createBrowserRouter([
       { path: "seller-profile", element: <SellerProfile /> },
       { path: "seller-edit-profile", element: <EditSellerProfile /> },
       { path: "manage-product", element: <ManageProduct /> },
+      { path: "inbox", element: <Inbox /> },
+      { path: "notifications", element: <NotificationsCard /> },
       { path: "manage-order", element: <ManageOrder /> },
       { path: "chat/:chatRoomId", element: <ChatPage /> },
       { path: "test", element: <TestStoreAccess /> },

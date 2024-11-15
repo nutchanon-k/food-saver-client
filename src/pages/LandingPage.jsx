@@ -29,7 +29,7 @@ const LandingPage = () => {
     <div className="App bg-background">
       {/* Header */}
       <header className="flex justify-between items-center p-4 border-b border-gray-200">
-        <h1><img className='w-[150px]' src="https://i.postimg.cc/bwdCvfTp/saver.png" alt="" /></h1>
+        <h1><img className='w-20 h-14' src="../../src/assets/pictures/FoodSaver.png" alt="" /></h1>
 
         {/* Desktop Navigation */}
         <nav className="space-x-4 hidden md:flex items-center">
@@ -78,10 +78,11 @@ const LandingPage = () => {
       )}
 
       {/* Hero Section */}
-      <section className="py-5 md:py-1">
-        <div className=" mx-auto flex flex-col md:flex-row justify-between items-center px-4 md:px-12 text-center md:text-left">
+      <section className="py-5 lg:py-10 h-auto flex flex-col md:flex-row items-center justify-center">
+        <div className="w-full max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center px-2 md:px-4 lg:px-8 text-center md:text-left space-y-4 md:space-y-0 md:space-x-8">
+
           {/* Text Content */}
-          <div className="mb-8 animate-slide-in-left px-4">
+          <div className="md:w-1/2 animate-slide-in-left px-4">
             <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-800 mb-4 tracking-wider leading-tight">
               อิ่มอร่อยในราคาสุดคุ้ม พร้อมช่วยโลกไปด้วยกัน
             </h2>
@@ -91,6 +92,7 @@ const LandingPage = () => {
               ร่วมลดการสูญเสียอาหารง่าย ๆ เพียงปลายนิ้วสัมผัส!
             </p>
             <div className="flex flex-col sm:flex-row justify-center md:justify-start space-y-3 sm:space-y-0 sm:space-x-4">
+
               {/* Primary Button */}
               <button
                 onClick={() => navigate("/login")}
@@ -98,25 +100,28 @@ const LandingPage = () => {
               >
                 เริ่มต้นใช้งาน
               </button>
-              {/* Secondary Link with Icon */}
 
             </div>
           </div>
 
           {/* Image Section */}
-          <div className="w-full md:w-1/2 flex justify-center">
+          <div className="w-full md:w-1/2 flex justify-center md:justify-end mt-4 md:mt-0">
             <img
               src={MainFood}
               alt="App preview"
-              className="w-full h-auto  md:max-w-[400px] animate-pulse-slow px-4 md:px-0"
+              className="w-[90%] md:w-[70%] lg:w-[600px] xl:w-[700px] h-auto animate-pulse-slow"
             />
           </div>
         </div>
       </section>
 
 
+
+
+
+
       <div className="flex justify-center mx-auto p-4 mb-8 md:p-8 ">
-        <iframe className='w-[800px] h-[400px] max-md:w-[720px] max-md:h-[360px]' src="https://www.youtube.com/embed/JOGNLNFc8ys?si=Y7nHYjTFiO974tg-"></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/TVP3j7_W7og?si=pRSuS1n81R2c5ay3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
 
 
@@ -243,7 +248,7 @@ const LandingPage = () => {
           {/* Image Section */}
           <div className="w-full md:w-1/2 flex justify-center mb-8 md:mb-0 relative">
             <img
-              src='https://i.postimg.cc/TY8pQS8S/Screenshot-2024-11-13-172013.png'
+              src='https://res.cloudinary.com/dr3cahrwr/image/upload/v1731574460/bvn6xy42ywr3agy1xc05.jpg'
               alt="Map showing nearby restaurants"
               className="w-72 h-auto rounded-lg"
             />
@@ -383,41 +388,40 @@ const LandingPage = () => {
 
       <section className="py-12 flex justify-center items-center bg-gradient-to-b from-blue-50 to-white">
         <Swiper
-          spaceBetween={30}
+          spaceBetween={40} // Adjust spacing between slides
           slidesPerView={1}
           pagination={{ clickable: true }}
           navigation={true}
           autoplay={{
             delay: 5000, // 5000ms = 5 seconds
-            disableOnInteraction: false, // Autoplay continues even after user interaction
+            disableOnInteraction: false,
           }}
           modules={[Pagination, Navigation, Autoplay]}
-          className="max-w-4xl p-6 md:p-8"
+          className="max-w-screen-xl w-full p-4 md:p-8 lg:p-10" // Increase max-width and adjust padding
         >
-          {/* Testimonial Slides */}
+          {/* Testimonial Slide 1 */}
           <SwiperSlide>
             <div className="flex flex-col md:flex-row items-center">
               {/* Image Section */}
               <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
                 <img
-                  src='https://i.postimg.cc/g2hBvCKJ/pic-1.png' // Replace with the actual image URL
+                  src="https://res.cloudinary.com/dr3cahrwr/image/upload/v1731576486/linckmp7acdiioradbdj.jpg"
                   alt="User testimonial"
-                  className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
+                  className="w-[85%] sm:w-64 lg:w-[70%] h-auto rounded-lg object-cover shadow-lg"
                 />
               </div>
 
               {/* Text Section */}
-              <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-                <h3 className="text-gray-700 font-semibold text-lg mb-2">
+              <div className="w-full md:w-1/2 lg:w-1/2 md:pl-8 text-center md:text-left">
+                <h3 className="text-gray-700 font-semibold text-xl lg:text-2xl mb-2">
                   เสียงตอบรับจากผู้ใช้จริง
                 </h3>
-                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
-                  “แอปนี้ช่วยให้ฉันได้เข้าถึงอาหารคุณภาพในราคาย่อมเยา
-                  และยังได้มีส่วนร่วมในการลดขยะอาหาร
+                <p className="text-gray-700 italic text-base lg:text-lg mb-4">
+                  “แอปนี้ช่วยให้ฉันได้มีส่วนร่วมในการลดขยะอาหาร
                   รู้สึกดีที่ได้เป็นส่วนหนึ่งของการเปลี่ยนแปลงนี้!”
                 </p>
-                <p className="text-gray-600 text-sm sm:text-base">
-                  แฮรี่,
+                <p className="text-gray-600 text-base lg:text-lg">
+                  แอนนา,
                   <br />
                   ผู้ใช้งานจริง
                 </p>
@@ -425,29 +429,30 @@ const LandingPage = () => {
             </div>
           </SwiperSlide>
 
-          {/* Testimonial 2 */}
+          {/* Testimonial Slide 2 */}
           <SwiperSlide>
             <div className="flex flex-col md:flex-row items-center">
               {/* Image Section */}
               <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
                 <img
-                  src='https://i.postimg.cc/9ft8kyKH/pic-2.png'// Replace with the actual image URL for the second testimonial
+
+                  src="https://res.cloudinary.com/dr3cahrwr/image/upload/v1731576981/b5yfaijxevvpw1zbxwau.jpg"
                   alt="User testimonial"
-                  className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
+                  className="w-[85%] sm:w-64 lg:w-[70%] h-auto rounded-lg object-cover shadow-lg"
                 />
               </div>
 
               {/* Text Section */}
-              <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-                <h3 className="text-gray-700 font-semibold text-lg mb-2">
+              <div className="w-full md:w-1/2 lg:w-1/2 md:pl-8 text-center md:text-left">
+                <h3 className="text-gray-700 font-semibold text-xl lg:text-2xl mb-2">
                   เสียงตอบรับจากผู้ใช้จริง
                 </h3>
-                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                <p className="text-gray-700 italic text-base lg:text-lg mb-4">
                   “แอปนี้เปลี่ยนวิธีการบริโภคอาหารของฉัน
                   รู้สึกดีที่สามารถช่วยลดขยะและเข้าถึงอาหารอร่อยในราคาที่จับต้องได้!”
                 </p>
-                <p className="text-gray-600 text-sm sm:text-base">
-                  พงษ์,
+                <p className="text-gray-600 text-base lg:text-lg">
+                  ส้ม,
                   <br />
                   ผู้ใช้งานจริง
                 </p>
@@ -455,28 +460,29 @@ const LandingPage = () => {
             </div>
           </SwiperSlide>
 
-
+          {/* Testimonial Slide 3 */}
           <SwiperSlide>
             <div className="flex flex-col md:flex-row items-center">
               {/* Image Section */}
               <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
                 <img
-                  src='https://i.postimg.cc/Wzt5tC3s/pic-6.png' // Replace with the actual image URL for the second testimonial
+
+                  src="https://res.cloudinary.com/dr3cahrwr/image/upload/v1731576814/e9bkjrh8ephuohydmvfy.jpg"
                   alt="User testimonial"
-                  className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
+                  className="w-[85%] sm:w-64 lg:w-[70%] h-auto rounded-lg object-cover shadow-lg"
                 />
               </div>
 
               {/* Text Section */}
-              <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-                <h3 className="text-gray-700 font-semibold text-lg mb-2">
+              <div className="w-full md:w-1/2 lg:w-1/2 md:pl-8 text-center md:text-left">
+                <h3 className="text-gray-700 font-semibold text-xl lg:text-2xl mb-2">
                   เสียงตอบรับจากผู้ใช้จริง
                 </h3>
-                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                <p className="text-gray-700 italic text-base lg:text-lg mb-4">
                   “ทุกคน เราชอบไอเดียของแอปนี้ ร้านอาหารไม่ต้องเทอาหารทิ้ง ลูกค้าก็ได้กินอาหารจากร้านดังๆ ในราคาที่ถูกกว่าครึ่ง และยังได้ช่วยโลกร้อนด้วย”
                 </p>
-                <p className="text-gray-600 text-sm sm:text-base">
-                  ธี,
+                <p className="text-gray-600 text-base lg:text-lg">
+                  ทิพ,
                   <br />
                   ผู้ใช้งานจริง
                 </p>
@@ -484,27 +490,27 @@ const LandingPage = () => {
             </div>
           </SwiperSlide>
 
-
+          {/* Testimonial Slide 4 */}
           <SwiperSlide>
             <div className="flex flex-col md:flex-row items-center">
               {/* Image Section */}
               <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
                 <img
-                  src='https://i.postimg.cc/fTmrX4Cb/pic-4.png' // Replace with the actual image URL for the second testimonial
+                  src="https://res.cloudinary.com/dr3cahrwr/image/upload/v1731576993/bzxlo3bgkq6idcjorowm.jpg"
                   alt="User testimonial"
-                  className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
+                  className="w-[85%] sm:w-64 lg:w-[70%] h-auto rounded-lg object-cover shadow-lg"
                 />
               </div>
 
               {/* Text Section */}
-              <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-                <h3 className="text-gray-700 font-semibold text-lg mb-2">
+              <div className="w-full md:w-1/2 lg:w-1/2 md:pl-8 text-center md:text-left">
+                <h3 className="text-gray-700 font-semibold text-xl lg:text-2xl mb-2">
                   เสียงตอบรับจากผู้ใช้จริง
                 </h3>
-                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                <p className="text-gray-700 italic text-base lg:text-lg mb-4">
                   “คุณสามารถช่วยต่อสู้กับปัญหาขยะอาหารได้ด้วยอาหารจากแอปนี้ ที่ระบุส่วนประกอบที่ดีอย่างชัดเจน เพื่อคนที่มีอาการแพ้อาหารอย่างฉัน”
                 </p>
-                <p className="text-gray-600 text-sm sm:text-base">
+                <p className="text-gray-600 text-base lg:text-lg">
                   ตี๋,
                   <br />
                   ผู้ใช้งานจริง
@@ -513,27 +519,27 @@ const LandingPage = () => {
             </div>
           </SwiperSlide>
 
-
+          {/* Testimonial Slide 5 */}
           <SwiperSlide>
             <div className="flex flex-col md:flex-row items-center">
               {/* Image Section */}
               <div className="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
                 <img
-                  src='https://i.postimg.cc/Qt84ZHZ9/pic-5.png' // Replace with the actual image URL for the second testimonial
+                  src="https://res.cloudinary.com/dr3cahrwr/image/upload/v1731576999/axwumujfmmo75fovxoxg.jpg"
                   alt="User testimonial"
-                  className="w-96 sm:w-64 h-auto sm:h-64 rounded-lg object-cover shadow-lg"
+                  className="w-[85%] sm:w-64 lg:w-[70%] h-auto rounded-lg object-cover shadow-lg"
                 />
               </div>
 
               {/* Text Section */}
-              <div className="w-full md:w-1/2 md:pl-8 text-center md:text-left">
-                <h3 className="text-gray-700 font-semibold text-lg mb-2">
+              <div className="w-full md:w-1/2 lg:w-1/2 md:pl-8 text-center md:text-left">
+                <h3 className="text-gray-700 font-semibold text-xl lg:text-2xl mb-2">
                   เสียงตอบรับจากผู้ใช้จริง
                 </h3>
-                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                <p className="text-gray-700 italic text-base lg:text-lg mb-4">
                   “มันดีมากๆ ที่เรามีทางเลือกเพื่อโลกใบนี้ แทนการสั่งอาหารจาก Grab หรือการสั่งอาหารกลับบ้าน ด้วยส่วนลดที่มากกว่า”
                 </p>
-                <p className="text-gray-600 text-sm sm:text-base">
+                <p className="text-gray-600 text-base lg:text-lg">
                   นันทนา,
                   <br />
                   ผู้ใช้งานจริง
@@ -541,61 +547,46 @@ const LandingPage = () => {
               </div>
             </div>
           </SwiperSlide>
-
-          {/* Add more <SwiperSlide> for additional testimonials as needed */}
         </Swiper>
       </section>
 
 
 
 
-      <div className='flex justify-center items-center gap-20 md:flex-row flex-col'>
 
+      <div className="flex justify-center items-center gap-20 md:flex-row flex-col">
         <div className="card glass w-96">
           <figure>
-            <img
-              src="https://i.postimg.cc/kg5jw8xY/1-h-WWewef-MOs-Kjve8b6-O6-Egw-thegem-blog-timeline-large.jpg"
-            />
+            <img src="https://i.postimg.cc/kg5jw8xY/1-h-WWewef-MOs-Kjve8b6-O6-Egw-thegem-blog-timeline-large.jpg" />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">Stop Food Waste</h2>
-            <p>How to park your car at your garage?</p>
-            <div className="card-actions justify-end">
-
-            </div>
+            <h2 className="card-title">ภารกิจ</h2>
+            <p>สร้างความตระหนักเกี่ยวกับปัญหาขยะอาหาร </p>
+            <div className="card-actions justify-end"></div>
           </div>
         </div>
         <div className="card glass w-96">
           <figure>
-            <img
-              src="https://i.postimg.cc/Mpr9LT56/grocery-bag-food-pound-sign.jpg"
-            />
+            <img src="https://i.postimg.cc/Mpr9LT56/grocery-bag-food-pound-sign.jpg" />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">Stop Food Waste</h2>
-            <p>How to park your car at your garage?</p>
-            <div className="card-actions justify-end">
-
-            </div>
+            <h2 className="card-title">วิสัยทัศน์</h2>
+            <p>โลกที่ปราศจากการทิ้งอาหารที่ผลิตขึ้นมาเพื่อบริโภค</p>
+            <div className="card-actions justify-end"></div>
           </div>
         </div>
         <div className="card glass w-96">
           <figure>
-            <img
-              src="https://static.wixstatic.com/media/cc8baf_52452afa4a724906aa7cef3e22e635aa~mv2.png/v1/fill/w_925,h_520,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/cc8baf_52452afa4a724906aa7cef3e22e635aa~mv2.png"
-            />
+            <img src="https://static.wixstatic.com/media/cc8baf_52452afa4a724906aa7cef3e22e635aa~mv2.png/v1/fill/w_925,h_520,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/cc8baf_52452afa4a724906aa7cef3e22e635aa~mv2.png" />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">Stop Food Waste</h2>
-            <p>How to park your car at your garage?</p>
-            <div className="card-actions justify-end">
-
-            </div>
+            <h2 className="card-title">ลดขยะอาหาร</h2>
+            <p>ปรุงของเหลือให้มีมูลค่า เปลี่ยนโลกที่ดีกว่า</p>
+            <div className="card-actions justify-end"></div>
           </div>
         </div>
-
-
       </div>
+
 
 
 

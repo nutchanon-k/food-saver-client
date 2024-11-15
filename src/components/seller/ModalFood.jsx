@@ -2,12 +2,13 @@ import { useNavigateService } from "../../routers/navigateService";
 
 const ModalFood = ({ product }) => {
   const { navigateToStore } = useNavigateService();
+  console.log(product)
 
   return (
-    <label className="swap swap-flip active:scale-90 transition-all duration-200">
+    <label className="swap swap-flip w-fit mx-auto md:w-full h-fit active:scale-90 transition-all duration-200">
       <input type="checkbox" />
       {/* Front of card */}
-      <div className="swap-off w-[192px] md:w-[224px] h-[350px]">
+      <div className="swap-off w-[192px] md:w-[224px] h-full">
         <div className="w-full h-full rounded-xl overflow-hidden shadow-lg bg-white text-sm">
           <div className="h-[65px] w-[65px] overflow-hidden rounded-xl absolute top-20 right-2 z-20 border-4 border-white">
             <img
@@ -59,7 +60,7 @@ const ModalFood = ({ product }) => {
       </div>
 
       {/* Back of card */}
-      <div className="swap-on w-[192px] md:w-[224px] h-[350px]">
+      <div className="swap-on w-[192px] md:w-[224px] h-full">
         <div className="w-full h-full rounded-xl shadow-lg bg-white p-4 flex flex-col justify-between">
           <div>
             <h3 className="text-lg font-bold mb-3 truncate hover:text-clip hover:whitespace-normal transition-all duration-300">
@@ -71,7 +72,7 @@ const ModalFood = ({ product }) => {
             <div className="space-y-2">
               <p className="text-sm">
                 <span className="font-semibold">วันหมดอายุ:</span>{" "}
-                {product?.expiryDate}
+                {product?.expirationDate || '-'}
               </p>
               <p className="text-sm">
                 <span className="font-semibold">จำนวน:</span>{" "}
@@ -79,7 +80,8 @@ const ModalFood = ({ product }) => {
               </p>
               <p className="text-sm">
                 <span className="font-semibold">ประเภท:</span>{" "}
-                {product?.category}
+                {product?.productCategories.map((el) => el.category.name).join(", ")}
+
               </p>
             </div>
           </div>

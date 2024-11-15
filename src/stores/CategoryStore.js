@@ -35,6 +35,7 @@ const useCategoryStore = create((set) => ({
         categories: data,
         loading: false,
       });
+      console.log(data)
       return data;
     } catch (error) {
       console.error('Error in fetchCategories:', error.response ? error.response.data : error.message);

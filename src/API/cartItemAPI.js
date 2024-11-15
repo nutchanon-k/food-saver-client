@@ -19,8 +19,8 @@ export const addCartItem = async (body) => {
     return await axiosInstance.post('/cart-items',body)
 }
 
-export const getCartItem = async () => {
-    return await axiosInstance.get('/cart-items')
+export const getCartItem = async (userId) => {
+    return await axiosInstance.get(`/cart-items?userId=${userId}`)
 }
 
 export const editCartItem = async (id,body) => {

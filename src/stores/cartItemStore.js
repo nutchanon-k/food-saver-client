@@ -12,9 +12,9 @@ const useCartStore = create((set, get) => ({
       console.log(err)
     }
   },
-  getCart : async() => {
+  getCart : async(userId) => {
     try {
-      const result = await getCartItem()
+      const result = await getCartItem(userId)
       console.log(result.data)
       set({cart: result.data.data})
       return result.data.data

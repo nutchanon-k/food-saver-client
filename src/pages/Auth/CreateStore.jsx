@@ -148,7 +148,7 @@ const CreateStore = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 login-image">
-      <div className="max-w-xl w-full bg-white p-8 rounded-lg shadow-lg">
+      <div className="max-w-xl w-full bg-white p-8 rounded-lg shadow-lg text-black">
         <h1 className="text-2xl font-semibold text-center mb-6">
           Create Store
         </h1>

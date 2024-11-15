@@ -30,15 +30,14 @@ const SendEmailForgetPassword = () => {
       })
       navigate('/')
     } catch (err) {
-
+      console.log(err)
     }
   }
 
 
   return (
-    <div className='login-image'>
-      (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 login-image">
         <form
           onSubmit={hdlSubmit}
           className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
@@ -73,8 +72,8 @@ const SendEmailForgetPassword = () => {
           </div>
         </form>
       </div>
-      );
-    </div>
+      
+    
   )
 }
 

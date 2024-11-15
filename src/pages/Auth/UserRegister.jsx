@@ -124,8 +124,8 @@ const UserRegister = () => {
     });
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 login-image">
-            <div className="max-w-xl w-full bg-white p-8 rounded-lg shadow-lg ">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 login-image ">
+            <div className="max-w-xl w-full bg-white p-8 rounded-lg shadow-lg text-black ">
                 <h1 className="text-2xl font-semibold text-black text-center mb-6">User Register</h1>
                 <hr className='border-black mb-6'/>
                 <form onSubmit={hdlSubmit} className="space-y-4">
