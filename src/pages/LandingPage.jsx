@@ -13,7 +13,7 @@ import Neatby from '../assets/pictures/User_NearbyMap.png';
 import testimonial from '../assets/pictures/UserTestimonial.png';
 import foundation from '../assets/pictures/Foundation.png';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../../assets/pictures/FoodSaver.png';
+import Logo from '../assets/pictures/FoodSaver.png';
 
 
 const LandingPage = () => {
