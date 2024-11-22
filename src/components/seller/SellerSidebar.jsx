@@ -6,10 +6,12 @@ import { NavLink } from 'react-router-dom';
 import Avatar from './Avatar';
 import useUserStore from '../../stores/userStore';
 
+
 const SellerSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar }) => {
     const [isExpanded, setIsExpanded] = useState(true);
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
     const user = useUserStore(state => state.user);
+    const hdlLogout = useUserStore(state => state.hdlLogout);
 
     const toggleSidebar = () => {
         setIsExpanded(!isExpanded);
@@ -21,8 +23,9 @@ const SellerSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar }) => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const handleLogout = () => {
-        console.log("User logged out");
+    const handleLogout = async() => {
+        await hdlLogout();
+        navigate('/');
     };
 
     return (
