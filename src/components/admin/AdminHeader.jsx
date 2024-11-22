@@ -75,8 +75,8 @@ const AdminHeader = ({ toggleMobileSidebar }) => {
                             </div>
                         </div>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                            <li onClick={handleLogout}><a>Logout</a></li>
                             <li onClick={()=>navigate('/admin-profile')}><a>Profile</a></li>
+                            <li onClick={handleLogout}><a>Logout</a></li>
                         </ul>
                     </div>
                 </div>
