@@ -148,7 +148,7 @@ const SellerSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar }) => {
                         </NavLink>
                     </li>
                     <li>
-                        <button onClick={toggleMobileSidebar} className="flex items-center w-full justify-center md:justify-start text-red-500">
+                        <button onClick={handleLogout} className="flex items-center w-full justify-center md:justify-start text-red-500">
                             <LogOut className="mr-2" />
                             {isExpanded && <span>Logout</span>}
                         </button>
