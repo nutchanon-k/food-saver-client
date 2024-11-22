@@ -79,6 +79,7 @@ const SellerHeader = ({ toggleMobileSidebar }) => {
                         <ul
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow z-50">
+                            <li onClick={()=>navigate('/seller-profile')}><a>Logout</a></li>
                             <li onClick={handleLogout}><a>Logout</a></li>
                         </ul>
                     </div>
