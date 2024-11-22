@@ -29,7 +29,7 @@ const LandingPage = () => {
     <div className="App bg-background">
       {/* Header */}
       <header className="flex justify-between items-center p-4 border-b border-gray-200">
-        <h1><img className='w-20 h-14' src="../../src/assets/pictures/FoodSaver.png" alt="" /></h1>
+        <h1><img className='w-20 h-14' src="../assets/pictures/FoodSaver.png" alt="" /></h1>
 
         {/* Desktop Navigation */}
         <nav className="space-x-4 hidden md:flex items-center">
