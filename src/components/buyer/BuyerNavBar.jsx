@@ -4,6 +4,7 @@ import useUserStore from "../../stores/userStore";
 import useSearchStore from "../../stores/SearchStore";
 import { Bell, Search, Menu, ShoppingCart } from "lucide-react";
 import Avatar from "../seller/Avatar";
+import Logo from '../assets/pictures/FoodSaver.png';
 
 const BuyerNavBar = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const BuyerNavBar = () => {
       {/* Logo */}
       <Link to="/home" className="flex items-center">
         <img
-          src="../../src/assets/pictures/FoodSaver.png"
+          src={Logo}
           alt="Logo"
           className="aspect-auto  h-12 mr-2"
         />
