@@ -4,7 +4,7 @@ import useUserStore from "../../stores/userStore";
 import useSearchStore from "../../stores/SearchStore";
 import { Bell, Search, Menu, ShoppingCart } from "lucide-react";
 import Avatar from "../seller/Avatar";
-import Logo from '../assets/pictures/FoodSaver.png';
+import Logo from '../../assets/pictures/FoodSaver.png';
 
 const BuyerNavBar = () => {
   const navigate = useNavigate();
