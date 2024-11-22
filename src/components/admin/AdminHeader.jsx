@@ -4,6 +4,7 @@ import Avatar from './Avatar';
 import useSearchStore from '../../stores/SearchStore';
 import useUserStore from '../../stores/userStore';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../assets/pictures/FoodSaver.png';
 
 const AdminHeader = ({ toggleMobileSidebar }) => {
     const navigate = useNavigate();
@@ -35,7 +36,7 @@ const AdminHeader = ({ toggleMobileSidebar }) => {
 
             {/* Logo */}
             <div className="flex items-center">
-                <img src='../../src/assets/pictures/FoodSaver.png' alt="Logo" className="w-24 h-12 mr-2" />
+                <img src={Logo} alt="Logo" className="w-24 h-12 mr-2" />
             </div>
 
             {/* Search Bar */}
