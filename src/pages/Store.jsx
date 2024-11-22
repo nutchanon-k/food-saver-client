@@ -12,7 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/icons/FoodLoading.json";
 import useStoreForUser from "../stores/StoreforUser";
-import useCartStore from "../stores/cartStore";
+import useCartStore from "../stores/CartStore";
 import useUserStore from "../stores/userStore";
 
 const Store = () => {
