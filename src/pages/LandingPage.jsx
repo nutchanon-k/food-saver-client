@@ -13,6 +13,7 @@ import Neatby from '../assets/pictures/User_NearbyMap.png';
 import testimonial from '../assets/pictures/UserTestimonial.png';
 import foundation from '../assets/pictures/Foundation.png';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../assets/pictures/FoodSaver.png';
 
 
 const LandingPage = () => {
@@ -29,7 +30,7 @@ const LandingPage = () => {
     <div className="App bg-background">
       {/* Header */}
       <header className="flex justify-between items-center p-4 border-b border-gray-200">
-        <h1><img className='w-20 h-14' src="../assets/pictures/FoodSaver.png" alt="" /></h1>
+        <h1><img className='w-20 h-14' src={Logo} alt="" /></h1>
 
         {/* Desktop Navigation */}
         <nav className="space-x-4 hidden md:flex items-center">
