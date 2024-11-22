@@ -1,6 +1,6 @@
 // src/stores/useProductStore.js
 import { create } from "zustand"; // Corrected Import
-import { getPopulatProductAPI, getProductsAPI } from "../api/productAPI";
+import { getPopulatProductAPI, getProductsAPI } from "../API/productAPI";
 
 /**
  * Product Store using Zustand for state management with pagination.
