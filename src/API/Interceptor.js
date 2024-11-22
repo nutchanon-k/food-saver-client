@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.REACT_APP_BASE_URL || 'http://localhost:8000', 
+  baseURL: import.meta.env.REACT_APP_BASE_URL || 'https://food-saver-server.onrender.com' 
 });
 
 axiosInstance.interceptors.request.use(
