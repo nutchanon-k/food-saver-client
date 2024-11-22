@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronLeft, MapPin, Phone, Store } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import useCartStore from '../stores/cartStore';
+import useCartStore from '../stores/CartStore';
 import { placeOrderAPI } from '../API/placeOrderAPI';
 import useUserStore from '../stores/userStore';
 
