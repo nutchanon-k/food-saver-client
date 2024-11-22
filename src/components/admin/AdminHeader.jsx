@@ -4,7 +4,7 @@ import Avatar from './Avatar';
 import useSearchStore from '../../stores/SearchStore';
 import useUserStore from '../../stores/userStore';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../assets/pictures/FoodSaver.png';
+import Logo from '../../assets/pictures/FoodSaver.png';
 
 const AdminHeader = ({ toggleMobileSidebar }) => {
     const navigate = useNavigate();
