@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Lottie from 'lottie-react';
 import emptyCartAnimation from '../assets/icons/emptyCart.json';
 import useUserStore from '../stores/userStore';
-import useCartStore from '../stores/cartStore';
+import useCartStore from '../stores/CartStore';
 
 const Cart = () => {
   const navigate = useNavigate();
