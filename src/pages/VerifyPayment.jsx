@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import usePaymentStore from '../stores/PaymentStore';
-import useCartStore from '../stores/cartStore';
+import useCartStore from '../stores/CartStore';
 import useOrderStore from '../stores/OrderStore';
 
 const VerifyPayment = () => {
