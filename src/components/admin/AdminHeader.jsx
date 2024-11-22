@@ -36,7 +36,7 @@ const AdminHeader = ({ toggleMobileSidebar }) => {
 
             {/* Logo */}
             <div className="flex items-center">
-                <img src={Logo} alt="Logo" className="w-24 h-12 mr-2" />
+                <img src={Logo} alt="Logo"  className="aspect-auto  h-12 mr-2" />
             </div>
 
             {/* Search Bar */}
